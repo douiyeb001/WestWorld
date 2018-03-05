@@ -11,6 +11,10 @@
 *.booproj
 *.svd
 *.pdb
+*.tlog
+*.lastbuildstate
+*.db
+*idb
 /.vs/
 /x64/
 /WestWorld/Debug/
