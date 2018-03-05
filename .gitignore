@@ -16,7 +16,6 @@
 *.db
 *.idb
 *.opendb
-/.vs/
-/x64/
-/WestWorld/Debug/
-/Westworld/x64/
+.vs/
+x64/
+WestWorld/Debug/
