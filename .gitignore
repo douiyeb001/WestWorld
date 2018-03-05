@@ -14,7 +14,8 @@
 *.tlog
 *.lastbuildstate
 *.db
-*idb
+*.idb
+*.opendb
 /.vs/
 /x64/
 /WestWorld/Debug/
