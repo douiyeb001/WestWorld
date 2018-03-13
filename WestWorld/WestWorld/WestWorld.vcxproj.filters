@@ -32,8 +32,5 @@
     <ClCompile Include="WestWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CAppReceiver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
