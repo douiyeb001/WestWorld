@@ -147,7 +147,7 @@ namespace scene
 	supported. If these formats are not enough, use
 	addExternalMeshLoader() to add new formats to the engine.
 	*/
-	class   : public virtual IReferenceCounted
+	class ISceneManager : public virtual IReferenceCounted
 	{
 	public:
 
