@@ -1,6 +1,7 @@
 ﻿  sound.cpp
+c:\users\bilal\documents\westworld\westworld\21.quake3explorer\sound.h(9): fatal error C1083: Cannot open include file: 'irrlicht.h': No such file or directory
   q3factory.cpp
+c:\users\bilal\documents\westworld\westworld\21.quake3explorer\q3factory.cpp(8): fatal error C1083: Cannot open include file: 'irrlicht.h': No such file or directory
   main.cpp
+c:\users\bilal\documents\westworld\westworld\21.quake3explorer\main.cpp(22): fatal error C1083: Cannot open include file: 'driverChoice.h': No such file or directory
   Generating Code...
-main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-LINK : fatal error LNK1104: cannot open file 'Irrlicht.lib'
