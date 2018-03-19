@@ -11,6 +11,7 @@ public:
 	~PlayerBase();
 	scene::ISceneNode* base;
 	int health = 1;
+	int* rHealth = &health;
 	void Despawn();   
 	void Damaged(int damage);
 	HealthBar *healthBar;// = new HealthBar((smgr->getRootSceneNode(), smgr, 666))

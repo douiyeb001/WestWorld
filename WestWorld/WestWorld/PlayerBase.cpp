@@ -12,7 +12,7 @@ PlayerBase::PlayerBase(scene::ISceneNode* node, scene::ISceneManager* mgr)
 	healthBar->setPosition(irr::core::vector3df(50, 1100, 0));
 	healthBar->setScale(irr::core::vector3df(20, 20, 20));
 	healthBar->setRotation(irr::core::vector3df(0, 180, 0));
-	healthBar->SetHealth(health);
+	healthBar->SetHealth(*rHealth);
 }
 
 
@@ -26,8 +26,10 @@ void PlayerBase::Despawn() {
 }
 
 void PlayerBase::Damaged(int damage) {
-	health -= damage;
-	if (health <= 0)
+	*rHealth -= damage;
+	if (*rHealth <= 0) {
 		Despawn();
-	healthBar->SetHealth(health);
+		*rHealth = 0;
+	}
+	healthBar->SetHealth(*rHealth);
 }
