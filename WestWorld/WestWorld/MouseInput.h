@@ -9,6 +9,8 @@
 
 using namespace irr;
 
+
+
 /*
 Just as we did in example 04.Movement, we'll store the latest state of the
 mouse and the first joystick, updating them as we receive events.
@@ -20,8 +22,8 @@ public:
 	struct SMouseState
 	{
 		core::position2di Position;
-		bool LeftButtonDown;
-		SMouseState() : LeftButtonDown(false) { }
+		bool isLeftButtonDown;
+		SMouseState() : isLeftButtonDown(false) { }
 	} MouseState;
 
 	// This is the one method that we have to implement
@@ -33,11 +35,11 @@ public:
 			switch (event.MouseInput.Event)
 			{
 			case EMIE_LMOUSE_PRESSED_DOWN:
-				MouseState.LeftButtonDown = true;
+				MouseState.isLeftButtonDown = true;
 				break;
 
 			case EMIE_LMOUSE_LEFT_UP:
-				MouseState.LeftButtonDown = false;
+				MouseState.isLeftButtonDown = false;
 				break;
 
 			/*case EMIE_MOUSE_MOVED:
