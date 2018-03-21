@@ -10,6 +10,7 @@
 #include "EDriverTypes.h"
 #include "irrTypes.h"
 #include "IrrlichtDevice.h"
+#include "ISceneCollisionManager.h"
 
 namespace irr
 {

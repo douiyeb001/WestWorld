@@ -153,6 +153,9 @@
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="SearchGrid.h" />
+    <ClInclude Include="IDFLAGS.h" />
+    <ClInclude Include="MouseInput.h" />
+    <ClInclude Include="PlaceObjects.h" />
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="stdafx.h" />
@@ -160,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Opponent.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

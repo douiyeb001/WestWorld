@@ -24,8 +24,17 @@
     <ClInclude Include="Opponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerBase.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDFLAGS.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="PathFinding.h">
       <Filter>Header Files</Filter>
@@ -45,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Opponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBase.cpp">
