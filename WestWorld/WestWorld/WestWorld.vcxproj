@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="HealthBar.h" />
     <ClInclude Include="SearchGrid.h" />
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="PlayerBase.h" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Opponent.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
