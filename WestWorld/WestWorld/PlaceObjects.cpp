@@ -1,4 +1,5 @@
 #include "PlaceObjects.h"
+//#include "MouseInput.h"
 
 
 
@@ -6,6 +7,9 @@ PlaceObjects::PlaceObjects()
 {
 
 }
+core::line3d<f32> ray;
+
+bool hasSpawnedTurret;
 
 void PlaceObjects::SpawnTurret(video::IVideoDriver *driver, scene::ISceneManager *smgr, core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, IDFlag flag)
 {
@@ -44,4 +48,43 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::IScen
 
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
+}
+
+void PlaceObjects::Update(MouseInput input, ICameraSceneNode *camera, scene::ISceneCollisionManager *collMan, scene::IMetaTriangleSelector *meta, video::IVideoDriver *driver, scene::ISceneManager *smgr, scene::ITriangleSelector *selector, scene::ISceneNodeAnimator *anim, IrrlichtDevice *device)
+{
+	// All intersections in this example are done with a ray cast out from the camera to
+	// a distance of 1000.  You can easily modify this to check (e.g.) a bullet
+	// trajectory or a sword's position, or create a ray from a mouse click position using
+	// ISceneCollisionManager::getRayFromScreenCoordinates()
+	
+	ray.start = camera->getPosition();
+	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
+
+	// Tracks the current intersection point with the level or a mesh
+	core::vector3df intersection;
+	// Used to show with triangle has been hit
+	core::triangle3df hitTriangle;
+
+	scene::ISceneNode * collidedObject;
+
+	if (collMan->getCollisionPoint(
+		ray, meta, intersection, hitTriangle, collidedObject)) {
+		if (collidedObject->getID() == IDFlag::spawnGround)
+		{
+			if (input.GetMouseState().isRightButtonDown)
+			{
+				if (!hasSpawnedTurret)
+				{
+					SpawnTurret(driver, smgr, intersection, selector, meta, IDFlag::spawnedObject);
+					CreateCollision(anim, smgr, camera, meta);
+					hasSpawnedTurret = true;
+				}
+			}
+			else if (!input.GetMouseState().isRightButtonDown)
+			{
+				hasSpawnedTurret = false;
+			}
+		}
+
+	}
 }
