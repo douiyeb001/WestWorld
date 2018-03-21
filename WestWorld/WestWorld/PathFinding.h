@@ -4,6 +4,7 @@
 #include <vector3d.h>
 #include <vector>
 #include "SearchGrid.h"
+#include "Opponent.h"
 
 class PathFinding
 {
@@ -13,7 +14,7 @@ public:
 
 
 	void FindPath(irr::core::vector3df currentPosition, irr::core::vector3df targetPosition);
-	irr::core::vector3df NextPathPosition();
+	irr::core::vector3df NextPathPosition(Opponent* enemy);
 	void ClearOpenList() { m_openList.clear(); }
 	void ClearVisitedList() { m_visitedList.clear(); }
 	void ClearPathGoal() { m_pathToGoal.clear(); }

@@ -4,6 +4,7 @@
 #include <vector3d.h>
 #include <vector>
 #include "SearchGrid.h"
+#include "Opponent.h" 
 
 PathFinding::PathFinding()
 {
@@ -146,6 +147,9 @@ void PathFinding::ContinuePath()
 
 	SearchGrid* currentCell = GetNextCell();
 
+	int id1 = currentCell->m_id;
+	int id2 = m_goalCell->m_id;
+
 	if (currentCell->m_id == m_goalCell->m_id)
 	{
 		m_goalCell->parent = currentCell->parent;
@@ -171,13 +175,13 @@ void PathFinding::ContinuePath()
 		//Down
 		PathOpened(currentCell->m_xcoord, currentCell->m_zcoord - 1, currentCell->G + 1, currentCell);
 		//Left-Up Diagonal
-		PathOpened(currentCell->m_xcoord - 1, currentCell->m_zcoord + 1, currentCell->G + 1.414f, currentCell);
+		PathOpened(currentCell->m_xcoord - 1, currentCell->m_zcoord + 1, currentCell->G + 1, currentCell);
 		//Right-Up Diagonal
-		PathOpened(currentCell->m_xcoord + 1, currentCell->m_zcoord + 1, currentCell->G + 1.414f, currentCell);
+		PathOpened(currentCell->m_xcoord + 1, currentCell->m_zcoord + 1, currentCell->G + 1, currentCell);
 		//Left-Down Diagonal
-		PathOpened(currentCell->m_xcoord - 1, currentCell->m_zcoord - 1, currentCell->G + 1.414f, currentCell);
+		PathOpened(currentCell->m_xcoord - 1, currentCell->m_zcoord - 1, currentCell->G + 1, currentCell);
 		//Right-Down Diagonal
-		PathOpened(currentCell->m_xcoord + 1, currentCell->m_zcoord - 1, currentCell->G + 1.414f, currentCell);
+		PathOpened(currentCell->m_xcoord + 1, currentCell->m_zcoord - 1, currentCell->G + 1, currentCell);
 
 		for (int i = 0; i < m_openList.size(); i++)
 		{
@@ -187,25 +191,28 @@ void PathFinding::ContinuePath()
 			}
 		}
 	}
+	ContinuePath();
 }
 
-irr::core::vector3df PathFinding::NextPathPosition()
+irr::core::vector3df PathFinding::NextPathPosition(Opponent* enemy)
 {
+	if (m_pathToGoal.size() == 0)
+		return enemy->enemy->getAbsolutePosition();
 	int index = 1;
 
 	irr::core::vector3df nextPos;
 	nextPos.X = m_pathToGoal[m_pathToGoal.size() - index]->X;
 	nextPos.Z = m_pathToGoal[m_pathToGoal.size() - index]->Z;
 
-	irr::core::vector3df distance = nextPos - ai.pos; //poss is the position of the enemy in our case it qould be opponent
+	irr::core::vector3df distance = nextPos - enemy->enemy->getAbsolutePosition(); //poss is the position of the enemy in our case it qould be opponent
 
-	if (index < m_pathToGoal.size())
-	{
-		if (distance.getLength() < ai.radius)
-		{
+	//if (index < m_pathToGoal.size())
+	//{
+		//if (distance.getLength() < 1)
+		//{
 			m_pathToGoal.erase(m_pathToGoal.end() - index);
-		}
-	}
+		//}
+	//}
 
 	return nextPos;
 }

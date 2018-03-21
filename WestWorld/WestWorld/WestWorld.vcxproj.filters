@@ -27,10 +27,10 @@
     <ClInclude Include="PlayerBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\rache\Desktop\WestWorld\WestWorld\WestWorld\PathFinding.h">
+    <ClInclude Include="PathFinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\rache\Desktop\WestWorld\WestWorld\WestWorld\SearchGrid.h">
+    <ClInclude Include="SearchGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClCompile Include="PlayerBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\rache\Desktop\WestWorld\WestWorld\WestWorld\PathFinding.cpp">
+    <ClCompile Include="PathFinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

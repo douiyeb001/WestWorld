@@ -1,7 +1,7 @@
 #pragma once
 #include <math.h>
 
-#define WORLD_SIZE 64
+#define WORLD_SIZE 512
 
 struct SearchGrid
 {
