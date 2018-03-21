@@ -22,8 +22,8 @@ public:
 	struct SMouseState
 	{
 		core::position2di Position;
-		bool isLeftButtonDown;
-		SMouseState() : isLeftButtonDown(false) { }
+		bool isRightButtonDown;
+		SMouseState() : isRightButtonDown(false) { }
 	} MouseState;
 
 	// This is the one method that we have to implement
@@ -34,12 +34,12 @@ public:
 		{
 			switch (event.MouseInput.Event)
 			{
-			case EMIE_LMOUSE_PRESSED_DOWN:
-				MouseState.isLeftButtonDown = true;
+			case EMIE_RMOUSE_PRESSED_DOWN:
+				MouseState.isRightButtonDown = true;
 				break;
 
-			case EMIE_LMOUSE_LEFT_UP:
-				MouseState.isLeftButtonDown = false;
+			case EMIE_RMOUSE_LEFT_UP:
+				MouseState.isRightButtonDown = false;
 				break;
 
 			/*case EMIE_MOUSE_MOVED:
