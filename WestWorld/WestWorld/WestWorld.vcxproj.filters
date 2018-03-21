@@ -24,12 +24,18 @@
     <ClInclude Include="MouseInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlaceObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WestWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
