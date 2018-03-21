@@ -13,8 +13,9 @@ using namespace video;
 
 class SetupHUD {
 public:
-	SetupHUD();
+	SetupHUD(IVideoDriver* driver);
 	void createHUD(IVideoDriver* driver);
+	void DrawAll(IVideoDriver* driver, HealthBar* hp, Placeable* icon1, Placeable* icon2, Placeable* icon3);
 private:
 	HealthBar* hp;
 	Placeable* icon1;
