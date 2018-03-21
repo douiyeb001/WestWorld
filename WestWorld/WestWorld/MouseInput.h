@@ -10,6 +10,8 @@
 using namespace irr;
 
 
+#ifndef MOUSEINPUT_H
+#define MOUSEINPUT_H
 
 /*
 Just as we did in example 04.Movement, we'll store the latest state of the
@@ -60,9 +62,5 @@ public:
 	{
 		return MouseState;
 	}
-
-
-	MouseInput()
-	{
-	}
 };
+#endif // ! 
