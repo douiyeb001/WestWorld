@@ -150,6 +150,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GamePlayState.h" />
+    <ClInclude Include="GameStates.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="SearchGrid.h" />
@@ -162,6 +166,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GamePlayState.cpp" />
+    <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
