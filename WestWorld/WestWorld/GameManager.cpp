@@ -8,6 +8,7 @@ CGameManager::CGameManager()
 	CreateDevice();
 	// by default, we start with the introduction mode...
 	m_pGameState = 0;
+	//ChangeState();
 }
 
 //! Default destructor

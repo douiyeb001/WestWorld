@@ -1,5 +1,5 @@
 #include "Game.h"
-//#include "GamePlayState.h"
+#include "GamePlayState.h"
 //#include "GameIntroState.h"
 #include "GameStates.h"
 
