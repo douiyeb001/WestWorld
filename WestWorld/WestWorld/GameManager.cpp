@@ -8,7 +8,7 @@ CGameManager::CGameManager()
 	// Irrlicht device
 	CreateDevice();
 	// by default, we start with the introduction mode...
-	m_pGameState = 0;
+//	m_pGameState = TestLevelState::Instance();
 	ChangeState(TestLevelState::Instance());
 }
 
@@ -21,12 +21,20 @@ CGameManager::~CGameManager()
 //! function before the next states Init function
 void CGameManager::ChangeState(CGameState * pState)
 {
+	if (m_pGameState)
+		m_pGameState->Clear(this);
+	if (pState != m_pGameState)
+	{
+		m_pGameState = pState;
+		m_pGameState->Init(this);
+	}
 }
 
 //! Holds a pointer to the current states, (level) Update function
 //! The Update will be the game loop for the current state
 void CGameManager::Update()
 {
+	m_pGameState->Update(this);
 }
 
 //! Creates the Irrlicht device and get pointers to the main subsytems
@@ -36,9 +44,9 @@ void CGameManager::CreateDevice()
 {
 	//Device parameters -> renderer|screen size|colour depth|full window|shadows|vsync|input device
 
-	m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1024, 768), 32, true, false, true, this);
+	m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
 	if (m_pDevice == NULL)
-		m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1024, 768), 32, true, false, true, this);
+		m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
 
 	m_pDriver = m_pDevice->getVideoDriver();
 	m_pSceneManager = m_pDevice->getSceneManager();
@@ -82,14 +90,14 @@ bool CGameManager::OnEvent(const SEvent& event)
 	//	m_bKeys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
 		// Pass input down to the specific game state keyboard handler
-		m_pGameState->KeyboardEvent(this);
+	//	m_pGameState->KeyboardEvent(this);
 	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT)
 	{
 		// Pass input down to the specific game state mouse handler
 		//m_cMouse = event.MouseInput.Event;
-		m_pGameState->MouseEvent(this);
+	//	m_pGameState->MouseEvent(this);
 	}
 	return false;
 }

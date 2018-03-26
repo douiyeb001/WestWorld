@@ -18,6 +18,8 @@ protected:
 	TestLevelState();
 
 private:
+	ITexture * m_titlePic;
+	ICameraSceneNode* cameraNode;
 	static TestLevelState  m_TestLevelState;
 };
 #endif

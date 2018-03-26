@@ -16,7 +16,10 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
-	pManager->getSceneManager()->loadScene("scene/T_Placing.irr");
+	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
+	pManager->getSceneManager()->loadScene("scene/terrain.irr");
+//	pManager->getSceneManager()->addCameraSceneNode(0, vector3df(0, 30, -40), vector3df(0, 5, 0));
+	pManager->getSceneManager()->addCameraSceneNodeFPS(0, 80.0f, 1, -1, 0, 8, true, .4);
 
 }
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -24,7 +27,8 @@ void TestLevelState::Clear(CGameManager* pManager) {
 }
 void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
-//	pManager->getDriver()->draw2DImage(m_titlePic, core::position2d<s32>(100, 50));
+	pManager->getSceneManager()->drawAll();
+	//pManager->getDriver()->draw2DImage(m_titlePic, core::position2d<s32>(100, 50));
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }
