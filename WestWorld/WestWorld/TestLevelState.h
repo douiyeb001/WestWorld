@@ -2,6 +2,7 @@
 #define TestLevelState_H
 
 #include "GamePlayState.h"
+#include "GUIBase.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -20,6 +21,7 @@ protected:
 private:
 	ITexture * m_titlePic;
 	ICameraSceneNode* cameraNode;
+	HealthBar* healthbar;
 	static TestLevelState  m_TestLevelState;
 };
 #endif
