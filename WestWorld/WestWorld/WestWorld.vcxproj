@@ -150,20 +150,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GamePlayState.h" />
+    <ClInclude Include="GameStates.h" />
+    <ClInclude Include="GUIBase.h" />
+    <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="SearchGrid.h" />
     <ClInclude Include="IDFLAGS.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="PlaceObjects.h" />
+    <ClInclude Include="Opponent.h" />
+    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestLevelState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GamePlayState.cpp" />
+    <ClCompile Include="GameStates.cpp" />
+    <ClCompile Include="GUIBase.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="Opponent.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestLevelState.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
