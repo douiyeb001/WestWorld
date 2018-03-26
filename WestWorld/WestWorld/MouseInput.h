@@ -14,13 +14,13 @@ using namespace irr;
 #define MOUSEINPUT_H
 
 /*
-Just as we did in example 04.Movement, we'll store the latest state of the
-mouse and the first joystick, updating them as we receive events.
+store the latest state of the
+mouse updating them as we receive events.
 */
 class MouseInput : public IEventReceiver
 {
 public:
-	// We'll create a struct to record info on the mouse state
+	//create a struct to record info on the mouse state
 	struct SMouseState
 	{
 		core::position2di Position;
@@ -28,7 +28,7 @@ public:
 		SMouseState() : isRightButtonDown(false) { }
 	} MouseState;
 
-	// This is the one method that we have to implement
+	//Event check what mouse input is being used - From the irrlicht Tutorial
 	virtual bool OnEvent(const SEvent& event)
 	{
 		// Remember the mouse state
@@ -44,13 +44,7 @@ public:
 				MouseState.isRightButtonDown = false;
 				break;
 
-			/*case EMIE_MOUSE_MOVED:
-				MouseState.Position.X = event.MouseInput.X;
-				MouseState.Position.Y = event.MouseInput.Y;
-				break;*/
-
 			default:
-				// We won't use the wheel
 				break;
 			}
 		}
