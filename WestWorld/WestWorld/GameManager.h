@@ -23,6 +23,13 @@ public:
 	IVideoDriver* getDriver();
 	ISceneManager* getSceneManager();
 	IGUIEnvironment* getGUIEnvironment();
+	ITriangleSelector* GetSelector();
+	ISceneCollisionManager* GetCollManager();
+	IMetaTriangleSelector* GetMeta();
+	ISceneNodeAnimator* GetAnim();
+	void SetAnim(ICameraSceneNode* cam);
+
+	char GetMouse();
 
 	CGameManager();
 	virtual ~CGameManager();
@@ -38,6 +45,12 @@ private:
 	IVideoDriver* m_pDriver;
 	ISceneManager* m_pSceneManager;
 	IGUIEnvironment* m_pGUIEnvironment;
+	ITriangleSelector* selector;
+	ISceneCollisionManager* collManager;
+	IMetaTriangleSelector* meta;
+	ISceneNodeAnimator* anim;
+
+	char mouse;
 };
 #endif
 

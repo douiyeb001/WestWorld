@@ -154,6 +154,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayState.h" />
     <ClInclude Include="GameStates.h" />
+    <ClInclude Include="GUIBase.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="SearchGrid.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
     <ClCompile Include="GameStates.cpp" />
+    <ClCompile Include="GUIBase.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />

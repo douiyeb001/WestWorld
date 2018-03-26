@@ -21,7 +21,7 @@ public:
 	virtual void Update(CGameManager* pManager) = 0;
 	virtual void Clear(CGameManager* pManager) = 0;
 	virtual void KeyboardEvent(CGameManager* pManager) = 0;
-	virtual void MouseEvent(CGameManager* pManager);
+	virtual void MouseEvent(CGameManager* pManager) = 0;
 
 	virtual ~CGameState();
 

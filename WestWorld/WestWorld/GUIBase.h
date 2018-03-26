@@ -9,9 +9,9 @@ using namespace gui;
 using namespace video;
 using namespace std;
 
-class HealthBar {
+class PlayerHealthBar {
 public:
-	HealthBar(IVideoDriver* driver, char const* bar);
+	PlayerHealthBar(IVideoDriver* driver, char const* bar);
 	void Draw(IVideoDriver* driver);
 private:
 	ITexture* hpBar;

@@ -3,6 +3,7 @@
 
 #include "GamePlayState.h"
 #include "GUIBase.h"
+#include "PlaceObjects.h" 
 
 class TestLevelState : public CGamePlayState {
 
@@ -11,6 +12,7 @@ public:
 	virtual void Clear(CGameManager* pManager);
 	virtual void Update(CGameManager* pManager);
 	virtual void KeyboardEvent(CGameManager* pManager);
+	virtual void MouseEvent(CGameManager* pManager);
 
 	static TestLevelState* Instance();
 	virtual ~TestLevelState();
@@ -21,7 +23,8 @@ protected:
 private:
 	ITexture * m_titlePic;
 	ICameraSceneNode* cameraNode;
-	HealthBar* healthbar;
+	PlayerHealthBar* healthbar;
+	PlaceObjects* PoManager;
 	static TestLevelState  m_TestLevelState;
 };
 #endif
