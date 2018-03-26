@@ -1,5 +1,6 @@
 #include "GameStates.h"
 #include "GameManager.h"
+#include "TestLevelState.h"
 
 //! Default constructor
 CGameManager::CGameManager()
@@ -8,7 +9,7 @@ CGameManager::CGameManager()
 	CreateDevice();
 	// by default, we start with the introduction mode...
 	m_pGameState = 0;
-	//ChangeState();
+	ChangeState(TestLevelState::Instance());
 }
 
 //! Default destructor
@@ -42,8 +43,6 @@ void CGameManager::CreateDevice()
 	m_pDriver = m_pDevice->getVideoDriver();
 	m_pSceneManager = m_pDevice->getSceneManager();
 	m_pGUIEnvironment = m_pDevice->getGUIEnvironment();
-
-	Init();
 }
 
 //! Returns a pointer to the Irrlicht Device subsystem
@@ -95,7 +94,7 @@ bool CGameManager::OnEvent(const SEvent& event)
 	return false;
 }
 
-//! Game manager genral Initialisation function. Also initialise or
+//! Game manager general Initialisation function. Also initialise or
 //! load each of the plugable managers
 void CGameManager::Init()
 {

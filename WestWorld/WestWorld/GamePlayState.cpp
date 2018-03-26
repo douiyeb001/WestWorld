@@ -5,7 +5,6 @@ CGamePlayState CGamePlayState::m_PlayState;
 //! Default constructor
 CGamePlayState::CGamePlayState()
 {
-
 }
 
 //! Default destructor
