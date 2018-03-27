@@ -23,6 +23,8 @@ public:
 	//void Update();
 	void HandleMovement();
 	~Player();
+	void RayCreate(ISceneManager* pSmgr,IVideoDriver* pDriver, ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer,IrrlichtDevice* pDevice);
+	void RayUpdate(Player* RayCreate);
 private:
 	ICameraSceneNode* cameraNode;
 	
