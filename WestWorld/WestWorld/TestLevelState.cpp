@@ -23,7 +23,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	cameraNode = pPLayer->getCamera();
 
 	pManager->SetAnim(cameraNode);
-	//pManager->getSceneManager()->addCameraSceneNodeFPS(0, 80.0f, 1, -1, 0, 8, true, .4);
+	cameraNode->addAnimator(pManager->GetAnim());
+	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 	PoManager = new PlaceObjects();
 	
@@ -36,7 +37,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 	healthbar->Draw(pManager->getDriver());
-	PoManager->Update(cameraNode, pManager->GetCollManager(), pManager->GetMeta(), pManager->getDriver(), pManager->getSceneManager(), pManager->GetSelector(), pManager->GetAnim());
+	PoManager->Update(cameraNode, pManager->GetCollManager(), pManager->GetMeta(), pManager->GetSelector(), pManager->GetAnim());
 	//pManager->getDriver()->draw2DImage(m_titlePic, core::position2d<s32>(100, 50));
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
@@ -54,8 +55,8 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	{
 		isDown = true;
 		// spawn turret function insert here
-		PoManager->SpawnTurret(pManager->getDriver(), pManager->getSceneManager(), PoManager->intersection, pManager->GetSelector(), pManager->GetMeta());
-		PoManager->CreateCollision(pManager->GetAnim(), pManager->getSceneManager(), cameraNode, pManager->GetMeta());
+		PoManager->SpawnTurret(PoManager->intersection, pManager->GetSelector(), pManager->GetMeta());
+		PoManager->CreateCollision(pManager->GetAnim(), cameraNode, pManager->GetMeta());
 	}
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)

@@ -28,6 +28,7 @@ public:
 	IMetaTriangleSelector* GetMeta();
 	ISceneNodeAnimator* GetAnim();
 	void SetAnim(ICameraSceneNode* cam);
+	void SetCollision();
 
 	char GetMouse();
 

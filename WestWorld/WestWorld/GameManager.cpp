@@ -55,50 +55,7 @@ void CGameManager::CreateDevice()
 	meta = m_pSceneManager->createMetaTriangleSelector();
 	collManager = m_pSceneManager->getSceneCollisionManager();
 
-	core::array<scene::ISceneNode *> nodes;
-	m_pSceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
-
-	for (u32 i = 0; i < nodes.size(); ++i)
-	{
-		scene::ISceneNode * node = nodes[i];
-
-
-		switch (node->getType())
-		{
-		case scene::ESNT_CUBE:
-		case scene::ESNT_ANIMATED_MESH:
-			// Because the selector won't animate with the mesh,
-			// and is only being used for camera collision, we'll just use an approximate
-			// bounding box instead of ((scene::IAnimatedMeshSceneNode*)node)->getMesh(0)
-			selector = m_pSceneManager->createTriangleSelectorFromBoundingBox(node);
-			break;
-
-		case scene::ESNT_MESH:
-		case scene::ESNT_SPHERE: // Derived from IMeshSceneNode
-			selector = m_pSceneManager->createTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
-			break;
-
-		case scene::ESNT_TERRAIN:
-			selector = m_pSceneManager->createTerrainTriangleSelector((scene::ITerrainSceneNode*)node);
-			break;
-
-		case scene::ESNT_OCTREE:
-			selector = m_pSceneManager->createOctreeTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
-			break;
-
-		default:
-			// Don't create a selector for this node type
-			break;
-		}
-
-		if (selector)
-		{
-			// Add it to the meta selector, which will take a reference to it
-			meta->addTriangleSelector(selector);
-			// And drop my reference to it, so that the meta selector owns it.
-			selector->drop();
-		}
-	}
+	
 }
 
 //! Returns a pointer to the Irrlicht Device subsystem
@@ -148,7 +105,55 @@ ISceneNodeAnimator* CGameManager::GetAnim()
 
 void CGameManager::SetAnim(ICameraSceneNode* cam)
 {
-	anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(5,5,5));
+	anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(5,5,5), vector3df(0,0,0));
+}
+
+void CGameManager::SetCollision()
+{
+	core::array<scene::ISceneNode *> nodes;
+	m_pSceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
+
+	for (u32 i = 0; i < nodes.size(); ++i)
+	{
+		scene::ISceneNode * node = nodes[i];
+
+
+		switch (node->getType())
+		{
+		case scene::ESNT_CUBE:
+		case scene::ESNT_ANIMATED_MESH:
+			// Because the selector won't animate with the mesh,
+			// and is only being used for camera collision, we'll just use an approximate
+			// bounding box instead of ((scene::IAnimatedMeshSceneNode*)node)->getMesh(0)
+			selector = m_pSceneManager->createTriangleSelectorFromBoundingBox(node);
+			break;
+
+		case scene::ESNT_MESH:
+		case scene::ESNT_SPHERE: // Derived from IMeshSceneNode
+			selector = m_pSceneManager->createTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
+			break;
+
+		case scene::ESNT_TERRAIN:
+			selector = m_pSceneManager->createTerrainTriangleSelector((scene::ITerrainSceneNode*)node);
+			break;
+
+		case scene::ESNT_OCTREE:
+			selector = m_pSceneManager->createOctreeTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
+			break;
+
+		default:
+			// Don't create a selector for this node type
+			break;
+		}
+
+		if (selector)
+		{
+			// Add it to the meta selector, which will take a reference to it
+			meta->addTriangleSelector(selector);
+			// And drop my reference to it, so that the meta selector owns it.
+			selector->drop();
+		}
+	}
 }
 
 //! Main event handler derived from IEventHandler, this
