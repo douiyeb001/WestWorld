@@ -18,16 +18,17 @@ public:
 	ICameraSceneNode * getCamera();
 
 
-	Player(ISceneManager* smgr);
+	Player(ISceneManager* smgr, IVideoDriver* driver);
 	void CreatePlayer(ISceneManager* smgr);
 	//void Update();
 	void HandleMovement();
 	~Player();
-	void RayCreate(ISceneManager* pSmgr,IVideoDriver* pDriver, ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer,IrrlichtDevice* pDevice);
+	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer);
 private:
 	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;
-	
+	IVideoDriver* pDriver;
+	ISceneManager* pSmgr;
 
 };
 #endif // !1

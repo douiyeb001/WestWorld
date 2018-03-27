@@ -105,7 +105,7 @@ ISceneNodeAnimator* CGameManager::GetAnim()
 
 void CGameManager::SetAnim(ICameraSceneNode* cam)
 {
-	anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(5,5,5), vector3df(0,0,0));
+	anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(5,5,5), vector3df(0,-1,0));
 }
 
 void CGameManager::SetCollision()
