@@ -19,13 +19,13 @@ public:
 
 
 	Player(ISceneManager* smgr);
-	void CreatePlayer(ISceneManager* smgr, SKeyMap* keyMap, float movementSpeed);
+	void CreatePlayer(ISceneManager* smgr);
 	//void Update();
 	void HandleMovement();
 	~Player();
 	void RayCreate(ISceneManager* pSmgr,IVideoDriver* pDriver, ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer,IrrlichtDevice* pDevice);
-	void RayUpdate(Player* RayCreate);
 private:
+	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;
 	
 

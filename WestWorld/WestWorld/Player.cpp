@@ -7,25 +7,10 @@ Player::Player(ISceneManager* smgr) {
 	// constructor
 
 	// create new player
-	SKeyMap keyMap[9];
+	
 
-	keyMap[0].Action = EKA_MOVE_FORWARD;
-	keyMap[0].KeyCode = KEY_KEY_W;
+	CreatePlayer(smgr);
 
-	keyMap[1].Action = EKA_MOVE_BACKWARD;
-	keyMap[1].KeyCode = KEY_KEY_S;
-
-	keyMap[2].Action = EKA_STRAFE_LEFT;
-	keyMap[2].KeyCode = KEY_KEY_A;
-
-	keyMap[3].Action = EKA_STRAFE_RIGHT;
-	keyMap[3].KeyCode = KEY_KEY_D;
-
-	keyMap[4].Action = EKA_JUMP_UP;
-	keyMap[4].KeyCode = KEY_SPACE;
-	f32 MOVEMENT_SPEED = 0.3f;
-
-	CreatePlayer(smgr, keyMap, MOVEMENT_SPEED);
 }
 
 Player::~Player() {
@@ -37,8 +22,25 @@ void Player::HandleMovement() {
 	
 }
 
-void Player::CreatePlayer(ISceneManager* smgr, SKeyMap* keyMap, float movementSpeed) {
-	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, movementSpeed, -1, keyMap, 8, true, .4);
+void Player::CreatePlayer(ISceneManager* smgr) {
+	SKeyMap pKeyMap[9];
+
+	pKeyMap[0].Action = EKA_MOVE_FORWARD;
+	pKeyMap[0].KeyCode = KEY_KEY_W;
+
+	pKeyMap[1].Action = EKA_MOVE_BACKWARD;
+	pKeyMap[1].KeyCode = KEY_KEY_S;
+
+	pKeyMap[2].Action = EKA_STRAFE_LEFT;
+	pKeyMap[2].KeyCode = KEY_KEY_A;
+
+	pKeyMap[3].Action = EKA_STRAFE_RIGHT;
+	pKeyMap[3].KeyCode = KEY_KEY_D;
+
+	pKeyMap[4].Action = EKA_JUMP_UP;
+	pKeyMap[4].KeyCode = KEY_SPACE;
+
+	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.5f, -1, pKeyMap, 8, true, .4);
 	cameraNode->setPosition(vector3df(20,20,20));
 	
 
