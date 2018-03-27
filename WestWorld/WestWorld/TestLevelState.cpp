@@ -18,11 +18,15 @@ TestLevelState* TestLevelState::Instance(){
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/terrain.irr");
-	cameraNode = pManager->getSceneManager()->addCameraSceneNode(0, vector3df(0, 30, -40), vector3df(0, 5, 0));
+	pPLayer = new Player(pManager->getSceneManager());
+	//pPLayer->CreatePlayer(pManager->getSceneManager());
+	cameraNode = pPLayer->getCamera();
+
 	pManager->SetAnim(cameraNode);
 	//pManager->getSceneManager()->addCameraSceneNodeFPS(0, 80.0f, 1, -1, 0, 8, true, .4);
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 	PoManager = new PlaceObjects();
+	
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
