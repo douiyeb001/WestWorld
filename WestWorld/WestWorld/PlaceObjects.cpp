@@ -3,14 +3,16 @@
 
 
 
-PlaceObjects::PlaceObjects()
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr)
 {
+	driver = iDriver;
+	smgr = iSmgr;
 }
 core::line3d<f32> ray;
 
 bool hasSpawnedTurret;
 
-void PlaceObjects::SpawnTurret(video::IVideoDriver *driver, scene::ISceneManager *smgr, core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta)
+void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta)
 {
 
 	//Tim & Daniel spawning objects
@@ -37,7 +39,7 @@ void PlaceObjects::SpawnTurret(video::IVideoDriver *driver, scene::ISceneManager
 
 }
 
-void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ISceneManager *smgr, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta)
+void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta)
 {
 
 	anim = smgr->createCollisionResponseAnimator(
@@ -49,7 +51,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::IScen
 	anim->drop(); // I'm done with the animator now
 }
 
-void PlaceObjects::Update(ICameraSceneNode *camera, scene::ISceneCollisionManager *collMan, scene::IMetaTriangleSelector *meta, video::IVideoDriver *driver, scene::ISceneManager *smgr, scene::ITriangleSelector *selector, scene::ISceneNodeAnimator *anim)
+void PlaceObjects::Update(ICameraSceneNode *camera, scene::ISceneCollisionManager *collMan, scene::IMetaTriangleSelector *meta, scene::ITriangleSelector *selector, scene::ISceneNodeAnimator *anim)
 {
 	// All intersections in this example are done with a ray cast out from the camera to
 	// a distance of 1000.  You can easily modify this to check (e.g.) a bullet
