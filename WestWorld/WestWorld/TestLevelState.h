@@ -5,6 +5,7 @@
 #include "GUIBase.h"
 #include "PlaceObjects.h" 
 #include "Player.h"
+#include "IDFLAGS.h"
 
 class TestLevelState : public CGamePlayState {
 
