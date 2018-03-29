@@ -4,6 +4,7 @@
 #include "GamePlayState.h"
 #include "GUIBase.h"
 #include "PlaceObjects.h" 
+#include "Player.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -25,6 +26,7 @@ private:
 	ICameraSceneNode* cameraNode;
 	PlayerHealthBar* healthbar;
 	PlaceObjects* PoManager;
+	Player* pPLayer; 
 	static TestLevelState  m_TestLevelState;
 };
 #endif

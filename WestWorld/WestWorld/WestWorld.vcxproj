@@ -157,6 +157,7 @@
     <ClInclude Include="GUIBase.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SearchGrid.h" />
     <ClInclude Include="IDFLAGS.h" />
     <ClInclude Include="MouseInput.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Opponent.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
