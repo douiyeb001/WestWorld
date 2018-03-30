@@ -27,5 +27,7 @@ public:
 private:
 	IVideoDriver * driver;
 	ISceneManager * smgr;
+	core::line3d<f32> ray;
+	IMeshSceneNode* node;
 };
 

@@ -7,8 +7,8 @@ PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr)
 {
 	driver = iDriver;
 	smgr = iSmgr;
+
 }
-core::line3d<f32> ray;
 
 bool hasSpawnedTurret;
 
@@ -17,26 +17,21 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 
 	//Tim & Daniel spawning objects
 	scene::IMesh* barrelMesh = smgr->getMesh("meshes/Barrel.obj");
-	scene::IMeshSceneNode* barrelNode = smgr->addMeshSceneNode(barrelMesh, 0);
+	scene::IMeshSceneNode* barrelNode = 0;
+	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, 15);
 
 	if (barrelNode)
 	{
-
 		barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 		barrelNode->setPosition(position);
-		selector = smgr->createTriangleSelector(((scene::IMeshSceneNode*)barrelNode)->getMesh(), barrelNode);
-
-
-	}
-	if (selector)
-	{
-		// Add it to the meta selector, which will take a reference to it
+		selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
+		barrelNode->setTriangleSelector(selector);
 		meta->addTriangleSelector(selector);
-		// And drop my reference to it, so that the meta selector owns it.
 		selector->drop();
+		meta->drop();
 	}
-
+	barrelNode = 0;
 }
 
 void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta)
@@ -60,31 +55,5 @@ void PlaceObjects::Update(ICameraSceneNode *camera, scene::ISceneCollisionManage
 	
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
-
-	// Tracks the current intersection point with the level or a mesh
-	//core::vector3df intersection;
-	//// Used to show with triangle has been hit
-	//core::triangle3df hitTriangle;
-
-	//scene::ISceneNode * collidedObject;
-	
-	(collMan->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject)); //{
-		/*if (collidedObject->getID() == IDFlag::spawnGround)
-		{*/
-			//if (input.GetMouseState().isRightButtonDown)
-			//{
-			//	if (!hasSpawnedTurret)
-			//	{
-			//		/*SpawnTurret(driver, smgr, intersection, selector, meta, IDFlag::spawnedObject);
-			//		CreateCollision(anim, smgr, camera, meta);*/
-			//		hasSpawnedTurret = true;
-			//	}
-			//}
-			//else if (!input.GetMouseState().isRightButtonDown)
-			//{
-			//	hasSpawnedTurret = false;
-			//}
-		//}
-
-//	}
+	collMan->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
 }

@@ -18,17 +18,23 @@ public:
 	ICameraSceneNode * getCamera();
 
 
-	Player(ISceneManager* smgr, IVideoDriver* driver);
+	Player(ISceneManager* smgr, IVideoDriver* driver, ISceneNodeAnimator* anim);
 	void CreatePlayer(ISceneManager* smgr);
 	//void Update();
 	void HandleMovement();
 	~Player();
-	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer);
+	void RayCreate(ISceneManager* smgr, scene::ISceneCollisionManager* collMan, ICameraSceneNode*  pPlayer, IMetaTriangleSelector* meta);
 private:
 	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;
 	IVideoDriver* pDriver;
 	ISceneManager* pSmgr;
+	ISceneNodeAnimator* pAnim;
+	//line3d<f32>* ray;
+
+	vector3df intersection;
+	triangle3df  hitTriangle;
+	ISceneNode* collidedObject;
 
 };
 #endif // !1

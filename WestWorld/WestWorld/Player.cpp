@@ -3,10 +3,11 @@
 
 using namespace std;
 	
-Player::Player(ISceneManager* smgr,IVideoDriver* driver) {
+Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* anim) {
 	// constructor
 	pDriver = driver;
 	pSmgr = smgr;
+	pAnim = anim;
 	// create new player
 	
 	
@@ -20,7 +21,6 @@ Player::~Player() {
 
 
 void Player::HandleMovement() {
-	
 }
 
 void Player::CreatePlayer(ISceneManager* smgr) {
@@ -49,43 +49,26 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
 }
-void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer)
-{
-	
-	core::line3d<f32> ray;
-	ISceneNode * colObject;
-	ICameraSceneNode* playerCamera = pPlayer;
-	core::vector3df intersection;
-	// Used to show with triangle has been hit
-	core::triangle3df hitTriangle;
-	
-	// Add the billboard.
-	scene::IBillboardSceneNode * bill = pSmgr->addBillboardSceneNode();
-	bill->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-	bill->setSize(core::dimension2d<f32>(0, 0));
-	bill->setID(0); // This ensures that we don't accidentally ray-pick it
-	scene::ISceneCollisionManager* collMan = pSmgr->getSceneCollisionManager();
-		// Add it to the meta selector, which will take a reference to it
-		pMeta->addTriangleSelector(pSelector);
-		// And drop my reference to it, so that the meta selector owns it.
-					
-				bill->setPosition(vector3df(20,20,20));
-				ray.start = playerCamera->getPosition();
-				ray.end = ray.start + (playerCamera->getTarget() - ray.start).normalize() * 10.0f;
+void Player::RayCreate(ISceneManager* smgr, scene::ISceneCollisionManager *collMan, ICameraSceneNode* pPlayer, scene::IMetaTriangleSelector *meta)
+{				
+				core::line3d<f32> ray;
+				ray.start = pPlayer->getPosition();
+				ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 50.0f;
 
 				// Tracks the current intersection point with the level or a mesh
-				
-				if (collMan->getCollisionPoint(ray, pMeta, intersection, hitTriangle, colObject))
-				{
-					pSmgr->addToDeletionQueue(colObject);
-					// We need to reset the transform before doing our own rendering.
-					pDriver->setTransform(video::ETS_WORLD, core::matrix4());
-
-					// We can check the flags for the scene node that was hit to see if it should be
-					// highlighted. The animated nodes can be highlighted, but not the Quake level mesh
-					
+				ISceneNode* selectedSceneNode =
+					collMan->getSceneNodeAndCollisionPointFromRay(
+						ray,
+						intersection, // This will be the position of the collision
+						hitTriangle, // This will be the triangle hit in the collision
+						15, // This ensures that only nodes that we have
+										   // set up to be pickable are considered
+						0); // Check the entire scene (this is actually the implicit default)
+				if (selectedSceneNode) {
+					smgr->addToDeletionQueue(selectedSceneNode);
+					meta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
+					selectedSceneNode = 0;
 				}
-			
 	}
 
 

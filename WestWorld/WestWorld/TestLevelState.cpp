@@ -19,8 +19,7 @@ TestLevelState* TestLevelState::Instance(){
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/terrain.irr");
-	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver());
-	//pPLayer->CreatePlayer(pManager->getSceneManager());
+	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
 
 	pManager->SetAnim(cameraNode);
@@ -40,11 +39,12 @@ void TestLevelState::Clear(CGameManager* pManager) {
 void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
+
+
+	PoManager->Update(cameraNode, pManager->GetCollManager(), pManager->GetMeta(), pManager->GetSelector(), pManager->GetAnim());
 	
 	healthbar->Draw(pManager->getDriver());
-	
-	PoManager->Update(cameraNode, pManager->GetCollManager(), pManager->GetMeta(), pManager->GetSelector(), pManager->GetAnim());
-	//pManager->getDriver()->draw2DImage(m_titlePic, core::position2d<s32>(100, 50));
+
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }
@@ -59,15 +59,13 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
 	{
-	//	isDown = true;
-		// spawn turret function insert here
 		PoManager->SpawnTurret(PoManager->intersection, pManager->GetSelector(), pManager->GetMeta());
 		PoManager->CreateCollision(pManager->GetAnim(), cameraNode, pManager->GetMeta());
 	}
 
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), cameraNode);
-
+		pPLayer->RayCreate(pManager->getSceneManager(),  pManager->GetCollManager(), cameraNode, pManager->GetMeta());
+		
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{
