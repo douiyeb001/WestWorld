@@ -150,10 +150,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayState.h" />
     <ClInclude Include="GameStates.h" />
+    <ClInclude Include="GridCell.h" />
     <ClInclude Include="GUIBase.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
@@ -169,10 +171,12 @@
     <ClInclude Include="TestLevelState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
     <ClCompile Include="GameStates.cpp" />
+    <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
