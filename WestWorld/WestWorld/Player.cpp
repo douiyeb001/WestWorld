@@ -51,13 +51,6 @@ ICameraSceneNode* Player::getCamera() {
 
 void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
-
-	core::line3d<f32> ray;
-	ISceneNode * colObject;
-	core::vector3df intersection;
-	// Used to show with triangle has been hit
-	core::triangle3df hitTriangle;
-
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	// Add it to the meta selector, which will take a reference to it
 	pMeta->addTriangleSelector(pSelector);
