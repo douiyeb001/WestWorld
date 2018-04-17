@@ -8,8 +8,6 @@ Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* ani
 	pDriver = driver;
 	//pSmgr = smgr;
 	// create new player
-	
-	
 	CreatePlayer(smgr);
 
 }
