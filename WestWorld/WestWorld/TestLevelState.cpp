@@ -59,8 +59,14 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
 	{
-		PoManager->SpawnTurret(PoManager->intersection, pManager->GetSelector(), pManager->GetMeta());
-		PoManager->CreateCollision(pManager->GetAnim(), cameraNode, pManager->GetMeta());
+	//	isDown = true;
+		// spawn turret function insert here
+		if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
+		{
+			PoManager->SpawnTurret(PoManager->intersection, pManager->GetSelector(), pManager->GetMeta());
+			PoManager->CreateCollision(pManager->GetAnim(), cameraNode, pManager->GetMeta());
+		}
+		
 	}
 
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {

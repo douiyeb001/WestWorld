@@ -1,7 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 
-#include "IDFLAGS.h"
+//#include "IDFLAGS.h"
 #include "MouseInput.h"
 
 using namespace irr;
@@ -22,7 +22,7 @@ public:
 
 	vector3df intersection;
 	triangle3df  hitTriangle;
-	ISceneNode * collidedObject;
+	ISceneNode *collidedObject;
 
 private:
 	IVideoDriver * driver;

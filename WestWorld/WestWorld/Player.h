@@ -23,14 +23,12 @@ public:
 	//void Update();
 	void HandleMovement();
 	~Player();
-	void RayCreate(ISceneManager* smgr, scene::ISceneCollisionManager* collMan, ICameraSceneNode*  pPlayer, IMetaTriangleSelector* meta);
+	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 private:
 	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;
 	IVideoDriver* pDriver;
-	ISceneManager* pSmgr;
-	ISceneNodeAnimator* pAnim;
-	//line3d<f32>* ray;
+//	ISceneManager* pSmgr;
 
 	vector3df intersection;
 	triangle3df  hitTriangle;
