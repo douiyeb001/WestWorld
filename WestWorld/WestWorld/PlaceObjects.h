@@ -1,7 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 
-//#include "IDFLAGS.h"
+#include "IDFLAGS.h"
 #include "MouseInput.h"
 
 using namespace irr;
@@ -16,19 +16,21 @@ class PlaceObjects
 {
 public:
 	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
+	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta);
 	void CreateCollision(ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta);
-	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
+	
 	void Update();
 
 	vector3df intersection;
 	triangle3df  hitTriangle;
 	ISceneNode *collidedObject;
+	core::line3d<f32> ray;
 
 private:
 	IVideoDriver * driver;
 	ISceneManager * smgr;
-	core::line3d<f32> ray;
+	
 	IMeshSceneNode* node;
 };
 

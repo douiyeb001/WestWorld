@@ -18,7 +18,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
-	pManager->getSceneManager()->loadScene("scene/terrain.irr");
+	pManager->getSceneManager()->loadScene("scene/T_Placing.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
 
