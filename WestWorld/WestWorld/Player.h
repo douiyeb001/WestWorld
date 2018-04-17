@@ -29,7 +29,7 @@ private:
 	ICameraSceneNode* cameraNode;
 	IVideoDriver* pDriver;
 //	ISceneManager* pSmgr;
-
+	core::line3d<f32> ray;
 	vector3df intersection;
 	triangle3df  hitTriangle;
 	ISceneNode* collidedObject;
