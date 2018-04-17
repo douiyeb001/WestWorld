@@ -23,12 +23,12 @@ public:
 	//void Update();
 	void HandleMovement();
 	~Player();
-	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer);
+	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 private:
 	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;
 	IVideoDriver* pDriver;
-	ISceneManager* pSmgr;
+//	ISceneManager* pSmgr;
 
 };
 #endif // !1

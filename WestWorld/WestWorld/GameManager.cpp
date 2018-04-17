@@ -44,10 +44,9 @@ void CGameManager::CreateDevice()
 {
 	//Device parameters -> renderer|screen size|colour depth|full window|shadows|vsync|input device
 
-	m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
+	m_pDevice = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
 	if (m_pDevice == NULL)
-		m_pDevice = createDevice(EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
-
+		m_pDevice = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
 	m_pDriver = m_pDevice->getVideoDriver();
 	m_pSceneManager = m_pDevice->getSceneManager();
 	m_pGUIEnvironment = m_pDevice->getGUIEnvironment();
