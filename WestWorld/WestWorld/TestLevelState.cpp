@@ -30,7 +30,32 @@ void TestLevelState::Init(CGameManager* pManager) {
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager());
 	
-	
+	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+	std::fill(std::begin(obstacles), std::end(obstacles), false);
+
+	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
+	core::list<scene::ISceneNode*>::Iterator it = children.begin();
+	for (; it != children.end(); ++it)
+	{
+		if ((*it)->getID()) {
+			s32 id = (*it)->getID();
+			if (id == 10)
+
+				for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++) {
+					for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++) {
+						// Do something with the node here.
+						irr::core::aabbox3df box = irr::core::aabbox3df(x *Cell_Size - Cell_Size / 2, 0, z *Cell_Size - Cell_Size / 2, (x + 1)*Cell_Size + Cell_Size / 2, 0, (z + 1)*Cell_Size + Cell_Size / 2);
+
+						if ((*it)->getTransformedBoundingBox().intersectsWithBox(box))
+						{
+							obstacles[((x)+World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z)+World_Size / (2 * Cell_Size))] = true;
+						}
+					}
+				}
+		}
+	}
+	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
+	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Plane"),playerCore, obstacles);
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -40,8 +65,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 
-
-	PoManager->Update();
+	enemy->Update();
 	
 	healthbar->Draw(pManager->getDriver());
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TestLevelState_H
 #define TestLevelState_H
 
@@ -6,6 +7,9 @@
 #include "PlaceObjects.h" 
 #include "Player.h"
 #include "IDFLAGS.h"
+#include "Opponent.h"
+#include "AStar.h"
+#include <vector>
 
 class TestLevelState : public CGamePlayState {
 
@@ -28,6 +32,10 @@ private:
 	PlayerHealthBar* healthbar;
 	PlaceObjects* PoManager;
 	Player* pPLayer; 
+	Opponent* enemy;
+	PlayerBase* playerCore;
 	static TestLevelState  m_TestLevelState;
+	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+
 };
 #endif
