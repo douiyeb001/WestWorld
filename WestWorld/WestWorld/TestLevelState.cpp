@@ -55,7 +55,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 		}
 	}
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
-	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Plane"),playerCore, obstacles);
+	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
