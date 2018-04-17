@@ -49,20 +49,17 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
  void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
-	scene::ISceneNode * selectedSceneNode =
-		smgr->getSceneCollisionManager()->getSceneNodeAndCollisionPointFromRay(
-			ray,
-			intersection, // This will be the position of the collision
-			hitTriangle,
-			0);
-	if (selectedSceneNode->getID() == 14) {
+	//scene::ISceneNode * selectedSceneNode =
+	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
+			
+	if (collidedObject->getID() == IDFlag::spawnGround) {
 		SpawnTurret(intersection, selector, meta);
-		//CreateCollision(anim, camera, meta);
+		CreateCollision(anim, camera, meta);
 	}
 
 
 
-	 selectedSceneNode = 0;
+	 //collidedObject = 0;
 }
 
 void PlaceObjects::Update(){
