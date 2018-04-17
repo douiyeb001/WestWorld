@@ -18,7 +18,8 @@ public:
 	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
 	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta);
 	void CreateCollision(ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta);
-	void Update(ICameraSceneNode *camera, scene::ISceneCollisionManager *collMan, scene::IMetaTriangleSelector *meta, scene::ITriangleSelector *selector, scene::ISceneNodeAnimator *anim);
+	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
+	void Update();
 
 	vector3df intersection;
 	triangle3df  hitTriangle;

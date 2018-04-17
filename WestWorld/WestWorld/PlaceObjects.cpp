@@ -46,14 +46,25 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	anim->drop(); // I'm done with the animator now
 }
 
-void PlaceObjects::Update(ICameraSceneNode *camera, scene::ISceneCollisionManager *collMan, scene::IMetaTriangleSelector *meta, scene::ITriangleSelector *selector, scene::ISceneNodeAnimator *anim)
-{
-	// All intersections in this example are done with a ray cast out from the camera to
-	// a distance of 1000.  You can easily modify this to check (e.g.) a bullet
-	// trajectory or a sword's position, or create a ray from a mouse click position using
-	// ISceneCollisionManager::getRayFromScreenCoordinates()
-	
+ void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
-	collMan->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
+	scene::ISceneNode * selectedSceneNode =
+		smgr->getSceneCollisionManager()->getSceneNodeAndCollisionPointFromRay(
+			ray,
+			intersection, // This will be the position of the collision
+			hitTriangle,
+			0);
+	if (selectedSceneNode->getID() == 14) {
+		SpawnTurret(intersection, selector, meta);
+		//CreateCollision(anim, camera, meta);
+	}
+
+
+
+	 selectedSceneNode = 0;
+}
+
+void PlaceObjects::Update(){
+
 }

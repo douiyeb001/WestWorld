@@ -77,8 +77,9 @@ void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMet
 	if (selectedSceneNode) {
 
 		//printf(selectedSceneNode->getDebugName());
-		selectedSceneNode->setPosition(vector3df(10, 10, 10));
-		//	selectedSceneNode->remove();
+		//selectedSceneNode->setPosition(vector3df(10, 10, 10));
+		pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
+			selectedSceneNode->remove();
 	}
 	//selectedSceneNode->setPosition(vector3d());
 }
