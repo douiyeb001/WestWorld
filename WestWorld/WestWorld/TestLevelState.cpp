@@ -18,7 +18,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
-	pManager->getSceneManager()->loadScene("scene/terrain.irr");
+	pManager->getSceneManager()->loadScene("scene/T_Placing.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
 
@@ -55,7 +55,9 @@ void TestLevelState::Init(CGameManager* pManager) {
 		}
 	}
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
-	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Plane"),playerCore, obstacles);
+	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
+	enemyManager = new EnemyManager(pManager->getSceneManager(), pManager->GetSelector(), pManager->GetMeta(), pManager->getDriver());
+	enemyManager->CreateEnemy();
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -88,12 +90,13 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	//	int idTest = PoManager->collidedObject->getID();
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
-		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());		
+		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+
 	}
 
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),cameraNode, pManager->getSceneManager());
-		
+		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),cameraNode, pManager->getSceneManager());
+		enemyManager->CheckCollision(node);
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{

@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <irrlicht.h>
+#include "EnemyManager.h"
 
 using namespace std;
 using namespace irr;
@@ -23,7 +24,7 @@ public:
 	//void Update();
 	void HandleMovement();
 	~Player();
-	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
+	ISceneNode* RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 private:
 	SKeyMap* pKeyMap;
 	ICameraSceneNode* cameraNode;

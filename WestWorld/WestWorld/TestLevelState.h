@@ -10,6 +10,7 @@
 #include "Opponent.h"
 #include "AStar.h"
 #include <vector>
+#include "EnemyManager.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -34,6 +35,7 @@ private:
 	Player* pPLayer; 
 	Opponent* enemy;
 	PlayerBase* playerCore;
+	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
 

@@ -47,7 +47,7 @@ ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
 }
 
-void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
+ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	// Add it to the meta selector, which will take a reference to it
@@ -55,22 +55,22 @@ void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMet
 	// And drop my reference to it, so that the meta selector owns it.
 
 	ray.start = pPlayer->getPosition();
-	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 10.0f;
+	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 100.0f;
 	scene::ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
 			ray,
 			intersection, // This will be the position of the collision
 			hitTriangle,
-			0);
+			17,0);
 
 	//selectedSceneNode->setPosition(vector3df(10, 10, 10));
 
 	if (selectedSceneNode) {
-
 		//printf(selectedSceneNode->getDebugName());
 		//selectedSceneNode->setPosition(vector3df(10, 10, 10));
-		pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
-			selectedSceneNode->remove();
+		//pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
+			//selectedSceneNode->remove();
+		return selectedSceneNode;
 	}
 	//selectedSceneNode->setPosition(vector3d());
 }
