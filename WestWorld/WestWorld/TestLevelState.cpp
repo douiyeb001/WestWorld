@@ -18,10 +18,10 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
-	pManager->getSceneManager()->loadScene("scene/T_Placing.irr");
+	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
-
+	pTurretAI = new TurretAI();
 	pManager->SetAnim(cameraNode);
 	cameraNode->addAnimator(pManager->GetAnim());
 
@@ -66,7 +66,9 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getSceneManager()->drawAll();
 
 	enemy->Update();
-	
+
+	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->GetMeta(),pManager->GetAnim());
+
 	healthbar->Draw(pManager->getDriver());
 
 	pManager->getGUIEnvironment()->drawAll();

@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "IDFLAGS.h"
 #include "Opponent.h"
+#include "TurretAI.h"
 #include "AStar.h"
 #include <vector>
 
@@ -32,6 +33,7 @@ private:
 	PlayerHealthBar* healthbar;
 	PlaceObjects* PoManager;
 	Player* pPLayer; 
+	TurretAI* pTurretAI;
 	Opponent* enemy;
 	PlayerBase* playerCore;
 	static TestLevelState  m_TestLevelState;
