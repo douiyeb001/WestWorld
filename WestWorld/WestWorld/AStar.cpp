@@ -20,20 +20,13 @@ AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, bool O
 			CellDictionary.insert(std::pair<int, GridCell>(coordinatesToID(x*Cell_Size, z*Cell_Size), GridCell(x*Cell_Size + Cell_Size / 2, z*Cell_Size + Cell_Size / 2, NULL, Obstacle[coordinatesToID(x*Cell_Size, z*Cell_Size)])));
 	//CellDictionary[coordinatesToID(x,z)] = GridCell(x,z,NULL);
 
-	/// <summary>	The xcoord. </summary>
 	int xcoord = startNode_->getAbsolutePosition().X;
-	/// <summary>	The zcoord. </summary>
 	int zcoord = startNode_->getAbsolutePosition().Z;
 
-	/// <summary>	The possible next cells.reserve. </summary>
 	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)));
-	/// <summary>	The possible next cells.push back. </summary>
 	possibleNextCells.push_back(&(CellDictionary[coordinatesToID(xcoord, zcoord)]));
 
-
-	/// <summary>	The xcoord goal. </summary>
 	int xcoordGoal = goalNode_->getAbsolutePosition().X;
-	/// <summary>	The zcoord goal. </summary>
 	int zcoordGoal = goalNode_->getAbsolutePosition().Z;
 
 	(CellDictionary[coordinatesToID(xcoord, zcoord)]).AssignParent(xcoord, zcoord, xcoordGoal, zcoordGoal, NULL, false);
@@ -68,12 +61,9 @@ AStar::~AStar() {
 
 GridCell* AStar::nextCell() {
 
-	/// <summary>	The best f. </summary>
 	float bestF = 999999.0f;
 
-	/// <summary>	The next cell. </summary>
 	GridCell* nextCell = NULL;
-	/// <summary>	Zero-based index of the. </summary>
 	int idx = -1;
 
 	for (int i = 0; i < possibleNextCells.size(); i++)
@@ -98,20 +88,15 @@ GridCell* AStar::nextCell() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AStar::findPath() {
-	/// <summary>	The current cell. </summary>
 	GridCell* currentCell = nextCell();
 
 	if (currentCell == goalCell) {
-		/// <summary>	. </summary>
 		finalPath = ReversePath(currentCell->pathToCell);
 		return;
 	}
 	if (possibleNextCells.size() > 2000)
-		/// <summary>	The te. </summary>
 		int te = 0;
-	/// <summary>	The x position. </summary>
 	int xPos = currentCell->x;
-	/// <summary>	The y position. </summary>
 	int yPos = currentCell->y;
 	for (int x = -1; x <= 1; x++) {
 		for (int z = -1; z <= 1; z++) {
@@ -140,7 +125,6 @@ void AStar::findPath() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
-	/// <summary>	Full pathname of the reversed file. </summary>
 	std::vector<GridCell*> reversedPath;
 	for (int i = path.size() - 1; i > 0; i--)
 		reversedPath.push_back(path[i]);
@@ -180,18 +164,13 @@ irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float spe
 {
 	if (finalPath.size() == 0)
 		return pos;
-	/// <summary>	Zero-based index of the. </summary>
 	int index = 1;
 
-	/// <summary>	The next position. </summary>
 	irr::core::vector3df nextPos;
 
-	/// <summary>	. </summary>
 	nextPos.X = finalPath[finalPath.size() - index]->x;
-	/// <summary>	. </summary>
 	nextPos.Z = finalPath[finalPath.size() - index]->y;
 
-	/// <summary>	The distance. </summary>
 	irr::core::vector3df distance = nextPos - pos;
 
 	if (distance.getLength() < 12)

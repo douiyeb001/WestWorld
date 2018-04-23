@@ -2,12 +2,7 @@
 #include "GameManager.h"
 #include "TestLevelState.h"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Default constructor. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Default constructor
 CGameManager::CGameManager()
 {
 	// Irrlicht device
@@ -17,24 +12,13 @@ CGameManager::CGameManager()
 	ChangeState(TestLevelState::Instance());
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Default destructor. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Default destructor
 CGameManager::~CGameManager()
 {
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Changes the game state, calls the existing states Clear function before the next states Init function </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <param name="pState">	[in,out] If non-null, the state. </param>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Changes the game state, calls the existing states Clear
+//! function before the next states Init function
 void CGameManager::ChangeState(CGameState * pState)
 {
 	if (m_pGameState)
@@ -46,29 +30,16 @@ void CGameManager::ChangeState(CGameState * pState)
 	}
 }
 
-//! 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Holds a pointer to the current states, (level) Update function.
-/// 			The Update will be the game loop for the current state </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Holds a pointer to the current states, (level) Update function
+//! The Update will be the game loop for the current state
 void CGameManager::Update()
 {
 	m_pGameState->Update(this);
 }
 
-//! 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Creates the Irrlicht device and get pointers to the main subsytems for later use, 
-/// 			the Game manager is the central interface point to the rendering engine </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Creates the Irrlicht device and get pointers to the main subsytems
+//! for later use, the Game manager is the central interface point to
+//! the rendering engine
 void CGameManager::CreateDevice()
 {
 	//Device parameters -> renderer|screen size|colour depth|full window|shadows|vsync|input device
@@ -86,145 +57,60 @@ void CGameManager::CreateDevice()
 	
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	 Returns a pointer to the Irrlicht Device subsystem </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the device. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Returns a pointer to the Irrlicht Device subsystem
 IrrlichtDevice* CGameManager::getDevice()
 {
 	return m_pDevice;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Returns a pointer to the Irrlicht Driver subsystem </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the driver. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Returns a pointer to the Irrlicht Driver subsystem
 IVideoDriver* CGameManager::getDriver()
 {
 	return m_pDriver;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	 Returns a pointer to the Irrlicht SceneManager subsystem </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the scene manager. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Returns a pointer to the Irrlicht SceneManager subsystem
 ISceneManager* CGameManager::getSceneManager()
 {
 	return m_pSceneManager;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Returns a pointer to the Irrlicht GUI subsystem </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the graphical user interface environment. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Returns a pointer to the Irrlicht GUI subsystem
 IGUIEnvironment* CGameManager::getGUIEnvironment()
 {
 	return m_pGUIEnvironment;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Gets the selector. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the selector. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ITriangleSelector* CGameManager::GetSelector()
 {
 	return selector;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Gets collection manager. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the collection manager. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ISceneCollisionManager* CGameManager::GetCollManager()
 {
 	return collManager;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Gets the meta. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the meta. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 IMetaTriangleSelector* CGameManager::GetMeta()
 {
 	return meta;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Gets the animation. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	Null if it fails, else the animation. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ISceneNodeAnimator* CGameManager::GetAnim()
 {
 	return anim;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Sets an animation. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <param name="cam">	[in,out] If non-null, the camera. </param>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void CGameManager::SetAnim(ICameraSceneNode* cam)
 {
-	/// <summary>	. </summary>
 	anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(5,5,5), vector3df(0,-1,0));
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Sets the collision. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void CGameManager::SetCollision()
 {
-	/// <summary>	The nodes. </summary>
 	core::array<scene::ISceneNode *> nodes;
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Find all the nodes. </summary>
-	///
-	/// <remarks>	Rache, 23-Apr-18. </remarks>
-	///
-	/// <param name="scene::ESNT_ANY, nodes">	The first parameter. </param>
-	/// <param name="nodes">	The second parameter. </param>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	m_pSceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); 
+	m_pSceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
 
 	for (u32 i = 0; i < nodes.size(); ++i)
 	{
@@ -269,17 +155,9 @@ void CGameManager::SetCollision()
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Main event handler derived from IEventHandler, this will be passed down to the current states keyboard and Mouse handler. 
-/// 			The state controls its own keyboard and mouse events. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <param name="event">	The event. </param>
-///
-/// <returns>	True if it succeeds, false if it fails. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Main event handler derived from IEventHandler, this
+//! will be passed down to the current states keyboard and Mouse handler.
+//! The state controls its own keyboard and mouse events.
 bool CGameManager::OnEvent(const SEvent& event)
 {
 	if (!m_pDriver)
@@ -302,23 +180,11 @@ bool CGameManager::OnEvent(const SEvent& event)
 	return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Game manager general Initialisation function. Also initialise or load each of the plugable managers </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//! Game manager general Initialisation function. Also initialise or
+//! load each of the plugable managers
 void CGameManager::Init()
 {
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	Gets the mouse. </summary>
-///
-/// <remarks>	Rache, 23-Apr-18. </remarks>
-///
-/// <returns>	The mouse. </returns>
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char CGameManager::GetMouse()
 {
