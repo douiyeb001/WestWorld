@@ -2,7 +2,7 @@
 #include <irrlicht.h>
 
 #include "IDFLAGS.h"
-#include "MouseInput.h"
+//#include "MouseInput.h"
 
 using namespace irr;
 using namespace video;
