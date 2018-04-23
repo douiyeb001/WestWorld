@@ -1,6 +1,15 @@
 #include "AStar.h"
 #include <map>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Constructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="startNode_">	[in,out] If non-null, the start node. </param>
+/// <param name="goalNode_"> 	[in,out] If non-null, the goal node. </param>
+/// <param name="Obstacle">  	True to obstacle. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)]) {
 	//bool test = Obstacle[0];
@@ -11,33 +20,60 @@ AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, bool O
 			CellDictionary.insert(std::pair<int, GridCell>(coordinatesToID(x*Cell_Size, z*Cell_Size), GridCell(x*Cell_Size + Cell_Size / 2, z*Cell_Size + Cell_Size / 2, NULL, Obstacle[coordinatesToID(x*Cell_Size, z*Cell_Size)])));
 	//CellDictionary[coordinatesToID(x,z)] = GridCell(x,z,NULL);
 
+	/// <summary>	The xcoord. </summary>
 	int xcoord = startNode_->getAbsolutePosition().X;
+	/// <summary>	The zcoord. </summary>
 	int zcoord = startNode_->getAbsolutePosition().Z;
 
+	/// <summary>	The possible next cells.reserve. </summary>
 	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)));
+	/// <summary>	The possible next cells.push back. </summary>
 	possibleNextCells.push_back(&(CellDictionary[coordinatesToID(xcoord, zcoord)]));
 
 
+	/// <summary>	The xcoord goal. </summary>
 	int xcoordGoal = goalNode_->getAbsolutePosition().X;
+	/// <summary>	The zcoord goal. </summary>
 	int zcoordGoal = goalNode_->getAbsolutePosition().Z;
 
 	(CellDictionary[coordinatesToID(xcoord, zcoord)]).AssignParent(xcoord, zcoord, xcoordGoal, zcoordGoal, NULL, false);
 	goalCell = &CellDictionary[coordinatesToID(xcoordGoal, zcoordGoal)];
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Calls the findPath() function. </summary>
+	///
+	/// <remarks>	Rache, 23-Apr-18. </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	findPath();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Destructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 AStar::~AStar() {
 
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Next cell. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <returns>	Null if it fails, else a pointer to a GridCell. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 GridCell* AStar::nextCell() {
 
+	/// <summary>	The best f. </summary>
 	float bestF = 999999.0f;
 
+	/// <summary>	The next cell. </summary>
 	GridCell* nextCell = NULL;
+	/// <summary>	Zero-based index of the. </summary>
 	int idx = -1;
 
 	for (int i = 0; i < possibleNextCells.size(); i++)
@@ -55,16 +91,27 @@ GridCell* AStar::nextCell() {
 	return nextCell;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Searches for the first path. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void AStar::findPath() {
+	/// <summary>	The current cell. </summary>
 	GridCell* currentCell = nextCell();
 
 	if (currentCell == goalCell) {
+		/// <summary>	. </summary>
 		finalPath = ReversePath(currentCell->pathToCell);
 		return;
 	}
 	if (possibleNextCells.size() > 2000)
+		/// <summary>	The te. </summary>
 		int te = 0;
+	/// <summary>	The x position. </summary>
 	int xPos = currentCell->x;
+	/// <summary>	The y position. </summary>
 	int yPos = currentCell->y;
 	for (int x = -1; x <= 1; x++) {
 		for (int z = -1; z <= 1; z++) {
@@ -82,36 +129,81 @@ void AStar::findPath() {
 	findPath();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Reverse path. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="path">	[in,out] If non-null, full pathname of the file. </param>
+///
+/// <returns>	Null if it fails, else a std::vector&lt;GridCell*&gt; </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
+	/// <summary>	Full pathname of the reversed file. </summary>
 	std::vector<GridCell*> reversedPath;
 	for (int i = path.size() - 1; i > 0; i--)
 		reversedPath.push_back(path[i]);
 	return reversedPath;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Coordinates to identifier. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="x">	The x coordinate. </param>
+/// <param name="z">	The z coordinate. </param>
+///
+/// <returns>	An int. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int AStar::coordinatesToID(int x, int z) {
+	/// <summary>	The test. </summary>
 	int test = ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
 	return ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
 	//return (x / Cell_Size)*World_Size + (World_Size / Cell_Size * World_Size / Cell_Size) / 2 + (z / Cell_Size) + (World_Size / Cell_Size) / 10;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Next path position. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pos">  	The position. </param>
+/// <param name="speed">	The speed. </param>
+///
+/// <returns>	An irr::core::vector3df. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
 {
 	if (finalPath.size() == 0)
 		return pos;
+	/// <summary>	Zero-based index of the. </summary>
 	int index = 1;
 
+	/// <summary>	The next position. </summary>
 	irr::core::vector3df nextPos;
 
+	/// <summary>	. </summary>
 	nextPos.X = finalPath[finalPath.size() - index]->x;
+	/// <summary>	. </summary>
 	nextPos.Z = finalPath[finalPath.size() - index]->y;
 
+	/// <summary>	The distance. </summary>
 	irr::core::vector3df distance = nextPos - pos;
 
 	if (distance.getLength() < 12)
 	{
 		finalPath.erase(finalPath.end() - index);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	The normalized distance. </summary>
+	///
+	/// <remarks>	Rache, 23-Apr-18. </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	distance.normalize();
 

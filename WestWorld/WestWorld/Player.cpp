@@ -1,8 +1,25 @@
 #include "Player.h"
 #include <iostream>
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// namespace: std
+//
+// summary:	.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 using namespace std;
-	
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Constructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="smgr">  	[in,out] If non-null, the smgr. </param>
+/// <param name="driver">	[in,out] If non-null, the driver. </param>
+/// <param name="anim">  	[in,out] If non-null, the animation. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* anim) {
 	// constructor
 	pDriver = driver;
@@ -12,13 +29,31 @@ Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* ani
 
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Destructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Player::~Player() {
-	// destructor
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Handles the movement. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::HandleMovement() {
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Creates a player. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="smgr">	[in,out] If non-null, the smgr. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::CreatePlayer(ISceneManager* smgr) {
 	SKeyMap pKeyMap[9];
@@ -43,16 +78,44 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Gets the camera. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <returns>	Null if it fails, else the camera. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Ray create. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pSelector">	[in,out] If non-null, the selector. </param>
+/// <param name="pMeta">		[in,out] If non-null, the meta. </param>
+/// <param name="pPlayer">  	[in,out] If non-null, the player. </param>
+/// <param name="smgr">			[in,out] If non-null, the smgr. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
+	/// <summary>	Manager for collection. </summary>
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
-	// Add it to the meta selector, which will take a reference to it
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Add it to the meta selector, which will take a reference to it. And drop my reference to it, so that the meta selector owns it. </summary>
+	///
+	/// <remarks>	Rache, 23-Apr-18. </remarks>
+	///
+	/// <param name="pSelector">	The first parameter. </param>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	pMeta->addTriangleSelector(pSelector);
-	// And drop my reference to it, so that the meta selector owns it.
 
 	ray.start = pPlayer->getPosition();
 	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 10.0f;

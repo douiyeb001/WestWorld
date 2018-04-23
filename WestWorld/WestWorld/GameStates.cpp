@@ -9,64 +9,117 @@
 //#define new DEBUG_NEW
 //#endif
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Default constructor </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//! Default constructor
 CGameState::CGameState()
 {
 
 }
 
-//! Default destructor
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Default destructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CGameState::~CGameState()
 {
 
 }
 
-//! Overridden by subclass.
-//! Change state, overridden by subclasses
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Overridden by subclass.  Change state, overridden by subclasses </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+/// <param name="pState">  	[in,out] If non-null, the state. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::ChangeState(CGameManager * pManager, CGameState * pState)
 {
 	pManager->ChangeState(pState);
 }
 
-//! Implemented by subclass
-//! Keyboard event for state, main keyboard events
-//! passed down by Game manager. 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Implemented by subclass Keyboard event for state, main keyboard events passed down by Game manager.  </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::KeyboardEvent(CGameManager* pManager)
 {
 
 }
 
-//! Implemented by subclass
-//! Mouse event for state, main mouse events
-//! passed down by Game manager. 
+//! 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Implemented by subclass Mouse event for state, main mouse events passed down by Game manager.  </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::MouseEvent(CGameManager* pManager)
 {
 
 }
 
-//! Implemented by subclass
-//! Initialisation, loads data required for state. 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Implemented by subclass Initialisation, loads data required for state.  </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::Init(CGameManager * pManager)
 {
 
 }
 
-//! Implemented by subclass
-//! Update, moves and renders screen.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Implemented by subclass Update, moves and renders screen. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::Update(CGameManager * pManager)
 {
 
 }
 
-//! Implemented by subclass
-//! Clear, tidy up
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	C Implemented by subclass Clear, tidy up </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::Clear(CGameManager* pManager)
 {
 
 }
 
-//! Fades the screen In/Out
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	 Fades the screen In/Out </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pManager">	[in,out] If non-null, the manager. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGameState::FadeInOut(CGameManager* pManager)
 {
 	// fade in and disable cursor
