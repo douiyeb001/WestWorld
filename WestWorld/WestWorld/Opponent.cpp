@@ -13,7 +13,7 @@
 using namespace irr;
 
 Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale)
-: scene::IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), PassCount(0), path(_path), ground(_ground), active(true), speed(1)
+: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), ground(_ground), active(true), speed(1)
 {
 	setMesh(mesh);
 }

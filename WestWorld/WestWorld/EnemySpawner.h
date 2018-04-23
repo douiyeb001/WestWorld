@@ -9,6 +9,7 @@
 #include "IMesh.h"
 #include "AStar.h" 
 #include "Opponent.h"
+#include "EnemyManager.h"
 
 namespace irr
 {
@@ -23,10 +24,14 @@ namespace irr
 			EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 				const core::vector3df& position,
 				const core::vector3df& rotation,
-				const core::vector3df& scale, scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)]);
+				const core::vector3df& scale, 
+				scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+				EnemyManager* pEnemyManager);
 
 			//! destructor
 			virtual ~EnemySpawner();
+
+			EnemyManager* _pEnemyManager;
 
 			//! frame
 			virtual void OnRegisterSceneNode();
@@ -103,7 +108,6 @@ namespace irr
 
 			s32 PassCount;
 			bool ReadOnlyMaterials;
-
 			float countdownSpawn;
 		};
 

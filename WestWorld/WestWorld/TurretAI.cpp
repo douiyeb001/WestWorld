@@ -22,8 +22,8 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IMetaTriangleSelector* pMeta
 
 	if ((enemyTarget->getPosition().X >= turret->getPosition().X - radius && enemyTarget->getPosition().X <= turret->getPosition().X +radius) && 
 		(enemyTarget->getPosition().Z >= turret->getPosition().Z - radius && turret->getPosition().Z- radius ) &&turret != NULL) {
-		pMeta->removeTriangleSelector(enemyTarget->getTriangleSelector());
-		pSmgr->addToDeletionQueue(enemyTarget);
+		//pMeta->removeTriangleSelector(enemyTarget->getTriangleSelector());
+		//pSmgr->addToDeletionQueue(enemyTarget);
 		
 		
 	}	

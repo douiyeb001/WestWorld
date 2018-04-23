@@ -2,7 +2,6 @@
 // This file is part of the "Irrlicht Engine".
 // For conditions of distribution and use, see copyright notice in irrlicht.h
 
-#include "EnemySpawner.h"
 #include "IVideoDriver.h"
 #include "ISceneManager.h"
 #include "S3DVertex.h"
@@ -11,7 +10,7 @@
 #include "IAnimatedMesh.h"
 #include "IMaterialRenderer.h"
 #include "IFileSystem.h"
-
+#include "EnemySpawner.h"
 namespace irr
 {
 	namespace scene
@@ -21,10 +20,14 @@ namespace irr
 
 		//! constructor
 		EnemySpawner::EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
-			const core::vector3df& position, const core::vector3df& rotation,
-			const core::vector3df& scale, scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)])
+			const core::vector3df& position,
+			const core::vector3df& rotation,
+			const core::vector3df& scale,
+			scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+			EnemyManager* pEnemyManager)
 			: IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), Shadow(0),
-			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f)
+			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager)
+			
 		{
 #ifdef _DEBUG
 			setDebugName("EnemySpawner");
@@ -413,7 +416,7 @@ namespace irr
 				newManager = SceneManager;
 
 			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
-				newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle);
+				newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, _pEnemyManager);
 
 			nb->cloneMembers(this, newManager);
 			nb->ReadOnlyMaterials = ReadOnlyMaterials;

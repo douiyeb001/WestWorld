@@ -27,7 +27,7 @@ void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 		
 			{
 				imeta->removeTriangleSelector(item->getTriangleSelector());
-				item->item->remove();
+				item->remove();
 			}
 		};
 	}
