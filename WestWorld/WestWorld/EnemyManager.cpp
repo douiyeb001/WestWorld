@@ -11,17 +11,25 @@ EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector*
 	idriver = driver;
 }
 
+void EnemyManager::Update() {
+	// update all the enemies
+	for (Opponent* op : opponentList) {
+		op->Update();
+	}
 
-
-void EnemyManager::FillList(Opponent* enemy){
-
-	opponentList.push_back(enemy);
+	// give turret ai list of enemies ~ events / not in update next version
 
 
 }
 
+
+
+void EnemyManager::FillList(Opponent* enemy){
+	opponentList.push_back(enemy);
+}
+
 void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
-	imeta->addTriangleSelector(iselector);
+	//imeta->addTriangleSelector(iselector);
 	for (Opponent* item : opponentList) {
 		if (hitObject == item) {
 		

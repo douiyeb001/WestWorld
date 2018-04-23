@@ -24,8 +24,9 @@ namespace irr
 			EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 				const core::vector3df& position,
 				const core::vector3df& rotation,
-				const core::vector3df& scale, 
+				const core::vector3df& scale,
 				scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+				IMetaTriangleSelector* meta,
 				EnemyManager* pEnemyManager);
 
 			//! destructor
@@ -91,8 +92,9 @@ namespace irr
 			scene::ISceneNode* goalNode;
 			bool obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
 			void SpawnOpponent();
-			std::vector<Opponent*> enemies;
+			//std::vector<Opponent*> enemies;  // remove this
 			ISceneManager* smgr;
+			IMetaTriangleSelector* meta;
 			void Update();
 
 		protected:

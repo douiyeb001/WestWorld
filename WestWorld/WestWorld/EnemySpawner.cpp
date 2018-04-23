@@ -15,15 +15,13 @@ namespace irr
 {
 	namespace scene
 	{
-
-
-
 		//! constructor
 		EnemySpawner::EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 			const core::vector3df& position,
 			const core::vector3df& rotation,
 			const core::vector3df& scale,
 			scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+			IMetaTriangleSelector* imeta,
 			EnemyManager* pEnemyManager)
 			: IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), Shadow(0),
 			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager)
@@ -34,6 +32,7 @@ namespace irr
 #endif
 
 			setMesh(mesh);
+			meta = imeta;
 		}
 
 
@@ -416,7 +415,7 @@ namespace irr
 				newManager = SceneManager;
 
 			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
-				newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, _pEnemyManager);
+				newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager);
 
 			nb->cloneMembers(this, newManager);
 			nb->ReadOnlyMaterials = ReadOnlyMaterials;
@@ -429,9 +428,21 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/Barrel.obj"), smgr->getRootSceneNode(), smgr, -2, smgr->getSceneNodeFromName("Ground"), path->finalPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(2.0f, 2.0f, 2.0f));
+			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/Barrel.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->finalPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(2.0f, 2.0f, 2.0f));
+			
+		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
+		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+		//	spawnPoint->setPosition(position);
+			scene::ITriangleSelector* selector = smgr->createTriangleSelector(spawnPoint->getMesh(), spawnPoint);
+			spawnPoint->setTriangleSelector(selector);
+			meta->addTriangleSelector(selector);
+			
+			_pEnemyManager->FillList(spawnPoint);
+
+			selector->drop();
+			//meta->drop();
 			spawnPoint->drop();
-			enemies.push_back(spawnPoint);
+			
 		}
 
 		void EnemySpawner::Update() {
@@ -440,8 +451,8 @@ namespace irr
 				SpawnOpponent();
 				countdownSpawn = 100.0f;
 			}
-			for (int i = 0; i < ((enemies).size()); i++)
-				(enemies[i])->Update();
+			//for (int i = 0; i < ((enemies).size()); i++)
+				//(enemies[i])->Update();
 		}
 	} // end namespace scene
 } // end namespace irr

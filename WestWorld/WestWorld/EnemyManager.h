@@ -3,7 +3,7 @@
 #define EnemyManager_H
 
 #include <irrlicht.h>
-#include <list>
+//#include <list>
 #include <vector>
 #include "Opponent.h" 
 //#include <vector>
@@ -23,6 +23,7 @@ public:
 	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver);
 	void CheckCollision(scene::ISceneNode* collidedObject);
 	void FillList(Opponent* enemy);
+	void Update();
 	~EnemyManager();
 
 	std::vector<Opponent*> opponentList;

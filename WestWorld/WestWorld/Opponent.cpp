@@ -307,11 +307,9 @@ void Opponent::setMesh(scene::IMesh* mesh)
 {
 	if (mesh)
 	{
-		mesh->grab();
-		if (Mesh)
-			Mesh->drop();
-
 		Mesh = mesh;
+		enemy = SceneManager->addMeshSceneNode(mesh, 0, 17);
+		//
 		copyMaterials();
 	}
 }
