@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayState.h" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayState.cpp" />

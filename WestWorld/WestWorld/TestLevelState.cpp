@@ -55,9 +55,12 @@ void TestLevelState::Init(CGameManager* pManager) {
 		}
 	}
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
-	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
-	enemyManager = new EnemyManager(pManager->getSceneManager(), pManager->GetSelector(), pManager->GetMeta(), pManager->getDriver());
-	enemyManager->CreateEnemy();
+	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(100,0,200), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles);
+	spawnPoint->drop();
+	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
+	//enemy->drop();
+//	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
+	(*spawnPoint).SpawnOpponent();
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -67,10 +70,9 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 
-	enemy->Update();
-
 	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->GetMeta(),pManager->GetAnim());
-
+	//enemy->Update();
+	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
 
 	pManager->getGUIEnvironment()->drawAll();

@@ -10,6 +10,7 @@
 #include "Opponent.h"
 #include "TurretAI.h"
 #include "AStar.h"
+#include "EnemySpawner.h"
 #include <vector>
 #include "EnemyManager.h"
 
@@ -37,6 +38,7 @@ private:
 	TurretAI* pTurretAI;
 	Opponent* enemy;
 	PlayerBase* playerCore;
+	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
