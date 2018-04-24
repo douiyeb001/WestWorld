@@ -2,12 +2,11 @@
 //#include "MouseInput.h"
 
 
-
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, Currency* iManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
-
+	cManager = iManager;
 }
 
 bool hasSpawnedTurret;
@@ -18,8 +17,8 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	//Tim & Daniel spawning objects
 	scene::IMesh* barrelMesh = smgr->getMesh("meshes/Barrel.obj");
 	scene::IMeshSceneNode* barrelNode = 0;
-	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, 15);
-
+	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
+	cManager->BuildingCost(barrelNode);
 	if (barrelNode)
 	{
 		barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);

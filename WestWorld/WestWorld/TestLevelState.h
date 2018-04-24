@@ -5,6 +5,7 @@
 #include "GamePlayState.h"
 #include "GUIBase.h"
 #include "PlaceObjects.h" 
+#include "Currency.h"
 #include "Player.h"
 #include "IDFLAGS.h"
 #include "Opponent.h"
@@ -31,6 +32,7 @@ private:
 	ICameraSceneNode* cameraNode;
 	PlayerHealthBar* healthbar;
 	PlaceObjects* PoManager;
+	Currency* cManager;
 	Player* pPLayer; 
 	Opponent* enemy;
 	PlayerBase* playerCore;

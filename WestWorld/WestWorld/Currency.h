@@ -10,13 +10,13 @@ using namespace core;
 class Currency
 {
 public:
-	Currency(int* playerCurrency);
+	Currency();
 	void SellBuilding();
-	void BuildingCost();
+	void BuildingCost(IMeshSceneNode* buildNode);
 	void EnemyCurrency();
 	//int playerCurrency;
 
-	int* playerCurrency;
+	int playerCurrency;
 
 private:	
 };

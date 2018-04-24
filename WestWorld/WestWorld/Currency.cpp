@@ -2,13 +2,14 @@
 
 int sellValue;
 int enemyValue;
-int turretCost;
-int obstacleCost;
+int turretCost = 50;
+int obstacleCost = 50;
 
-Currency::Currency(int* pcurrency)
+Currency::Currency()
 {
-	playerCurrency = pcurrency;
+	playerCurrency = 50;
 }
+
 
 void Currency::SellBuilding()
 {
@@ -24,15 +25,20 @@ void Currency::SellBuilding()
 	playerCurrency += sellValue;
 }
 
-void Currency::BuildingCost()
+void Currency::BuildingCost(IMeshSceneNode* buildNode)
 {
-	if (true)//turret
+
+	if (buildNode->getID() == 15 && playerCurrency >= obstacleCost)//obstacle
+	{
+		playerCurrency -= obstacleCost;
+	}
+	else if (buildNode->getID() == 16 && playerCurrency >= turretCost)//turret
 	{
 		playerCurrency -= turretCost;
 	}
-	else if (true)//obstacle
+	else
 	{
-		playerCurrency -= obstacleCost;
+		//message not enough currency
 	}
 }
 

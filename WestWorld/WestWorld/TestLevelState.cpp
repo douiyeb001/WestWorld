@@ -28,7 +28,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager());
+	cManager = new Currency();
+	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), cManager);
 	
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
 	std::fill(std::begin(obstacles), std::end(obstacles), false);
@@ -56,6 +57,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	}
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
+	
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {

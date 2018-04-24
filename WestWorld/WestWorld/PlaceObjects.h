@@ -2,6 +2,7 @@
 #include <irrlicht.h>
 
 #include "IDFLAGS.h"
+#include "Currency.h"
 //#include "MouseInput.h"
 
 using namespace irr;
@@ -10,12 +11,10 @@ using namespace scene;
 using namespace std;
 using namespace core;
 
-
-
 class PlaceObjects
 {
 public:
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, Currency* cManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta);
 	void CreateCollision(ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta);
@@ -30,6 +29,7 @@ public:
 private:
 	IVideoDriver * driver;
 	ISceneManager * smgr;
+	Currency * cManager;
 	
 	IMeshSceneNode* node;
 };

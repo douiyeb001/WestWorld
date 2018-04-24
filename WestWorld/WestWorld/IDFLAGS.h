@@ -6,7 +6,7 @@ enum IDFlag
 	// I use this ISceneNode ID to indicate a scene node that is
 	// not pickable by getSceneNodeAndCollisionPointFromRay()
 	spawnGround = 14,
-	spawnedObject = 15,
+	spawnedObstacle = 15,
 	ID_IsNotPickable = 0
 };
 
