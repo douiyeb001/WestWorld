@@ -55,10 +55,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 		SpawnTurret(intersection, selector, meta);
 		CreateCollision(anim, camera, meta);
 	}
-
-
-
-	 //collidedObject = 0;
+	collidedObject->drop();
 }
 
 void PlaceObjects::Update(){
