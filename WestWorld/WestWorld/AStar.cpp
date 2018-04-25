@@ -1,6 +1,15 @@
 #include "AStar.h"
 #include <map>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Constructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="startNode_">	[in,out] If non-null, the start node. </param>
+/// <param name="goalNode_"> 	[in,out] If non-null, the goal node. </param>
+/// <param name="Obstacle">  	True to obstacle. </param>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, std::vector<bool> Obstacle) {
 	//bool test = Obstacle[0];
@@ -18,21 +27,38 @@ AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, std::v
 	startCell = &(CellDictionary[coordinatesToID(xcoord, zcoord)]);
 	possibleNextCells.push_back(startCell);
 
-
 	int xcoordGoal = goalNode_->getAbsolutePosition().X;
 	int zcoordGoal = goalNode_->getAbsolutePosition().Z;
 
 	(CellDictionary[coordinatesToID(xcoord, zcoord)]).AssignParent(xcoord, zcoord, xcoordGoal, zcoordGoal, NULL, false);
 	goalCell = &CellDictionary[coordinatesToID(xcoordGoal, zcoordGoal)];
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Calls the findPath() function. </summary>
+	///
+	/// <remarks>	Rache, 23-Apr-18. </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	findPath();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Destructor. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 AStar::~AStar() {
 
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Next cell. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <returns>	Null if it fails, else a pointer to a GridCell. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 GridCell* AStar::nextCell() {
 
@@ -55,6 +81,12 @@ GridCell* AStar::nextCell() {
 
 	return nextCell;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Searches for the first path. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AStar::findPath() {
 	GridCell* currentCell = nextCell();
@@ -99,6 +131,16 @@ void AStar::RecalculatePath(core::vector3df spawnedPosition) {
 	//}
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Reverse path. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="path">	[in,out] If non-null, full pathname of the file. </param>
+///
+/// <returns>	Null if it fails, else a std::vector&lt;GridCell*&gt; </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
 	std::vector<GridCell*> reversedPath;
 	for (int i = path.size() -1 ; i > 0; i--)
@@ -106,7 +148,19 @@ std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
 	return reversedPath;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Coordinates to identifier. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="x">	The x coordinate. </param>
+/// <param name="z">	The z coordinate. </param>
+///
+/// <returns>	An int. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int AStar::coordinatesToID(int x, int z) {
+	/// <summary>	The test. </summary>
 	int test = ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
 	return ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
 	//return (x / Cell_Size)*World_Size + (World_Size / Cell_Size * World_Size / Cell_Size) / 2 + (z / Cell_Size) + (World_Size / Cell_Size) / 10;
@@ -119,6 +173,18 @@ core::vector3df AStar::getCentre(core::vector3df position) {
 	return centre;
 }
 /*irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	Next path position. </summary>
+///
+/// <remarks>	Rache, 23-Apr-18. </remarks>
+///
+/// <param name="pos">  	The position. </param>
+/// <param name="speed">	The speed. </param>
+///
+/// <returns>	An irr::core::vector3df. </returns>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
 {
 	if (finalPath.size() == 0)
 		return pos;
@@ -135,6 +201,12 @@ core::vector3df AStar::getCentre(core::vector3df position) {
 	{
 		finalPath.erase(finalPath.end() - index);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	The normalized distance. </summary>
+	///
+	/// <remarks>	Rache, 23-Apr-18. </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	distance.normalize();
 
