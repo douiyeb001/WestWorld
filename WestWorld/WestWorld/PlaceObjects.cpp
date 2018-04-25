@@ -16,7 +16,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 {
 
 	//Tim & Daniel spawning objects
-	scene::IMesh* barrelMesh = smgr->getMesh("meshes/Barrel.obj");
+	scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 	scene::IMeshSceneNode* barrelNode = 0;
 	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, 15);
 
