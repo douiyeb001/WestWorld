@@ -28,8 +28,9 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
-	currencyUI = new CurrencyUI(L"Currency");
 	cManager = new Currency();
+	currencyUI = new CurrencyUI(L"Currency", cManager);
+	
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), cManager);
 	
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];

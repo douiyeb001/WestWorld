@@ -22,8 +22,10 @@ public:
 	void BuildingCost(IMeshSceneNode* buildNode);
 	void EnemyCurrency();
 
+	short int playerCurrency;
+
 private:	
-	int playerCurrency;
+	
 };
 
 #endif
