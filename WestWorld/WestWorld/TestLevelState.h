@@ -41,7 +41,7 @@ private:
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
-	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+	std::vector<bool> obstacles;
 
 };
 #endif

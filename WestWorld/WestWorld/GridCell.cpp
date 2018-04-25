@@ -36,3 +36,11 @@ void GridCell::AssignParent(int _x, int _y, int goalX, int goalY, GridCell* _par
 int GridCell::EstimateRemainingCost(int x, int y, int goalY, int goalX) {
 	return g + abs(goalX - x + goalY - y);
 }
+
+void GridCell::Clear() {
+	parent = 0;
+	pathToCell.clear();
+	g = 0;
+	f = 0;
+	isFindingPath = true;
+}

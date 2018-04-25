@@ -2,7 +2,7 @@
 #include <map>
 
 
-AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)]) {
+AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, std::vector<bool> Obstacle) {
 	//bool test = Obstacle[0];
 	//int test2 = coordinatesToID(25*Cell_Size, -100*Cell_Size);
 	//CellDictionary = std::map<int, GridCell> (rint(World_Size / Cell_Size)*rint(World_Size / Cell_Size));
@@ -15,7 +15,8 @@ AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, bool O
 	int zcoord = startNode_->getAbsolutePosition().Z;
 
 	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)));
-	possibleNextCells.push_back(&(CellDictionary[coordinatesToID(xcoord, zcoord)]));
+	startCell = &(CellDictionary[coordinatesToID(xcoord, zcoord)]);
+	possibleNextCells.push_back(startCell);
 
 
 	int xcoordGoal = goalNode_->getAbsolutePosition().X;
@@ -59,7 +60,10 @@ void AStar::findPath() {
 	GridCell* currentCell = nextCell();
 
 	if (currentCell == goalCell) {
-		finalPath = ReversePath(currentCell->pathToCell);
+		possibleNextCells.clear();
+		if (initialPath.size() == 0)
+			initialPath = ReversePath(currentCell->pathToCell);
+		currentPath = ReversePath(currentCell->pathToCell);
 		return;
 	}
 	if (possibleNextCells.size() > 2000)
@@ -71,7 +75,7 @@ void AStar::findPath() {
 			if ((x != 0 || z != 0)) {
 				int id = coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2);
 				bool test = (CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath;
-				if ((CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath) {
+				if ((CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath && !(CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).obstacle) {
 					(CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)].AssignParent(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2, goalCell->x, goalCell->y, currentCell, (abs(x) == abs(z))));
 					possibleNextCells.push_back(&(CellDictionary[coordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]));
 				}
@@ -82,9 +86,22 @@ void AStar::findPath() {
 	findPath();
 }
 
+
+void AStar::RecalculatePath(core::vector3df spawnedPosition) {
+	CellDictionary[coordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
+	//if (std::find(std::begin(currentPath), std::end(currentPath), (&(CellDictionary[coordinatesToID(spawnedPosition.X, spawnedPosition.Z)]))) != std::end(currentPath)) {
+	for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
+		for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
+			CellDictionary[coordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
+
+	possibleNextCells.push_back(startCell);
+		findPath();
+	//}
+}
+
 std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
 	std::vector<GridCell*> reversedPath;
-	for (int i = path.size() - 1; i > 0; i--)
+	for (int i = path.size() -1 ; i > 0; i--)
 		reversedPath.push_back(path[i]);
 	return reversedPath;
 }
@@ -95,7 +112,13 @@ int AStar::coordinatesToID(int x, int z) {
 	//return (x / Cell_Size)*World_Size + (World_Size / Cell_Size * World_Size / Cell_Size) / 2 + (z / Cell_Size) + (World_Size / Cell_Size) / 10;
 }
 
-irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
+core::vector3df AStar::getCentre(core::vector3df position) {
+	core::vector3df centre = position;
+	centre.X = CellDictionary[coordinatesToID(position.X, position.Z)].x;
+	centre.Z = CellDictionary[coordinatesToID(position.X, position.Z)].y;
+	return centre;
+}
+/*irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
 {
 	if (finalPath.size() == 0)
 		return pos;
@@ -116,4 +139,4 @@ irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float spe
 	distance.normalize();
 
 	return (pos + speed * distance);
-}
+}*/

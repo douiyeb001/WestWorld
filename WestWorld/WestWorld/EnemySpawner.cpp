@@ -20,11 +20,11 @@ namespace irr
 			const core::vector3df& position,
 			const core::vector3df& rotation,
 			const core::vector3df& scale,
-			scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+			scene::ISceneNode* goalNode_, std::vector<bool> Obstacle,
 			IMetaTriangleSelector* imeta,
 			EnemyManager* pEnemyManager)
 			: IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), Shadow(0),
-			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager)
+			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager), obstacle(Obstacle)
 			
 		{
 #ifdef _DEBUG
@@ -428,7 +428,7 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/Barrel.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->finalPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(2.0f, 2.0f, 2.0f));
+			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/Barrel.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(2.0f, 2.0f, 2.0f));
 			
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));

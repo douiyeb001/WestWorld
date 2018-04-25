@@ -1,9 +1,10 @@
 #include "PlaceObjects.h"
+#include "GridCell.h"
 //#include "MouseInput.h"
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner): spawner(_spawner)
 {
 	driver = iDriver;
 	smgr = iSmgr;
@@ -30,6 +31,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 		meta->addTriangleSelector(selector);
 		selector->drop();
 		meta->drop();
+		spawner->path->RecalculatePath(position);
 	}
 	barrelNode = 0;
 }
@@ -51,9 +53,10 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
 	//scene::ISceneNode * selectedSceneNode =
 	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
-			
+	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
-		SpawnTurret(intersection, selector, meta);
+		SpawnTurret(spawner->path->getCentre(intersection), selector, meta);
+		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		CreateCollision(anim, camera, meta);
 	}
 

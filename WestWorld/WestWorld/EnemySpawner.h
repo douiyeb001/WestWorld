@@ -25,7 +25,7 @@ namespace irr
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,
-				scene::ISceneNode* goalNode_, bool Obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)],
+				scene::ISceneNode* goalNode_, std::vector<bool> Obstacle,
 				IMetaTriangleSelector* meta,
 				EnemyManager* pEnemyManager);
 
@@ -90,7 +90,7 @@ namespace irr
 			virtual bool removeChild(ISceneNode* child);
 			AStar* path;
 			scene::ISceneNode* goalNode;
-			bool obstacle[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+			std::vector<bool> obstacle;
 			void SpawnOpponent();
 			//std::vector<Opponent*> enemies;  // remove this
 			ISceneManager* smgr;

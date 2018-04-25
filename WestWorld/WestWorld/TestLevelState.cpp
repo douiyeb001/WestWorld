@@ -28,10 +28,10 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager());
-	
+	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
+		obstacles.push_back(false);
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
-	std::fill(std::begin(obstacles), std::end(obstacles), false);
+	//std::fill(std::begin(obstacles), std::end(obstacles), false);
 
 	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
 	core::list<scene::ISceneNode*>::Iterator it = children.begin();
@@ -58,6 +58,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver());
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(100,0,200), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles, pManager->GetMeta() ,enemyManager);
 	spawnPoint->drop();
+
+	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint);
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
