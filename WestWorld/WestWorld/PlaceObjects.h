@@ -4,6 +4,9 @@
 #include "IDFLAGS.h"
 #include "MouseInput.h"
 #include "EnemySpawner.h"
+#include "Currency.h"
+#include "GUIBase.h"
+//#include "MouseInput.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +120,7 @@ private:
 	IVideoDriver * driver;
 	/// <summary>	The smgr. </summary>
 	ISceneManager * smgr;
+	Currency * cManager;
 	
 	/// <summary>	The node. </summary>
 	IMeshSceneNode* node;

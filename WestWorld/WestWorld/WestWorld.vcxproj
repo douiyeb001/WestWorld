@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="Currency.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="Game.h" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Currency.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="Game.cpp" />

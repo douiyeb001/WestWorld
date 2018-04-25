@@ -5,6 +5,7 @@
 #include "GamePlayState.h"
 #include "GUIBase.h"
 #include "PlaceObjects.h" 
+#include "Currency.h"
 #include "Player.h"
 #include "IDFLAGS.h"
 #include "Opponent.h"
@@ -88,8 +89,10 @@ private:
 	/// <summary>	The healthbar. </summary>
 	PlayerHealthBar* healthbar;
 	/// <summary>	Manager for po. </summary>
+	CurrencyUI* currencyUI;
 	PlaceObjects* PoManager;
 	/// <summary>	The p layer. </summary>
+	Currency* cManager;
 	Player* pPLayer; 
 	/// <summary>	The enemy. </summary>
 	TurretAI* pTurretAI;

@@ -2,6 +2,7 @@
 #define GUIBASE_H
 
 #include <irrlicht.h>
+#include "currency.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +105,20 @@ public:
 	void Draw(IVideoDriver* driver);
 private:
 	ITexture * reticleSprite;
+};
+
+class CurrencyUI {
+public:
+	CurrencyUI(const wchar_t* pText, Currency* cManager);
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	const wchar_t* pText;
+	const wchar_t* pScore;
+private:
+	
+	IGUIStaticText * pStaticText;
+	IGUIStaticText* pScoreText;
+	Currency * cManager;
+
 };
 
 #endif

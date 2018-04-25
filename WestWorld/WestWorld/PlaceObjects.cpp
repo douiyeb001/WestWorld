@@ -8,19 +8,20 @@ PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpa
 {
 	driver = iDriver;
 	smgr = iSmgr;
-
+	cManager = iManager;
 }
 
 bool hasSpawnedTurret;
 
+//This method will create a Turret after the ray has detected ground and update the meta with the Triangleselector of the placed turret
 void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta)
 {
 
 	//Tim & Daniel spawning objects
 	scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 	scene::IMeshSceneNode* barrelNode = 0;
-	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, 15);
-
+	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
+	cManager->BuildingCost(barrelNode);
 	if (barrelNode)
 	{
 		barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -36,18 +37,19 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	barrelNode = 0;
 }
 
+//this method will create collision between the player and the placed turret
 void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta)
 {
 
 	anim = smgr->createCollisionResponseAnimator(
 		meta, camera, core::vector3df(5, 5, 5),
 		core::vector3df(0, 0, 0));
-	//meta->drop(); // I'm done with the meta selector now
 
 	camera->addAnimator(anim);
 	anim->drop(); // I'm done with the animator now
 }
 
+//This method will create a ray after the right mouse button is pressed and check if the ray hits the ground to spawn a new turret
  void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
@@ -59,10 +61,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		CreateCollision(anim, camera, meta);
 	}
-
-
-
-	 //collidedObject = 0;
+	collidedObject->drop();
 }
 
 void PlaceObjects::Update(){

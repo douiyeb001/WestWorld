@@ -30,6 +30,10 @@ void TestLevelState::Init(CGameManager* pManager) {
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
+	cManager = new Currency();
+	currencyUI = new CurrencyUI(L"Currency", cManager);
+	
+	
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
 	//std::fill(std::begin(obstacles), std::end(obstacles), false);
 
@@ -79,6 +83,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//enemy->Update();
 	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
+	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
+
 
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();

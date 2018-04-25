@@ -1,4 +1,5 @@
 #include "GUIBase.h"
+#include <stdio.h> 
 
 PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
 	hpBar = driver->getTexture(bar);
@@ -20,8 +21,32 @@ void Placeable::Draw(IVideoDriver* driver) {
 Reticle::Reticle(IVideoDriver* driver, char const* reticle) {
 	reticleSprite = driver->getTexture(reticle);
 }
+CurrencyUI::CurrencyUI(const wchar_t* _pText, Currency* _cManager) {
+	pText = _pText;
+	cManager = _cManager;
+	//pScore = (const wchar_t*)cManager->playerCurrency;
+}
 
 void Reticle::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
 }
+void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver ) {
+	
+	pStaticText = gui->addStaticText(pText, rect<s32>(20, 30, 220, 50), false);
+//	pText = (const wchar_t)cManager->playerCurrency;
+		//swprintf_s(pText, L"%d", cManager->playerCurrency);
+	//pScoreText = gui->addStaticText(pText, rect<s32>(70, 30, 270, 50), false);
+	IGUIFont* font = gui->getBuiltInFont();
+	
+	//pScoreText = gui->addStaticText(pScore, rect<s32>(70, 30, 270, 50), false);
+	if (font)
+	{
+		font->draw((L"%d", (stringc)cManager->playerCurrency),
+			core::rect<s32>(70, 30, 270, 50),
+			video::SColor(255, 0, 0, 0));
+	}
+	
+}
+
+
 
