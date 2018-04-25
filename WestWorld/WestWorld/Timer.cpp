@@ -1,5 +1,6 @@
 #include "timer.h"
 
+
 Timer::Timer(IrrlichtDevice* device)
 {
 	irrTimer = device->getTimer();
