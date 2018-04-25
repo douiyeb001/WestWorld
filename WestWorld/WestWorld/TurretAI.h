@@ -1,7 +1,6 @@
 #include <irrlicht.h>
 #include <vector>
 #include "Opponent.h"
-#include "Timer.h"
 
 using namespace std;
 using namespace irr;
@@ -13,13 +12,15 @@ using namespace gui;
 class TurretAI
 {
 public:
-	Timer* timer;
+	ITimer* timer;
 	TurretAI();
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IMetaTriangleSelector* pMeta,IrrlichtDevice* pDevice, IVideoDriver* pDriver);
+	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent);
 
 	~TurretAI();
 	std::vector <Opponent*> opList;
-
+private:
+	bool targeted = false;
 };
 
