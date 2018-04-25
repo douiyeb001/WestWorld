@@ -34,16 +34,25 @@ void EnemyManager::FillList(Opponent* enemy){
 
 void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//imeta->addTriangleSelector(iselector);
-	for (Opponent* item : opponentList) {
-		if (hitObject == item) {
-		
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (hitObject == opponentList[i])
 			{
-				imeta->removeTriangleSelector(item->getTriangleSelector());
-				item->remove();
-
+				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+				opponentList[i]->remove();
+				opponentList.erase(opponentList.begin() + i);
 			}
-		};
 	}
+
+	//for (Opponent* item : opponentList) {
+	//	if (hitObject == item) {
+	//	
+	//		{
+	//			imeta->removeTriangleSelector(item->getTriangleSelector());
+	//			item->remove();
+	//			opponentList.remove(opponentList.);
+	//		}
+	//	};
+	//}
 }
 
 EnemyManager::~EnemyManager()
