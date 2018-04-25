@@ -34,6 +34,6 @@ private:
 	vector3df intersection;
 	triangle3df  hitTriangle;
 	ISceneNode* collidedObject;
-
+	void OnShoot(vector3df start, vector3df end);
 };
 #endif // !1

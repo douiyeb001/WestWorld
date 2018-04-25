@@ -56,6 +56,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 
 	ray.start = pPlayer->getPosition();
 	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 100.0f;
+//	OnShoot(pPlayer->getPosition(), ray.end);
 	scene::ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
 			ray,
@@ -63,7 +64,10 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 			hitTriangle,
 			17,0);
 
-	//selectedSceneNode->setPosition(vector3df(10, 10, 10));
+	//create line for shooting
+
+
+	//start timer
 
 	if (selectedSceneNode) {
 		//printf(selectedSceneNode->getDebugName());
@@ -73,4 +77,15 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 		return selectedSceneNode;
 	}
 	//selectedSceneNode->setPosition(vector3d());
+}
+
+void Player::OnShoot(vector3df start, vector3df end) {
+	// timer start, draw line
+	SColor color = SColor(100, 255, 255, 255);
+	SMaterial m;
+	m.Lighting = false;
+	//->getVideoDriver()->setMaterial(m);
+	pDriver->setMaterial(m);
+	pDriver->setTransform(video::ETS_WORLD, core::matrix4());
+	pDriver->draw3DLine(start, end, color);
 }
