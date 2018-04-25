@@ -3,6 +3,7 @@
 
 #include "IDFLAGS.h"
 #include "MouseInput.h"
+#include "EnemySpawner.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +72,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,6 +110,7 @@ public:
 	ISceneNode *collidedObject;
 	/// <summary>	The ray. </summary>
 	core::line3d<f32> ray;
+	EnemySpawner* spawner;
 
 private:
 	/// <summary>	The driver. </summary>

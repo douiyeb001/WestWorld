@@ -98,4 +98,12 @@ private:
 
 };
 
+class Reticle {
+public:
+	Reticle(IVideoDriver* driver, char const* icon);
+	void Draw(IVideoDriver* driver);
+private:
+	ITexture * reticleSprite;
+};
+
 #endif

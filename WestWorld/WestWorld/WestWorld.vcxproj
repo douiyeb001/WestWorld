@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayState.h" />
@@ -170,10 +171,13 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestLevelState.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="TurretAI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
@@ -195,6 +199,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TestLevelState.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TurretAI.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
