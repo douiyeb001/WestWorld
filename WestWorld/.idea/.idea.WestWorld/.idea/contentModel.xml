@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\rache\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_WestWorld.-681609040.00" t="ExcludeRecursive" />
+    <e p="D:\Git Projects\WestWorld" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="WestWorld" t="IncludeRecursive">
+        <e p="AStar.cpp" t="Include" />
+        <e p="AStar.h" t="Include" />
+        <e p="EnemyManager.cpp" t="Include" />
+        <e p="EnemyManager.h" t="Include" />
+        <e p="Game.cpp" t="Include" />
+        <e p="Game.h" t="Include" />
+        <e p="GameManager.cpp" t="Include" />
+        <e p="GameManager.h" t="Include" />
+        <e p="GamePlayState.cpp" t="Include" />
+        <e p="GamePlayState.h" t="Include" />
+        <e p="GameStates.cpp" t="Include" />
+        <e p="GameStates.h" t="Include" />
+        <e p="GridCell.cpp" t="Include" />
+        <e p="GridCell.h" t="Include" />
+        <e p="GUIBase.cpp" t="Include" />
+        <e p="GUIBase.h" t="Include" />
+        <e p="HealthBar.cpp" t="Include" />
+        <e p="HealthBar.h" t="Include" />
+        <e p="IDFLAGS.h" t="Include" />
+        <e p="MouseInput.h" t="Include" />
+        <e p="Opponent.cpp" t="Include" />
+        <e p="Opponent.h" t="Include" />
+        <e p="PathFinding.cpp" t="Include" />
+        <e p="PathFinding.h" t="Include" />
+        <e p="PlaceObjects.cpp" t="Include" />
+        <e p="PlaceObjects.h" t="Include" />
+        <e p="Player.cpp" t="Include" />
+        <e p="Player.h" t="Include" />
+        <e p="PlayerBase.cpp" t="Include" />
+        <e p="PlayerBase.h" t="Include" />
+        <e p="SearchGrid.h" t="Include" />
+        <e p="stdafx.cpp" t="Include" />
+        <e p="stdafx.h" t="Include" />
+        <e p="targetver.h" t="Include" />
+        <e p="TestLevelState.cpp" t="Include" />
+        <e p="TestLevelState.h" t="Include" />
+        <e p="WestWorld.cpp" t="Include" />
+        <e p="WestWorld.vcxproj" t="IncludeRecursive" />
+        <e p="x64\Debug" t="ExcludeRecursive" />
+      </e>
+      <e p="WestWorld.sln" t="IncludeFlat" />
+      <e p="x64\Debug" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
