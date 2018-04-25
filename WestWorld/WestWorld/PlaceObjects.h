@@ -3,6 +3,7 @@
 
 #include "IDFLAGS.h"
 #include "Currency.h"
+#include "GUIBase.h"
 //#include "MouseInput.h"
 
 using namespace irr;

@@ -17,12 +17,14 @@ void Placeable::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(placeableIcon, core::position2d<int>(0, driver->getScreenSize().Height - placeableIcon->getSize().Height), core::rect<int>(0, 0, placeableIcon->getSize().Width, placeableIcon->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
-CurrencyUI::CurrencyUI(const wchar_t*  text) {
-	currencyText = text;
+CurrencyUI::CurrencyUI(const wchar_t*  _pText) {
+	pText = _pText;
 }
 
-void CurrencyUI::Draw(IGUIEnvironment* gui) {
-	gui->addStaticText(currencyText, rect<s32>(50, 110, 250, 130), false);
+void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
+	
+	pStaticText = gui->addStaticText(pText, rect<s32>(20, 30, 220, 50), false);
+	
 }
 
 

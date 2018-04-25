@@ -28,10 +28,12 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(const wchar_t* text);
-	void Draw(IGUIEnvironment* gui);
+	CurrencyUI(const wchar_t* pText);
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	const wchar_t* pText;
 private:
-	const wchar_t* currencyText;
+	
+	IGUIStaticText * pStaticText;
 };
 
 #endif
