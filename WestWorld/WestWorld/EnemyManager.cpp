@@ -54,7 +54,19 @@ void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//	};
 	//}
 }
+void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (opponentList[i] == turretOpponent)
+		{
 
+
+			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+			opponentList[i]->remove();
+			opponentList.erase(opponentList.begin() + i);
+		}
+		
+	}
+}
 EnemyManager::~EnemyManager()
 {
 }

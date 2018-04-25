@@ -72,7 +72,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getSceneManager()->drawAll();
 	enemyManager->Update();
 	pTurretAI->GetList(enemyManager->GiveArray());
-	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->GetMeta(),pManager->getDevice(),pManager->getDriver());
+	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
 	//enemy->Update();
 	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());

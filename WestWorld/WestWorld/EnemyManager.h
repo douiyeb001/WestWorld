@@ -25,6 +25,7 @@ public:
 	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
 	void Update();
+	void RemoveFromArray(scene::ISceneNode* turrentOpponent);
 	~EnemyManager();
 
 	std::vector<Opponent*> opponentList;
