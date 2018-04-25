@@ -31,6 +31,7 @@ private:
 	ITexture * m_titlePic;
 	ICameraSceneNode* cameraNode;
 	PlayerHealthBar* healthbar;
+	CurrencyUI* currencyUI;
 	PlaceObjects* PoManager;
 	Currency* cManager;
 	Player* pPLayer; 

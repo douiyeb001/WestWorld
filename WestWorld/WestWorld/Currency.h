@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CURRENCY_H
+#define CURRENCY_H
+
 #include <irrlicht.h>
 
 using namespace irr;
@@ -23,4 +25,6 @@ public:
 private:	
 	int playerCurrency;
 };
+
+#endif
 

@@ -28,6 +28,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
+	currencyUI = new CurrencyUI(L"Currency:");
 	cManager = new Currency();
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), cManager);
 	

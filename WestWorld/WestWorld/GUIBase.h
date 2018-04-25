@@ -26,4 +26,12 @@ private:
 
 };
 
+class CurrencyUI {
+public:
+	CurrencyUI(const wchar_t* text);
+	void Draw(IGUIEnvironment* gui);
+private:
+	const wchar_t* currencyText;
+};
+
 #endif
