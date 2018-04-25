@@ -18,11 +18,15 @@ void EnemyManager::Update() {
 	}
 
 	// give turret ai list of enemies ~ events / not in update next version
-
+	
 
 }
 
 
+vector<Opponent*> EnemyManager::GiveArray()
+{
+	return opponentList;
+}
 
 void EnemyManager::FillList(Opponent* enemy){
 	opponentList.push_back(enemy);
@@ -36,6 +40,7 @@ void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 			{
 				imeta->removeTriangleSelector(item->getTriangleSelector());
 				item->remove();
+
 			}
 		};
 	}

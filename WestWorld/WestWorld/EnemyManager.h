@@ -22,6 +22,7 @@ public:
 
 	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver);
 	void CheckCollision(scene::ISceneNode* collidedObject);
+	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
 	void Update();
 	~EnemyManager();

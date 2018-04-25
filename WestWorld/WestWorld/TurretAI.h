@@ -1,4 +1,6 @@
 #include <irrlicht.h>
+#include <vector>
+#include "Opponent.h"
 
 using namespace std;
 using namespace irr;
@@ -11,9 +13,11 @@ class TurretAI
 {
 public:
 	TurretAI();
-	void TurretShooting(ISceneManager* pSmgr, IMetaTriangleSelector* pMeta,ISceneNodeAnimator* pAnim);
-	core::line3d<f32> ray;
+	void GetList(vector <Opponent*> opArray);
+	void TurretShooting(ISceneManager* pSmgr, IMetaTriangleSelector* pMeta,ISceneNodeAnimator* pAnim, IVideoDriver* pDriver);
 
 	~TurretAI();
+	std::vector <Opponent*> opList;
+
 };
 
