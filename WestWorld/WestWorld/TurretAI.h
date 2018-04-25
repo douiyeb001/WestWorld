@@ -17,7 +17,7 @@ public:
 	EnemyManager * pEnemyManager;
 	ITimer* timer;
 	IMetaTriangleSelector* pMeta;
-	TurretAI();
+	TurretAI(EnemyManager* _pEnemyManager);
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent);
@@ -25,6 +25,8 @@ public:
 	~TurretAI();
 	std::vector <Opponent*> opList;
 private:
+	int start = 0;
 	bool targeted = false;
+	bool enemySpotted = false;
 };
 

@@ -6,18 +6,18 @@
 
 
 
-TurretAI::TurretAI()
+TurretAI::TurretAI(EnemyManager* _pEnemyManager)
 {
-	
+	pEnemyManager = _pEnemyManager;
 }
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 {
 
-	bool enemySpotted = false;
+	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
 	ISceneNode* turret = pSmgr->getSceneNodeFromName("Turret");
-	float radius = 4000;
+	float radius = 500;
 
 	for (Opponent* p : opList) {
 
@@ -35,25 +35,27 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 				ShootTimer(pDevice, p);
 			}
 		}
+		else {
+			enemySpotted = false;
+		}
 	}
 }
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent) {
-	int start = 0;
+
 	if (!targeted) {
 		timer = pDevice->getTimer();
 		start = timer->getTime();
 		targeted = true;
-
 	}
 //	timer->tick();
-	if (timer->getTime() >= (start + 5000)) {
+	if (timer->getTime() >= (start + 2000)) {
 		pEnemyManager->RemoveFromArray(opponent);
-		
+		//enemySpotted = false;
+		targeted = false;
+		//start =  pDevice->getTimer()->getTime();
 	}
 
-		// delete the enemy
-		//reset enemy from enemyManager array, make method that deletes enemy and removes it from array
 	}
 
 
