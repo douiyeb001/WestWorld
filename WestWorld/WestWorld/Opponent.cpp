@@ -13,7 +13,7 @@
 using namespace irr;
 
 Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale)
-: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), ground(_ground), active(true), speed(0.1)
+	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), ground(_ground), active(true), speed(0.1)
 {
 	setMesh(mesh);
 }
@@ -49,7 +49,7 @@ void Opponent::Update() {
 
 	setPosition(NextPathPosition(getAbsolutePosition(), speed));
 
-	while(collidesWith(ground))
+	while (collidesWith(ground))
 		setPosition(getPosition() + core::vector3df(0, 0.001f, 0));
 }
 
@@ -438,20 +438,20 @@ bool Opponent::isReadOnlyMaterials() const
 //! Creates a clone of this scene node and its children.
 scene::ISceneNode* Opponent::clone(scene::ISceneNode* newParent, scene::ISceneManager* newManager)
 {
-	if (!newParent)
-		newParent = Parent;
-	if (!newManager)
-		newManager = SceneManager;
+if (!newParent)
+newParent = Parent;
+if (!newManager)
+newManager = SceneManager;
 
-	Opponent* nb = new Opponent(Mesh, newParent,
-		newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode, obstacle);
+Opponent* nb = new Opponent(Mesh, newParent,
+newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode, obstacle);
 
-	nb->cloneMembers(this, newManager);
-	nb->ReadOnlyMaterials = ReadOnlyMaterials;
-	nb->Materials = Materials;
-	nb->Shadow = Shadow;
+nb->cloneMembers(this, newManager);
+nb->ReadOnlyMaterials = ReadOnlyMaterials;
+nb->Materials = Materials;
+nb->Shadow = Shadow;
 
-	if (newParent)
-		nb->drop();
-	return nb;
+if (newParent)
+nb->drop();
+return nb;
 }*/

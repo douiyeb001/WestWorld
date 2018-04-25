@@ -78,8 +78,8 @@ public:
 	/// <param name="smgr">			[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 private:
+
 	/// <summary>	The key map. </summary>
 	SKeyMap* pKeyMap;
 	/// <summary>	The camera node. </summary>

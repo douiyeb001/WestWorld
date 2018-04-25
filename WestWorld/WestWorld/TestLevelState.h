@@ -117,7 +117,6 @@ private:
 	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
-	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
 	std::vector<bool> obstacles;
 
 };

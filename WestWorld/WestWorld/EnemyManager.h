@@ -79,8 +79,6 @@ public:
 
 
 	
-	/// <summary>	The test. </summary>
-	list<scene::ISceneNode*> test;
 };
 #endif
 

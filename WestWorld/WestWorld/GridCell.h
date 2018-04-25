@@ -46,8 +46,6 @@ public:
 
 	int y;
 	/// <summary>	True if is finding path, false if not. </summary>
-	float f, g;
-	int x, y;
 	bool obstacle;
 	bool isFindingPath;
 	/// <summary>	The parent. </summary>
@@ -72,7 +70,6 @@ public:
 	/// <param name="occupied">	True if occupied. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	GridCell(int _x, int _y, GridCell* _parent, bool occupied) : parent((_parent) ? _parent : NULL), isFindingPath(!occupied), g(0.0), f(0.0), x(_x), y(_y), pathToCell((_parent) ? (*_parent).pathToCell : std::vector<GridCell*>(0)) {};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>

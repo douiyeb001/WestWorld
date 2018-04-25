@@ -439,7 +439,7 @@ namespace irr
 			
 			_pEnemyManager->FillList(spawnPoint);
 
-			selector->drop();
+			//selector->drop();
 			//meta->drop();
 			spawnPoint->drop();
 			
