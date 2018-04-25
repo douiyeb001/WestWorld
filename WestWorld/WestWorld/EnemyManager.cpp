@@ -18,11 +18,15 @@ void EnemyManager::Update() {
 	}
 
 	// give turret ai list of enemies ~ events / not in update next version
-
+	
 
 }
 
 
+vector<Opponent*> EnemyManager::GiveArray()
+{
+	return opponentList;
+}
 
 void EnemyManager::FillList(Opponent* enemy){
 	opponentList.push_back(enemy);
@@ -30,17 +34,39 @@ void EnemyManager::FillList(Opponent* enemy){
 
 void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//imeta->addTriangleSelector(iselector);
-	for (Opponent* item : opponentList) {
-		if (hitObject == item) {
-		
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (hitObject == opponentList[i])
 			{
-				imeta->removeTriangleSelector(item->getTriangleSelector());
-				item->remove();
+				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+				opponentList[i]->remove();
+				opponentList.erase(opponentList.begin() + i);
 			}
-		};
+	}
+
+	//for (Opponent* item : opponentList) {
+	//	if (hitObject == item) {
+	//	
+	//		{
+	//			imeta->removeTriangleSelector(item->getTriangleSelector());
+	//			item->remove();
+	//			opponentList.remove(opponentList.);
+	//		}
+	//	};
+	//}
+}
+void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (opponentList[i] == turretOpponent)
+		{
+
+
+			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+			opponentList[i]->remove();
+			opponentList.erase(opponentList.begin() + i);
+		}
+		
 	}
 }
-
 EnemyManager::~EnemyManager()
 {
 }

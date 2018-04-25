@@ -415,7 +415,7 @@ namespace irr
 				newManager = SceneManager;
 
 			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
-				newManager, ID, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager);
+				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager);
 
 			nb->cloneMembers(this, newManager);
 			nb->ReadOnlyMaterials = ReadOnlyMaterials;

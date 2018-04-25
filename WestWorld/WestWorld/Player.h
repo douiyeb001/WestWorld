@@ -95,6 +95,6 @@ private:
 	triangle3df  hitTriangle;
 	/// <summary>	The collided object. </summary>
 	ISceneNode* collidedObject;
-
+	void OnShoot(vector3df start, vector3df end);
 };
 #endif // !1
