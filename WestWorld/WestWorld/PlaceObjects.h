@@ -86,7 +86,7 @@ public:
 	/// <param name="meta">	   	[in,out] If non-null, the meta. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta);
+	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a collision. </summary>

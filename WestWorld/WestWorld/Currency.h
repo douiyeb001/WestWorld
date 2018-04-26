@@ -19,8 +19,9 @@ class Currency
 public:
 	Currency();
 	void SellBuilding();
-	bool BuildingCost(IMeshSceneNode* buildNode);
+	void BuildingCost(IMeshSceneNode* buildNode);
 	void EnemyCurrency();
+	bool CheckCurrency();
 
 	short int playerCurrency;
 

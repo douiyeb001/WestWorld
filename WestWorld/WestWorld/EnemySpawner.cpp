@@ -428,7 +428,7 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/tempEnemyBlobbert.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(2.0f, 2.0f, 2.0f));
+			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/tempEnemyBlobbert.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f));
 			
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
@@ -449,7 +449,7 @@ namespace irr
 			countdownSpawn -= 0.1;
 			if (countdownSpawn < 0) {
 				SpawnOpponent();
-				countdownSpawn = 100.0f;
+				countdownSpawn = 50.0f;
 			}
 			//for (int i = 0; i < ((enemies).size()); i++)
 				//(enemies[i])->Update();

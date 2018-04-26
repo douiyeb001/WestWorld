@@ -26,16 +26,30 @@ void Currency::SellBuilding()
 	playerCurrency += sellValue;
 }
 
-bool Currency::BuildingCost(IMeshSceneNode* buildNode)
+void Currency::BuildingCost(IMeshSceneNode* buildNode)
 {
 
-	if (buildNode->getID() == 15 && playerCurrency >= OBSTACLECOST)//obstacle
+	if (buildNode->getID() == 15)//obstacle
 	{
 		playerCurrency -= OBSTACLECOST;
+		
 	}
-	else if (buildNode->getID() == 16 && playerCurrency >= TURRETCOST)//turret
+	else if (buildNode->getID() == 16)//turret
 	{
 		playerCurrency -= TURRETCOST;
+		
+	}
+}
+
+bool Currency::CheckCurrency()
+{
+	if (playerCurrency >= OBSTACLECOST)//obstacle
+	{
+		return true;
+	}
+	else if (playerCurrency >= TURRETCOST)//turret
+	{
+		return false;
 	}
 	else
 	{

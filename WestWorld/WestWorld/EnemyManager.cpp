@@ -41,6 +41,7 @@ void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 				opponentList[i]->remove();
 				opponentList.erase(opponentList.begin() + i);
+				cManager->EnemyCurrency();
 			}
 	}
 

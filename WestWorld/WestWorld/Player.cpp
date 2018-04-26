@@ -39,7 +39,7 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	pKeyMap[4].KeyCode = KEY_SPACE;
 
 	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.2f, -1, pKeyMap, 8, true, .4);
-	cameraNode->setPosition(vector3df(20,20,20));
+	cameraNode->setPosition(vector3df(20,20,450));
 	
 
 }

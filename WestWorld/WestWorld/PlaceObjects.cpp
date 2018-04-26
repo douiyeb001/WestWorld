@@ -14,27 +14,31 @@ PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpa
 bool hasSpawnedTurret;
 
 //This method will create a Turret after the ray has detected ground and update the meta with the Triangleselector of the placed turret
-void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta)
+void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim)
 {
 
 
 	//Tim & Daniel spawning objects
-	scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
-	scene::IMeshSceneNode* barrelNode = 0;
-	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
-	if (cManager->BuildingCost(barrelNode))
+	
+	if (cManager->CheckCurrency())
 	{
+		scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
+		scene::IMeshSceneNode* barrelNode = 0;
+		barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
 		if (barrelNode)
 		{
 			barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 			barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+			barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
 			barrelNode->setPosition(position);
 			selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
 			barrelNode->setTriangleSelector(selector);
 			meta->addTriangleSelector(selector);
 			selector->drop();
-			meta->drop();
+			//meta->drop();
 			spawner->path->RecalculatePath(position);
+			CreateCollision(anim, camera, meta);
+			cManager->BuildingCost(barrelNode);
 		}
 		barrelNode = 0;
 	}
@@ -56,14 +60,14 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 //This method will create a ray after the right mouse button is pressed and check if the ray hits the ground to spawn a new turret
  void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
 	ray.start = camera->getPosition();
-	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
+	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 150.0f;
 	//scene::ISceneNode * selectedSceneNode =
 	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
-		SpawnTurret(spawner->path->getCentre(intersection), selector, meta);
+		SpawnTurret(spawner->path->getCentre(intersection), selector, meta, camera, anim);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
-		CreateCollision(anim, camera, meta);
+		
 	}
 	//collidedObject->drop();
 }
