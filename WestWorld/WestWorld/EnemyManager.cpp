@@ -3,12 +3,13 @@
 
 
 
-EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver)
+EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* _cManager)
 {
 	ismgr = smgr;
 	iselector = selector;
 	imeta = meta;
 	idriver = driver;
+	cManager = _cManager;
 }
 
 void EnemyManager::Update() {
@@ -63,6 +64,8 @@ void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 			opponentList[i]->remove();
 			opponentList.erase(opponentList.begin() + i);
+			cManager->EnemyCurrency();
+			
 		}
 		
 	}

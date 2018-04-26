@@ -1,7 +1,7 @@
 #include "Currency.h"
 
 int sellValue;
-int enemyValue;
+int enemyValue = 25;
 const int STARTCURRENCY = 250;
 const int TURRETCOST = 50;
 const int OBSTACLECOST = 50;

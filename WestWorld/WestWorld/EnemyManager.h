@@ -6,6 +6,7 @@
 //#include <list>
 #include <vector>
 #include "Opponent.h" 
+#include "Currency.h"
 //#include <vector>
 
 
@@ -38,8 +39,9 @@ public:
 	scene::ITriangleSelector* iselector;
 	scene::IMetaTriangleSelector* imeta;
 	video::IVideoDriver* idriver;
+	Currency* cManager;
 
-	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver);
+	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* cManager);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Default constructor. </summary>
