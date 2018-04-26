@@ -4,11 +4,11 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner): spawner(_spawner)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager) : spawner(_spawner)
 {
 	driver = iDriver;
 	smgr = iSmgr;
-	cManager = iManager;
+	cManager = _cManager;
 }
 
 bool hasSpawnedTurret;
@@ -17,24 +17,28 @@ bool hasSpawnedTurret;
 void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta)
 {
 
+
 	//Tim & Daniel spawning objects
 	scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 	scene::IMeshSceneNode* barrelNode = 0;
 	barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
-	cManager->BuildingCost(barrelNode);
-	if (barrelNode)
+	if (cManager->BuildingCost(barrelNode))
 	{
-		barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
-		barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
-		barrelNode->setPosition(position);
-		selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
-		barrelNode->setTriangleSelector(selector);
-		meta->addTriangleSelector(selector);
-		selector->drop();
-		meta->drop();
-		spawner->path->RecalculatePath(position);
+		if (barrelNode)
+		{
+			barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
+			barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+			barrelNode->setPosition(position);
+			selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
+			barrelNode->setTriangleSelector(selector);
+			meta->addTriangleSelector(selector);
+			selector->drop();
+			meta->drop();
+			spawner->path->RecalculatePath(position);
+		}
+		barrelNode = 0;
 	}
-	barrelNode = 0;
+	
 }
 
 //this method will create collision between the player and the placed turret
@@ -61,7 +65,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		CreateCollision(anim, camera, meta);
 	}
-	collidedObject->drop();
+	//collidedObject->drop();
 }
 
 void PlaceObjects::Update(){

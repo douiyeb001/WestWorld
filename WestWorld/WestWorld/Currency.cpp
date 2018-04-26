@@ -26,7 +26,7 @@ void Currency::SellBuilding()
 	playerCurrency += sellValue;
 }
 
-void Currency::BuildingCost(IMeshSceneNode* buildNode)
+bool Currency::BuildingCost(IMeshSceneNode* buildNode)
 {
 
 	if (buildNode->getID() == 15 && playerCurrency >= OBSTACLECOST)//obstacle
@@ -39,7 +39,7 @@ void Currency::BuildingCost(IMeshSceneNode* buildNode)
 	}
 	else
 	{
-		//message not enough currency
+		return false;
 	}
 }
 

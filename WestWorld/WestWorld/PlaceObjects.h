@@ -64,7 +64,7 @@ public:
 	/// <param name="smgr">  	[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
+	//PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a ray. </summary>
@@ -75,7 +75,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
