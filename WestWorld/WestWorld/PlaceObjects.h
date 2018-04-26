@@ -95,6 +95,10 @@ public:
 
 	void CreateCollision(ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta);
 
+	///
+	void PlacementIndicator(core::vector3df position);
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Updates this object. </summary>
 	///

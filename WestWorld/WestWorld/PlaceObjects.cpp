@@ -48,6 +48,18 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	anim->drop(); // I'm done with the animator now
 }
 
+void PlaceObjects::PlacementIndicator(core::vector3df position) {
+	scene::IMesh* ghostBarrelMesh = smgr->getMesh("meshes/Barrel.obj");
+	scene::IMeshSceneNode* ghostBarrelNode = 0;
+	ghostBarrelNode = smgr->addMeshSceneNode(ghostBarrelMesh, 0, 20);
+
+	ghostBarrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
+	ghostBarrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+	ghostBarrelNode->setPosition(position);
+
+
+}
+
  void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 100.0f;
@@ -56,6 +68,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
 		SpawnTurret(spawner->path->getCentre(intersection), selector, meta);
+		//PlacementIndicator(spawner->path->getCentre(intersection));
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		CreateCollision(anim, camera, meta);
 	}
@@ -65,6 +78,8 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	 //collidedObject = 0;
 }
 
-void PlaceObjects::Update(){
 
+
+void PlaceObjects::Update(){
+	//ghostBarrelNode->setPosition(spawner->path->getCentre(intersection));
 }

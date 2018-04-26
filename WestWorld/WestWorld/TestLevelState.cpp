@@ -85,7 +85,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
-
+	//if (pManager->getKey(irr::KEY_ENTER)) pManager->getDevice()->closeDevice();
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
