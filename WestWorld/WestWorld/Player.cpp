@@ -22,7 +22,7 @@ void Player::HandleMovement() {
 
 void Player::CreatePlayer(ISceneManager* smgr) {
 	SKeyMap pKeyMap[9];
-
+	ITriangleSelector* selector = 0;
 	pKeyMap[0].Action = EKA_MOVE_FORWARD;
 	pKeyMap[0].KeyCode = KEY_KEY_W;
 
@@ -41,7 +41,12 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.2f, -1, pKeyMap, 8, true, .4);
 	cameraNode->setPosition(vector3df(20,20,450));
 	
-
+	//collision response            
+	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
+		selector, cameraNode, core::vector3df(30, 50, 30), //<----Elipsoid value
+		core::vector3df(0, -0.1, 0),vector3df(0, 50, 0));
+	cameraNode->addAnimator(anim);
+	anim->drop();
 }
 ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
