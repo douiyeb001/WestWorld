@@ -9,34 +9,33 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// namespace: irr
+// file: AStar.h
 //
-// summary:	.
+// summary:	Finds the shortest path between the start and goal nodes using the A* algorithm by defining a grid based on the position.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using namespace irr;
 
-class AStar
-{
+class AStar {
 public:
-	/// <summary>	Dictionary of cells. </summary>
-	std::map<int, GridCell> CellDictionary;
-	/// <summary>	The possible next cells. </summary>
+	/// <summary>	Key map of grid cells. </summary>
+	std::map<int, GridCell> cellDictionary;
+	/// <summary>	List of possible next cells int he path. </summary>
 	std::vector<GridCell*> possibleNextCells;
-	/// <summary>	Full pathname of the final file. </summary>
-	std::vector<GridCell*> finalPath;
+	/// <summary>	Path found during the first calculation. </summary>
 	std::vector<GridCell*> initialPath;
+	/// <summary>	Path found during the latest calculation. </summary>
 	std::vector<GridCell*> currentPath;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Constructor. </summary>
 	///
-	/// <param name="startNode_">	[in,out] If non-null, the start node. </param>
-	/// <param name="goalNode_"> 	[in,out] If non-null, the goal node. </param>
-	/// <param name="Obstacle">  	True to obstacle. </param>
+	/// <param name="_startNode">	The node of the spawnpoint. </param>
+	/// <param name="_goalNode"> 	The node of the target object. </param>
+	/// <param name="_obstacle">  	A list of places that have obstacles placed on them. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, std::vector<bool> Obstacle);
+	AStar(scene::ISceneNode* _startNode, scene::ISceneNode* _goalNode, std::vector<bool> _obstacle);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>
@@ -46,55 +45,65 @@ public:
 	~AStar();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Searches for the first path. </summary>
+	/// <summary>	Searches for the shortest path. </summary>
 	///
+	/// <remarks> Recursive method that checks neighbouring cells untill it reaches the goal. </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void findPath();
+	void FindPath();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Reverse path. </summary>
 	///
-	/// <param name=">">	[in,out] If non-null, the > </param>
+	/// <param name="_path">	The path to the goal. </param>
 	///
-	/// <returns>	Null if it fails, else a std::vector&lt;GridCell*&gt; </returns>
+	/// <returns>	returns the path to the goal in reverse order. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::vector<GridCell*> ReversePath(std::vector<GridCell*>);
+	std::vector<GridCell*> ReversePath(std::vector<GridCell*> _path);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Next cell. </summary>
 	///
-	/// <returns>	Null if it fails, else a pointer to a GridCell. </returns>
+	/// <returns>	Return the cell with the lowest heuristic according to A*. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	GridCell* nextCell();
+	GridCell* NextCell();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Searches for the shortest path. </summary>
+	///
+	/// <remarks> Resets the pathfinding and calls FindPath(). </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void RecalculatePath(core::vector3df spawnedPosition);
+
+	/// <summary>	The start cell. </summary>
+	GridCell* pStartCell;
 	/// <summary>	The goal cell. </summary>
-	GridCell* startCell;
-	GridCell* goalCell;
+	GridCell* pGoalCell;
+	/// <summary>	The targeted cell. </summary>
+	GridCell* pTargetCell;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Coordinates to identifier. </summary>
+	/// <summary>	Calculates the ID based on the coordinates. </summary>
 	///
 	/// <param name="x">	The x coordinate. </param>
 	/// <param name="z">	The z coordinate. </param>
 	///
-	/// <returns>	An int. </returns>
+	/// <returns>	Returns the id of the cell on the chosen position. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	GridCell* targetCell;
-	int coordinatesToID(int x, int z);
+	int CoordinatesToID(int x, int z);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Next path position. </summary>
+	/// <summary>	Get the centre of a cell. </summary>
 	///
 	///
-	/// <param name="pos">  	The position. </param>
-	/// <param name="speed">	The speed. </param>
+	/// <param name="position">	The selected position. </param>
 	///
-	/// <returns>	A core::vector3df. </returns>
+	/// <returns>	Returns the centre of the cell that is selected. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	core::vector3df getCentre(core::vector3df position);
+	core::vector3df GetCentre(core::vector3df position);
 };

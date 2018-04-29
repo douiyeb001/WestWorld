@@ -65,7 +65,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
-		SpawnTurret(spawner->path->getCentre(intersection), selector, meta, camera, anim);
+		SpawnTurret(spawner->path->GetCentre(intersection), selector, meta, camera, anim);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		
 	}

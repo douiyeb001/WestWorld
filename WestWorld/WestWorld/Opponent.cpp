@@ -13,7 +13,7 @@
 using namespace irr;
 
 Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale)
-	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), ground(_ground), active(true), speed(0.1)
+	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1)
 {
 	setMesh(mesh);
 }
@@ -22,7 +22,7 @@ Opponent::~Opponent()
 {
 }
 
-bool Opponent::collidesWith(scene::ISceneNode* ground)
+/*bool Opponent::CollidesWith(scene::ISceneNode* ground)
 {
 	//temp
 	ground->updateAbsolutePosition();
@@ -30,27 +30,26 @@ bool Opponent::collidesWith(scene::ISceneNode* ground)
 	return ground->getTransformedBoundingBox().intersectsWithBox(getTransformedBoundingBox());
 }
 
-void Opponent::collidesWithTarget(PlayerBase target)
+void Opponent::CollidesWithTarget(PlayerBase target)
 {
 	//temp
 	target.base->updateAbsolutePosition();
 	updateAbsolutePosition();
 	if (target.base->getTransformedBoundingBox().intersectsWithBox(getTransformedBoundingBox()))
 		target.Damaged(1);
-}
+}*/
 
 void Opponent::Despawn() {
-	active = false;
 	setVisible(false);
 }
 
 void Opponent::Update() {
-	int i = 1;
+	//int i = 1;
 
 	setPosition(NextPathPosition(getAbsolutePosition(), speed));
 
-	while (collidesWith(ground))
-		setPosition(getPosition() + core::vector3df(0, 0.001f, 0));
+	//while (CollidesWith(ground))
+	//	setPosition(getPosition() + core::vector3df(0, 0.001f, 0));
 }
 
 irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float speed)
@@ -308,7 +307,7 @@ void Opponent::setMesh(scene::IMesh* mesh)
 	if (mesh)
 	{
 		Mesh = mesh;
-		enemy = SceneManager->addMeshSceneNode(mesh, 0, 17);
+		//enemy = SceneManager->addMeshSceneNode(mesh, 0, 17);
 		//
 		copyMaterials();
 	}
