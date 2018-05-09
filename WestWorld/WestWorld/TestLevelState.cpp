@@ -110,7 +110,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	}
 
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),cameraNode, pManager->getSceneManager());
+		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),pPLayer->getCamera(), pManager->getSceneManager());
 		enemyManager->CheckCollision(node);
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)

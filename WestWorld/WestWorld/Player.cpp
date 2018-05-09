@@ -61,7 +61,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 
 	ray.start = pPlayer->getPosition();
 	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 100.0f;
-//	OnShoot(pPlayer->getPosition(), ray.end);
+
 	scene::ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
 			ray,
@@ -69,28 +69,66 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 			hitTriangle,
 			17,0);
 
+
 	//create line for shooting
+	vector3df start = pPlayer->getPosition();
+	vector3df end = (pPlayer->getTarget() - start);
+	end.normalize();
+	start += end * 20.0f;
+	end = start + (end * pPlayer->getFarValue());
+	line3d<f32> line(start, end);
+
+	ISceneNode* test;
+	if (collMan->getCollisionPoint(line, pMeta, end, hitTriangle, test)) {
+		vector3df out = hitTriangle.getNormal();
+		out.setLength(0.03f);
+	}
+	else {
+		vector3df start = pPlayer->getPosition();
+
+		vector3df end = (pPlayer->getTarget() - start);
+		end.normalize();
+		start += end * 20.0f;
+		end = start + (end * pPlayer->getFarValue());
+	}
 
 
-	//start timer
+	ISceneNode* node = 0;
+	node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10), start);
+	node->setMaterialFlag(EMF_LIGHTING, false);
+	node->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
+	node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+
+	f32 length = (f32)(end - start).getLength();
+	const f32 speed = 0.8f;
+	u32 time = (u32)(length / speed);
+
+	ISceneNodeAnimator* anim = 0;
+
+	// set flight line
+
+	anim = smgr->createFlyStraightAnimator(start, end, time);
+	node->addAnimator(anim);
+	anim->drop();
+	anim = smgr->createDeleteAnimator(time);
+	node->addAnimator(anim);
+	anim->drop();
 
 	if (selectedSceneNode) {
-		//printf(selectedSceneNode->getDebugName());
-		//selectedSceneNode->setPosition(vector3df(10, 10, 10));
-		//pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
-			//selectedSceneNode->remove();
+		//	//printf(selectedSceneNode->getDebugName());
+		//	//selectedSceneNode->setPosition(vector3df(10, 10, 10));
+		//	//pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
+		//		//selectedSceneNode->remove();
+		//	return selectedSceneNode;
+		//}
+		//selectedSceneNode->setPosition(vector3d());
+	
 		return selectedSceneNode;
-	}
-	//selectedSceneNode->setPosition(vector3d());
+	} 
 }
 
-void Player::OnShoot(vector3df start, vector3df end) {
-	// timer start, draw line
-	SColor color = SColor(100, 255, 255, 255);
-	SMaterial m;
-	m.Lighting = false;
-	//->getVideoDriver()->setMaterial(m);
-	pDriver->setMaterial(m);
-	pDriver->setTransform(video::ETS_WORLD, core::matrix4());
-	pDriver->draw3DLine(start, end, color);
+void Player::OnShoot(vector3df start, vector3df end, ISceneNode* hitNode, ISceneManager* smgr) {
+	// create fire ball
+
 }
