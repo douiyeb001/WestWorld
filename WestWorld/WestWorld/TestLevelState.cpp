@@ -17,14 +17,14 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
+	
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
-
 	pManager->SetAnim(cameraNode);
 	cameraNode->addAnimator(pManager->GetAnim());
-
+	p_Timer = pManager->getDevice()->getTimer();
 	pManager->SetCollision();
 //	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -100,18 +100,20 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
 	{
+		int maxTime;
 	//	isDown = true;
 		// spawn turret function insert here
 	//	int idTest = PoManager->collidedObject->getID();
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
-
 	}
-
+	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),pPLayer->getCamera(), pManager->getSceneManager());
-		enemyManager->CheckCollision(node);
+		if (readyToShoot) {
+			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
+			enemyManager->CheckCollision(node);
+		}
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{

@@ -13,8 +13,8 @@ CGameManager::CGameManager()
 }
 
 //! Default destructor
-CGameManager::~CGameManager()
-{
+CGameManager::~CGameManager(){
+	
 }
 
 //! Changes the game state, calls the existing states Clear
