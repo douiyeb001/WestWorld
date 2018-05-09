@@ -2,7 +2,7 @@
 
 int sellValue;
 int enemyValue = 25;
-const int STARTCURRENCY = 250;
+const int STARTCURRENCY = 10000;
 const int TURRETCOST = 50;
 const int OBSTACLECOST = 50;
 

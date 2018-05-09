@@ -33,6 +33,12 @@ void EnemyManager::FillList(Opponent* enemy){
 	opponentList.push_back(enemy);
 }
 
+void EnemyManager::UpdatePath(std::vector<GridCell*> newPath, GridCell* changedCell) {
+	for (int i = 0; i < opponentList.size(); i++) {
+		opponentList[i]->ChangePath( newPath, changedCell);
+	}
+}
+
 void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//imeta->addTriangleSelector(iselector);
 	for (int i = 0; i < opponentList.size(); i++) {

@@ -76,7 +76,7 @@ public:
 	/// <remarks> Resets the pathfinding and calls FindPath(). </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void RecalculatePath(core::vector3df spawnedPosition);
+	bool RecalculatePath(core::vector3df spawnedPosition);
 
 	/// <summary>	The start cell. </summary>
 	GridCell* pStartCell;
@@ -106,4 +106,5 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	core::vector3df GetCentre(core::vector3df position);
+	GridCell* GetCell(core::vector3df position);
 };

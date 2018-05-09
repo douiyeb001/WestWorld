@@ -80,7 +80,7 @@ public:
 	~EnemyManager();
 
 	std::vector<Opponent*> opponentList;
-
+	void UpdatePath(std::vector<GridCell*> newPath, GridCell* changedCell);
 
 	
 };

@@ -39,9 +39,13 @@ public:
 	/// <remarks> Moves the enemy along its path. </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Update();
-
+	void ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell);
 	/// <summary>	The path for the enemy to follow. </summary>
 	std::vector<GridCell*> path;
+	std::vector<GridCell*> updatedPath;
+	int pathProgress;
+	bool backTracePath;
+	int startOfNewPath;
 
 	/* The following are implementations needed for the mesh scene node interface.
 	   They are copied from the Irrlicht example named "CMeshSceneNode". */
