@@ -149,5 +149,5 @@ void Player::OnShoot(vector3df placeHit, ISceneManager* smgr) {
 //	anim->drop();
 	anim = smgr->createDeleteAnimator(300);
 	node->addAnimator(anim);
-	anim->drop();
+	//anim->drop();
 }
