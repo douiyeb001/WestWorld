@@ -128,7 +128,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 		//}
 		//selectedSceneNode->setPosition(vector3d());
 	
-		//return selectedSceneNode;
+		return selectedSceneNode;
 	} else {
 		return NULL;
 	}
