@@ -160,7 +160,6 @@
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="GUIBase.h" />
-    <ClInclude Include="PathFinding.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SearchGrid.h" />
@@ -186,7 +185,6 @@
     <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
-    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Opponent.cpp">
