@@ -95,6 +95,7 @@ private:
 	PlayerHealthBar* healthbar;
 	/// <summary>	Manager for po. </summary>
 	CurrencyUI* currencyUI;
+	Reticle* playerReticle;
 	PlaceObjects* PoManager;
 	/// <summary>	The p layer. </summary>
 	Currency* cManager;

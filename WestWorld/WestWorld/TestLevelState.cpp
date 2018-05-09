@@ -17,7 +17,7 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
-	
+	pManager->getDevice()->getCursorControl()->setVisible(false);
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
@@ -63,6 +63,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles, pManager->GetMeta() ,enemyManager);
 	spawnPoint->drop();
+	playerReticle = new Reticle(pManager->getDriver(), "media/UI/Reticle.png");
 
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
@@ -85,7 +86,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
-
+	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
 
 	pManager->getGUIEnvironment()->drawAll();
