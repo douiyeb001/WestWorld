@@ -3,34 +3,79 @@
 
 
 
-EnemyManager::EnemyManager()
+EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* _cManager)
 {
-	
+	ismgr = smgr;
+	iselector = selector;
+	imeta = meta;
+	idriver = driver;
+	cManager = _cManager;
 }
 
-void EnemyManager::FillList(scene::ISceneManager* smgr) {
-	core::array<scene::ISceneNode *> nodes;
-	smgr->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
-
-	for (u32 i = 0; i < nodes.size(); ++i)
-	{
-		scene::ISceneNode * node = nodes[i];
-
-		switch (node->getID())
-		{
-		case 17:
-			test.push_back(node);
-			break;
-		}
+void EnemyManager::Update() {
+	// update all the enemies
+	for (Opponent* op : opponentList) {
+		op->Update();
 	}
 
-	//test.push_back(meme);
+	// give turret ai list of enemies ~ events / not in update next version
+	
+
 }
 
-void EnemyManager::CheckCollision(scene::ISceneNode* test) {
-	//for(int i = 0; i < test.size)
+
+vector<Opponent*> EnemyManager::GiveArray()
+{
+	return opponentList;
 }
 
+void EnemyManager::FillList(Opponent* enemy){
+	opponentList.push_back(enemy);
+}
+
+void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
+	//imeta->addTriangleSelector(iselector);
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (hitObject == opponentList[i])
+			{
+				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+				opponentList[i]->remove();
+				opponentList.erase(opponentList.begin() + i);
+				cManager->EnemyCurrency();
+			}
+	}
+
+	//for (Opponent* item : opponentList) {
+	//	if (hitObject == item) {
+	//	
+	//		{
+	//			imeta->removeTriangleSelector(item->getTriangleSelector());
+	//			item->remove();
+	//			opponentList.remove(opponentList.);
+	//		}
+	//	};
+	//}
+}
+void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
+	for (int i = 0; i < opponentList.size(); i++) {
+		if (opponentList[i] == turretOpponent)
+		{
+
+
+			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
+			opponentList[i]->remove();
+			opponentList.erase(opponentList.begin() + i);
+			cManager->EnemyCurrency();
+			
+		}
+		
+	}
+}
 EnemyManager::~EnemyManager()
 {
 }
+
+
+
+
+

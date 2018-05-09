@@ -196,8 +196,8 @@ void PathFinding::ContinuePath()
 
 irr::core::vector3df PathFinding::NextPathPosition(Opponent* enemy)
 {
-	if (m_pathToGoal.size() == 0)
-		return enemy->enemy->getAbsolutePosition();
+	//if (m_pathToGoal.size() == 0)
+		//return enemy->enemy->getAbsolutePosition();
 	int index = 1;
 
 	irr::core::vector3df nextPos;

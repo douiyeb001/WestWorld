@@ -5,11 +5,15 @@
 #include "GamePlayState.h"
 #include "GUIBase.h"
 #include "PlaceObjects.h" 
+#include "Currency.h"
 #include "Player.h"
 #include "IDFLAGS.h"
 #include "Opponent.h"
+#include "TurretAI.h"
 #include "AStar.h"
+#include "EnemySpawner.h"
 #include <vector>
+#include "EnemyManager.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -85,17 +89,22 @@ private:
 	/// <summary>	The healthbar. </summary>
 	PlayerHealthBar* healthbar;
 	/// <summary>	Manager for po. </summary>
+	CurrencyUI* currencyUI;
 	PlaceObjects* PoManager;
 	/// <summary>	The p layer. </summary>
+	Currency* cManager;
 	Player* pPLayer; 
 	/// <summary>	The enemy. </summary>
+	TurretAI* pTurretAI;
 	Opponent* enemy;
 	/// <summary>	The player core. </summary>
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
+	EnemySpawner* spawnPoint;
+	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
-	bool obstacles[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+	std::vector<bool> obstacles;
 
 };
 #endif

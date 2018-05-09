@@ -2,91 +2,74 @@
 #include <irrlicht.h>
 #include "PlayerBase.h"
 #include "AStar.h"
+#include "IMeshSceneNode.h"
+#include "IMesh.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// namespace: irr
+// file: Opponent.h
 //
-// summary:	.
+// summary:	Opponent class that inherits from IMeshSceneNode so it always has a represented node
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using namespace irr;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <summary>	An opponent. </summary>
-///
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class Opponent
-{
+class Opponent : public scene::IMeshSceneNode {
 public:
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Constructor. </summary>
-	///
-	/// <param name="node">		 	[in,out] If non-null, the node. </param>
-	/// <param name="_ground">   	[in,out] If non-null, the ground. </param>
-	/// <param name="playerCore">	[in,out] If non-null, the player core. </param>
-	/// <param name="obstacles"> 	True to obstacles. </param>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	Opponent(scene::ISceneNode* node, scene::ISceneNode* _ground, PlayerBase* playerCore, bool obstacles[]);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Destructor. </summary>
-	///
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale);
 	~Opponent();
-	/// <summary>	The enemy. </summary>
-	scene::ISceneNode* enemy;
-	PlayerBase* target;
-	/// <summary>	True to active. </summary>
-	bool active;
-	/// <summary>	The speed. </summary>
+
+	/// <summary>	The speed at which the enemy moves. </summary>
 	float speed;
-	/// <summary>	The ground. </summary>
-	scene::ISceneNode* ground;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Query if this object collides with the given ground. </summary>
-	///
-	/// <param name="ground">	[in,out] If non-null, the ground. </param>
-	///
-	/// <returns>	True if it succeeds, false if it fails. </returns>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	bool collidesWith(scene::ISceneNode* ground);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Collides with target. </summary>
-	///
-	/// <param name="target">	Target for the. </param>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void collidesWithTarget(PlayerBase target);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Despawns this object. </summary>
-	///
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/// <summary>	Despawns the enemy from the scene. </summary>
 	void Despawn();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Damages the given target. </summary>
+	/// <summary>	Despawns the enemy from the scene. </summary>
 	///
-	/// <param name="target">	Target for the. </param>
+	/// <param name="pos">	The current position. </param>
+	/// <param name="_speed"> 	The speed of the opponent. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void Damage(PlayerBase target);
+	core::vector3df NextPathPosition(irr::core::vector3df pos, float speed);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Updates this object. </summary>
+	/// <summary>	The update function of the enemy. </summary>
 	///
+	/// <remarks> Moves the enemy along its path. </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	void Update();
-	/// <summary>	The pathfinder. </summary>
-	AStar pathfind;
+
+	/// <summary>	The path for the enemy to follow. </summary>
+	std::vector<GridCell*> path;
+
+	/* The following are implementations needed for the mesh scene node interface.
+	   They are copied from the Irrlicht example named "CMeshSceneNode". */
+	virtual void OnRegisterSceneNode();
+	virtual void render();
+	virtual const core::aabbox3d<f32>& getBoundingBox() const;
+	virtual video::SMaterial& getMaterial(u32 i);
+	virtual u32 getMaterialCount() const;
+	virtual void serializeAttributes(io::IAttributes* out, io::SAttributeReadWriteOptions* options = 0) const;
+	virtual void deserializeAttributes(io::IAttributes* in, io::SAttributeReadWriteOptions* options = 0);
+	virtual scene::ESCENE_NODE_TYPE getType() const { return scene::ESNT_MESH; }
+	virtual void setMesh(scene::IMesh* mesh);
+	virtual scene::IMesh* getMesh(void) { return Mesh; }
+	virtual scene::IShadowVolumeSceneNode* addShadowVolumeSceneNode(const scene::IMesh* shadowMesh,
+		s32 id, bool zfailmethod = true, f32 infinity = 10000.0f);
+	virtual void setReadOnlyMaterials(bool readonly);
+	virtual bool isReadOnlyMaterials() const;
+	virtual bool removeChild(ISceneNode* child);
+
+protected:	
+	/* The following are variables needed for the mesh scene node interface.
+	   They are copied from the Irrlicht example named "CMeshSceneNode". */
+	void copyMaterials();
+	core::array<video::SMaterial> Materials;
+	core::aabbox3d<f32> Box;
+	video::SMaterial ReadOnlyMaterial;
+	scene::IMesh* Mesh;
+	scene::IShadowVolumeSceneNode* Shadow;
+	s32 PassCount;
+	bool ReadOnlyMaterials;
 };

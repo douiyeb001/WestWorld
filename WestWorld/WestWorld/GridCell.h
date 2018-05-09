@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#define Cell_Size 10
+#define Cell_Size 20
 #define World_Size 2000
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +45,7 @@ public:
 
 	int y;
 	/// <summary>	True if is finding path, false if not. </summary>
+	bool obstacle;
 	bool isFindingPath;
 	/// <summary>	The parent. </summary>
 	GridCell* parent;
@@ -65,13 +66,13 @@ public:
 	/// <param name="occupied">	True if occupied. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	GridCell(int _x, int _y, GridCell* _parent, bool occupied) : parent((_parent) ? _parent : NULL), isFindingPath(!occupied), g(0.0), f(0.0), x(_x), y(_y), pathToCell((_parent) ? (*_parent).pathToCell : std::vector<GridCell*>(0)) {};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>
 	///
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	GridCell(int _x, int _y, GridCell* _parent, bool occupied) : parent((_parent) ? _parent : NULL), obstacle(occupied), g(0.0), f(0.0), x(_x), y(_y), pathToCell((_parent) ? (*_parent).pathToCell : std::vector<GridCell*>(0)), isFindingPath(true) {};
 	~GridCell();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,5 +100,6 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	int EstimateRemainingCost(int x, int y, int goalY, int goalX);
+	void Clear();
 };
 

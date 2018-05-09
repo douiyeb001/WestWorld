@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <irrlicht.h>
+#include "EnemyManager.h"
 
 using namespace std;
 using namespace irr;
@@ -56,6 +57,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	~Player();
+	ISceneNode* RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Ray create. </summary>
@@ -66,8 +68,8 @@ public:
 	/// <param name="smgr">			[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
 private:
+
 	/// <summary>	The key map. </summary>
 	SKeyMap* pKeyMap;
 	/// <summary>	The camera node. </summary>
@@ -83,6 +85,6 @@ private:
 	triangle3df  hitTriangle;
 	/// <summary>	The collided object. </summary>
 	ISceneNode* collidedObject;
-
+	void OnShoot(vector3df start, vector3df end, ISceneNode* hitNode, ISceneManager* smgr);
 };
 #endif // !1

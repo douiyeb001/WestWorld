@@ -3,7 +3,10 @@
 #define EnemyManager_H
 
 #include <irrlicht.h>
-#include <list>
+//#include <list>
+#include <vector>
+#include "Opponent.h" 
+#include "Currency.h"
 //#include <vector>
 
 
@@ -23,6 +26,7 @@ using namespace std;
 
 using namespace irr;
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// <summary>	Manager for enemies. </summary>
 ///
@@ -31,6 +35,13 @@ using namespace irr;
 class EnemyManager 
 {
 public:
+	scene::ISceneManager* ismgr;
+	scene::ITriangleSelector* iselector;
+	scene::IMetaTriangleSelector* imeta;
+	video::IVideoDriver* idriver;
+	Currency* cManager;
+
+	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* cManager);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Default constructor. </summary>
@@ -47,6 +58,10 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CheckCollision(scene::ISceneNode* collidedObject);
+	vector<Opponent*> GiveArray();
+	void FillList(Opponent* enemy);
+	void Update();
+	void RemoveFromArray(scene::ISceneNode* turrentOpponent);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Fill list. </summary>
@@ -63,8 +78,13 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	~EnemyManager();
-	/// <summary>	The test. </summary>
-	list<scene::ISceneNode*> test;
-};
 
+	std::vector<Opponent*> opponentList;
+
+
+	
+};
 #endif
+
+
+

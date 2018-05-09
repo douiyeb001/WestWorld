@@ -18,7 +18,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
-	pManager->getSceneManager()->loadScene("scene/T_Placing.irr");
+	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
 
@@ -26,12 +26,16 @@ void TestLevelState::Init(CGameManager* pManager) {
 	cameraNode->addAnimator(pManager->GetAnim());
 
 	pManager->SetCollision();
-	pManager->GetAnim()->drop();
+//	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager());
+	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
+		obstacles.push_back(false);
+	cManager = new Currency();
+	currencyUI = new CurrencyUI(L"Currency", cManager);
+	
 	
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
-	std::fill(std::begin(obstacles), std::end(obstacles), false);
+	//std::fill(std::begin(obstacles), std::end(obstacles), false);
 
 	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
 	core::list<scene::ISceneNode*>::Iterator it = children.begin();
@@ -55,7 +59,16 @@ void TestLevelState::Init(CGameManager* pManager) {
 		}
 	}
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
-	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
+	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
+	pTurretAI = new TurretAI(enemyManager);
+	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles, pManager->GetMeta() ,enemyManager);
+	spawnPoint->drop();
+
+	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
+	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
+	//enemy->drop();
+//	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
+	(*spawnPoint).SpawnOpponent();
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -64,10 +77,14 @@ void TestLevelState::Clear(CGameManager* pManager) {
 void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
-
-	enemy->Update();
-	
+	enemyManager->Update();
+	pTurretAI->GetList(enemyManager->GiveArray());
+	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
+	//enemy->Update();
+	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
+	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
+
 
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
@@ -88,12 +105,13 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	//	int idTest = PoManager->collidedObject->getID();
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
-		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());		
+		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+
 	}
 
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),cameraNode, pManager->getSceneManager());
-		
+		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),pPLayer->getCamera(), pManager->getSceneManager());
+		enemyManager->CheckCollision(node);
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{

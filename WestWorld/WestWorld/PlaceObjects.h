@@ -3,6 +3,10 @@
 
 #include "IDFLAGS.h"
 #include "MouseInput.h"
+#include "EnemySpawner.h"
+#include "Currency.h"
+#include "GUIBase.h"
+//#include "MouseInput.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +64,7 @@ public:
 	/// <param name="smgr">  	[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
+	//PlaceObjects(IVideoDriver* driver, ISceneManager* smgr);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a ray. </summary>
@@ -71,6 +75,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +86,7 @@ public:
 	/// <param name="meta">	   	[in,out] If non-null, the meta. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta);
+	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a collision. </summary>
@@ -108,12 +113,14 @@ public:
 	ISceneNode *collidedObject;
 	/// <summary>	The ray. </summary>
 	core::line3d<f32> ray;
+	EnemySpawner* spawner;
 
 private:
 	/// <summary>	The driver. </summary>
 	IVideoDriver * driver;
 	/// <summary>	The smgr. </summary>
 	ISceneManager * smgr;
+	Currency * cManager;
 	
 	/// <summary>	The node. </summary>
 	IMeshSceneNode* node;
