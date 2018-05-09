@@ -24,7 +24,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	cameraNode = pPLayer->getCamera();
 	pManager->SetAnim(cameraNode);
 	cameraNode->addAnimator(pManager->GetAnim());
-	p_Timer = pManager->getDevice()->getTimer();
+	p_Timer = new Timer(pManager->getDevice());
 	pManager->SetCollision();
 //	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -75,6 +75,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 }
 void TestLevelState::Update(CGameManager* pManager) {
+	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 	enemyManager->Update();
@@ -85,6 +86,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	healthbar->Draw(pManager->getDriver());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 
+	//if (p_Timer->alarm()) readyToShoot = true;
 
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
@@ -97,10 +99,11 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 void TestLevelState::MouseEvent(CGameManager* pManager) {
 	// Remember the mouse statess
 	//bool isDown = false;
+	int maxTime;
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
 	{
-		int maxTime;
+	
 	//	isDown = true;
 		// spawn turret function insert here
 	//	int idTest = PoManager->collidedObject->getID();
@@ -113,7 +116,10 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		if (readyToShoot) {
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
 			enemyManager->CheckCollision(node);
+			readyToShoot = false;
+			p_Timer->set(500);
 		}
+
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{

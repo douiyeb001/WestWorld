@@ -14,7 +14,7 @@
 #include "EnemySpawner.h"
 #include <vector>
 #include "EnemyManager.h"
-#include "timer.h"
+#include "Timer.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -86,7 +86,7 @@ private:
 	/// <summary>	The title picture. </summary>
 	ITexture * m_titlePic;
 
-	ITimer* p_Timer;
+	Timer* p_Timer;
 	bool readyToShoot = true;
 
 	/// <summary>	The camera node. </summary>
