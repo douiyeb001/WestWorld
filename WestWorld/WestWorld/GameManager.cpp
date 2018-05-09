@@ -163,8 +163,11 @@ bool CGameManager::OnEvent(const SEvent& event)
 	if (!m_pDriver)
 		return false;
 
-	if (event.EventType == EET_KEY_INPUT_EVENT)
+	//Recognize key when key is  released
+	if (event.EventType == EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
 	{
+		keyboard = event.KeyInput.Key;
+		m_pGameState->KeyboardEvent(this);
 	//	m_bKeys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
 		// Pass input down to the specific game state keyboard handler
@@ -189,4 +192,9 @@ void CGameManager::Init()
 char CGameManager::GetMouse()
 {
 	return mouse;
+}
+
+char CGameManager::GetKeyboard()
+{
+	return keyboard;
 }

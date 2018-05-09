@@ -72,6 +72,37 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	//collidedObject->drop();
 }
 
-void PlaceObjects::Update(){
+ void PlaceObjects::SpawnPlacementIndicator(core::vector3df position) {
+	scene::IMesh* placementIndicatorMesh = smgr->getMesh("meshes/Barrel.obj");
+	 placementIndicatorNode = 0;
+	 placementIndicatorNode = smgr->addMeshSceneNode(placementIndicatorMesh, 0, 20);
 
+	 placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
+	 placementIndicatorNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+	 placementIndicatorNode->setPosition(position);
+ }
+
+void PlaceObjects::ResetPlacementIndicator()
+{
+	placementIndicatorNode->setPosition(vector3df(0,-1000,0));
+}
+
+ void PlaceObjects::MovePlacementIndicator(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim)
+{
+	 if(isInBuildMode) {
+		 ray.start = camera->getPosition();
+		 ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 150.0f;
+		 //scene::ISceneNode * selectedSceneNode =
+		 smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
+		 if (collidedObject) {
+			 if (collidedObject->getID() == IDFlag::spawnGround)
+			 {
+				 placementIndicatorNode->setPosition(spawner->path->GetCentre(intersection));
+			 }
+		 }
+	 }
+}
+
+void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim){
+	MovePlacementIndicator(camera, selector, meta, anim);
 }

@@ -98,12 +98,19 @@ public:
 
 	void CreateCollision(ISceneNodeAnimator *anim, scene::ICameraSceneNode *camera, scene::IMetaTriangleSelector *meta);
 
+	void SpawnPlacementIndicator(core::vector3df position);
+
+	void ResetPlacementIndicator();
+
+	void MovePlacementIndicator(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim);
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Updates this object. </summary>
 	///
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 
-	void Update();
+	void Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim);
 
 	/// <summary>	The intersection. </summary>
 	vector3df intersection;
@@ -114,6 +121,8 @@ public:
 	/// <summary>	The ray. </summary>
 	core::line3d<f32> ray;
 	EnemySpawner* spawner;
+	///
+	bool isInBuildMode;
 
 private:
 	/// <summary>	The driver. </summary>
@@ -124,5 +133,8 @@ private:
 	
 	/// <summary>	The node. </summary>
 	IMeshSceneNode* node;
+
+	///
+	scene::IMeshSceneNode* placementIndicatorNode;
 };
 

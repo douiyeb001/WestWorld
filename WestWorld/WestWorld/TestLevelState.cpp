@@ -69,6 +69,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
 	(*spawnPoint).SpawnOpponent();
+	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -84,14 +85,28 @@ void TestLevelState::Update(CGameManager* pManager) {
 	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
-
-
+	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+	
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
-
+	if(pManager->GetKeyboard() == KEY_KEY_E)
+	{
+		//trigger Placement indicator
+		if (!PoManager->isInBuildMode)
+		{
+			PoManager->isInBuildMode = true;
+		
+		}
+		else if(PoManager->isInBuildMode)
+		{
+			PoManager->isInBuildMode = false;
+			PoManager->ResetPlacementIndicator();
+			
+		}
+	}
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
@@ -117,4 +132,5 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	{
 		//isDown = false;
 	}
+
 }
