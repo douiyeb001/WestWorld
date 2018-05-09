@@ -63,7 +63,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles, pManager->GetMeta() ,enemyManager);
 	spawnPoint->drop();
-	playerReticle = new Reticle(pManager->getDriver(), "media/UI/Reticle.png");
+	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);

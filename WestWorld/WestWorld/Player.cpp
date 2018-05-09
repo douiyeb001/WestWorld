@@ -63,7 +63,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	// And drop my reference to it, so that the meta selector owns it.
 
 	ray.start = pPlayer->getPosition();
-	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 100.0f;
+	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 1000.0f;
 
 	ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
@@ -115,7 +115,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	anim = smgr->createFlyStraightAnimator(start, end, time);
 	node->addAnimator(anim);
 	anim->drop();
-	anim = smgr->createDeleteAnimator(time);
+	anim = smgr->createDeleteAnimator(100);
 	node->addAnimator(anim);
 	anim->drop();
 
