@@ -21,6 +21,7 @@ void Player::HandleMovement() {
 }
 
 void Player::CreatePlayer(ISceneManager* smgr) {
+
 	SKeyMap pKeyMap[9];
 	ITriangleSelector* selector = 0;
 	pKeyMap[0].Action = EKA_MOVE_FORWARD;
