@@ -25,7 +25,7 @@ namespace irr
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,
-				scene::ISceneNode* goalNode_, std::vector<bool> Obstacle,
+				PlayerBase* goalNode_, std::vector<bool> Obstacle,
 				IMetaTriangleSelector* meta,
 				EnemyManager* pEnemyManager);
 
@@ -89,7 +89,7 @@ namespace irr
 			//! or to remove attached childs.
 			virtual bool removeChild(ISceneNode* child);
 			AStar* path;
-			scene::ISceneNode* goalNode;
+			PlayerBase* goalNode;
 			std::vector<bool> obstacle;
 			void SpawnOpponent();
 			//std::vector<Opponent*> enemies;  // remove this

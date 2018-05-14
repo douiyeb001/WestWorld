@@ -8,12 +8,12 @@
 #include "IAnimatedMesh.h"
 #include "IMaterialRenderer.h"
 #include "IFileSystem.h"
-
+#include "EnemyManager.h"
 
 using namespace irr;
 
-Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale)
-	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false)
+Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, PlayerBase* _target, EnemyManager* _enemyManager)
+	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false), target(_target),isExploding(false),scale(1.0f), enemyManager(_enemyManager)
 {
 	setMesh(mesh);
 }
@@ -44,9 +44,64 @@ void Opponent::Despawn() {
 }
 
 void Opponent::Update() {
+	core::vector3df pos = getAbsolutePosition();
 	//int i = 1;
+	if (pathProgress > path.size()) { isExploding = true; }
 
-	setPosition(NextPathPosition(getAbsolutePosition(), speed));
+	if (isExploding) {
+		setScale(core::vector3df(scale, scale, scale));
+		scale += 0.01;
+		if (scale > 2 && scale < 2.5) {
+
+			setMaterialFlag(video::EMF_LIGHTING, false);
+			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
+			setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+			setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+			//scene::ISceneNodeAnimator* anim = 0;
+
+			//addAnimator(anim);
+			//	anim->drop();
+			//anim = getSceneManager()->createDeleteAnimator(300);
+			//addAnimator(anim);
+		}
+			else if (scale > 3) {
+
+				target->Damaged(1);
+			scene::ISceneNodeAnimator* anim = 0;
+
+			addAnimator(anim);
+			//	anim->drop();
+			anim = getSceneManager()->createDeleteAnimator(300);
+			addAnimator(anim);
+			enemyManager->RemoveFromArray(this);
+		}
+	}
+	else {
+
+		irr::core::vector3df nextPos;
+
+		nextPos.X = path[path.size() - pathProgress]->x;
+		nextPos.Z = path[path.size() - pathProgress]->y;
+		irr::core::vector3df distance = nextPos - pos;
+
+		if (distance.getLength() < 1)
+		{
+			if (backTracePath) {
+				pathProgress--;
+			}
+			else
+				pathProgress++;
+		}
+		if (backTracePath && startOfNewPath == pathProgress) {
+			backTracePath = false;
+			path = updatedPath;
+		}
+		distance.normalize();
+
+		setPosition(pos + (speed * distance));
+	}
+	//setPosition(NextPathPosition(getAbsolutePosition(), speed));
 
 	//while (CollidesWith(ground))
 	//	setPosition(getPosition() + core::vector3df(0, 0.001f, 0));
@@ -54,8 +109,29 @@ void Opponent::Update() {
 
 irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float speed)
 {
-	//if (pathProgress >= path.size())
-		//return pos;
+	if (pathProgress > path.size()) { isExploding = true; }
+
+	if (isExploding){
+		setScale(core::vector3df(scale,scale,scale));
+		scale += 0.01;
+		if (scale > 2) {
+			target->Damaged(1);
+
+			setMaterialFlag(video::EMF_LIGHTING, false);
+			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
+			setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+			setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+			//scene::ISceneNodeAnimator* anim = 0;
+
+			//addAnimator(anim);
+			//	anim->drop();
+			//anim = getSceneManager()->createDeleteAnimator(300);
+			//addAnimator(anim);
+			delete this;
+		}
+		return pos;
+	}
 
 	irr::core::vector3df nextPos;
 

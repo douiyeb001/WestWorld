@@ -36,7 +36,7 @@ public:
 	/// <summary>	The base. </summary>
 	scene::ISceneNode* base;
 	/// <summary>	The health. </summary>
-	int health = 1;
+	int health;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Gets the health. </summary>
@@ -44,7 +44,7 @@ public:
 	/// <value>	The health. </value>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	int* rHealth = &health;
+	//int* rHealth = &health;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Despawns this object. </summary>
@@ -64,5 +64,5 @@ public:
 
 	void Damaged(int damage);
 	/// <summary>	= new HealthBar((smgr->getRootSceneNode(), smgr, 666)) </summary>
-	HealthBar *healthBar;
+	//HealthBar *healthBar;
 };
