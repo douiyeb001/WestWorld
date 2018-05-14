@@ -17,6 +17,11 @@ bool hasSpawnedTurret;
 void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim)
 {
 
+	//goal cell can't be chosen
+
+	//path can't be blocked
+
+	//player can't be on the cell
 
 	//Tim & Daniel spawning objects
 	
@@ -66,6 +71,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
+		if(isPlacementValid(intersection, camera))
 		SpawnTurret(intersection, selector, meta, camera, anim);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		
@@ -106,4 +112,20 @@ void PlaceObjects::ResetPlacementIndicator()
 
 void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim){
 	MovePlacementIndicator(camera, selector, meta, anim);
+}
+
+bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {
+	// object can't be place on goalnode cell
+	GridCell* goalCell = spawner->path->GetCell(spawner->goalNode->getPosition());
+	if (spawner->path->GetCell(intersection) == goalCell) return false;
+
+	//object can't close the path towards the goalnode
+	// ----
+	if (spawner->path->possibleNextCells.size() == 0)
+
+	//check if player is on the cell
+	GridCell* currentCell = spawner->path->GetCell(player->getPosition());
+	if (currentCell == spawner->path->GetCell(intersection)) return false;
+
+	return true;
 }
