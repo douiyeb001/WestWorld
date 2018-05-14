@@ -13,7 +13,7 @@
 using namespace irr;
 
 Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale)
-	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1)
+	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false)
 {
 	setMesh(mesh);
 }
@@ -54,27 +54,52 @@ void Opponent::Update() {
 
 irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float speed)
 {
-	if (path.size() == 0)
-		return pos;
-	int index = 1;
+	//if (pathProgress >= path.size())
+		//return pos;
 
 	irr::core::vector3df nextPos;
 
-	nextPos.X = path[path.size() - index]->x;
-	nextPos.Z = path[path.size() - index]->y;
-
+	nextPos.X = path[path.size() - pathProgress]->x;
+	nextPos.Z = path[path.size() - pathProgress]->y;
 	irr::core::vector3df distance = nextPos - pos;
 
-	if (distance.getLength() < 12)
+	if (distance.getLength() < 1)
 	{
-		path.erase(path.end() - index);
+		if (backTracePath) {
+			pathProgress--;
+		}else
+		pathProgress++;
 	}
-
+	if (backTracePath && startOfNewPath == pathProgress) {
+		backTracePath = false;
+		path = updatedPath;
+	}
 	distance.normalize();
 
 	return (pos + (speed * distance));
 }
 
+void Opponent::ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell) {
+	bool passedChangedCell = false;
+	//!checks if the enemy has passed the cell that changed
+	//if it has passed that cell it won't do a new path calculation
+	for (int i = 1; i < pathProgress;i++) {
+		if (path[path.size() - i] == changedCell) {
+			passedChangedCell = true;
+		}
+	}
+	//! 
+	if (!passedChangedCell) {
+		for (int i = pathProgress - 1; i > 1; i--) {
+			if (std::find(newPath.begin(), newPath.end(), path[path.size() - i]) != newPath.end()) {
+				//pathProgress = i;
+				backTracePath = true;
+				startOfNewPath = i;
+			}
+		}
+		updatedPath = newPath;
+	}
+}
 //! frame
 void Opponent::OnRegisterSceneNode()
 {

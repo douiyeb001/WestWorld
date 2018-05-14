@@ -30,13 +30,14 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 			barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 			barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
-			barrelNode->setPosition(position);
+			barrelNode->setPosition(spawner->path->GetCentre(position));
 			selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
 			barrelNode->setTriangleSelector(selector);
 			meta->addTriangleSelector(selector);
 			selector->drop();
 			//meta->drop();
-			spawner->path->RecalculatePath(position);
+			if (spawner->path->RecalculatePath(position))
+				spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
 			CreateCollision(anim, camera, meta);
 			cManager->BuildingCost(barrelNode);
 		}
@@ -65,7 +66,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	smgr->getSceneCollisionManager()->getCollisionPoint(ray, meta, intersection, hitTriangle, collidedObject);
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
-		SpawnTurret(spawner->path->GetCentre(intersection), selector, meta, camera, anim);
+		SpawnTurret(intersection, selector, meta, camera, anim);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		
 	}
