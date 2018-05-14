@@ -7,7 +7,7 @@ PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
 }
 
 void PlayerHealthBar::Draw(IVideoDriver* driver) {
-	driver->draw2DImage(hpBar, core::position2d<int>(0, driver->getScreenSize().Height - hpBar->getSize().Height), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+	driver->draw2DImage(hpBar, core::position2d<int>(driver->getScreenSize().Width - hpBar->getSize().Width, 0 ), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
 Placeable::Placeable(IVideoDriver* driver, char const* icon1) {
