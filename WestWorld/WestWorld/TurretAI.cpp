@@ -43,11 +43,12 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 }
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
-
-	if (!targeted) {
+	if(target == NULL || target != opponent) {
+		target = opponent;
 		timer = pDevice->getTimer();
 		start = timer->getTime();
 		targeted = true;
+		return;
 	}
 
 	if (timer->getTime() >= (start + 5000)) {
@@ -62,28 +63,20 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
 		ISceneNodeAnimator* anim = 0;
-		vector3df start = turretPosition;
-
 		const f32 speed = 0.8f;
 
-		anim = smgr->createFlyStraightAnimator(turretPosition, targetPosition , 50);
+		anim = smgr->createFlyStraightAnimator(turretPosition, targetPosition , speed);
 		node->addAnimator(anim);
-		anim->drop();
 		anim = smgr->createDeleteAnimator(50);
 		node->addAnimator(anim);
 		anim->drop();
+		}
 	}
-
-	}
-
-
 
 void TurretAI::GetList(std::vector <Opponent*> opArray){
 	opList = opArray;
 	
 }
-
-
 
 TurretAI::~TurretAI()
 {

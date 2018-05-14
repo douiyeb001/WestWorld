@@ -25,6 +25,7 @@ public:
 
 	~TurretAI();
 	std::vector <Opponent*> opList;
+	Opponent* target;
 private:
 	int start = 0;
 	bool targeted = false;
