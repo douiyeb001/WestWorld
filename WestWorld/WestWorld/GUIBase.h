@@ -109,15 +109,18 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(const wchar_t* pText, Currency* cManager);
+	CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity);
 	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
 	const wchar_t* pText;
 	const wchar_t* pScore;
 private:
-	
+
+	//IGUIFont * font;
 	IGUIStaticText * pStaticText;
 	IGUIStaticText* pScoreText;
 	Currency * cManager;
+	ITexture* pDollarTexture;
+	ITexture* pInfinityTexture;
 
 };
 
