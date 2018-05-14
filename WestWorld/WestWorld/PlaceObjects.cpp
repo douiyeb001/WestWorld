@@ -117,15 +117,14 @@ void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* se
 bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {
 	// object can't be place on goalnode cell
 	GridCell* goalCell = spawner->path->GetCell(spawner->goalNode->getPosition());
-	if (spawner->path->GetCell(intersection) == goalCell) return false;
-
-	//object can't close the path towards the goalnode
-	// ----
-	if (spawner->path->possibleNextCells.size() == 0)
-
-	//check if player is on the cell
+	const float radius = 20;
 	GridCell* currentCell = spawner->path->GetCell(player->getPosition());
-	if (currentCell == spawner->path->GetCell(intersection)) return false;
-
+	vector3df intersectingCell = spawner->path->GetCentre(intersection);
+	if (spawner->path->GetCell(intersection) == goalCell) return false;
+	else if (currentCell == spawner->path->GetCell(intersection)) return false;
+	else if ((intersectingCell.X >= player->getPosition().X - radius && intersectingCell.X <= player->getPosition().X + radius) &&
+		(intersectingCell.Z >= player->getPosition().Z - radius && player->getPosition().Z - radius)) {
+		return false;
+	}
 	return true;
 }
