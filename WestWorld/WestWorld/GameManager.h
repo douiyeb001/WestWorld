@@ -122,6 +122,8 @@ public:
 
 	char GetMouse();
 
+	char GetKeyboard();
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Default constructor. </summary>
 	///
@@ -197,6 +199,7 @@ private:
 
 	/// <summary>	The mouse. </summary>
 	char mouse;
+	char keyboard;
 };
 #endif
 
