@@ -17,14 +17,14 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
+	pManager->getDevice()->getCursorControl()->setVisible(false);
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
 	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
 	cameraNode = pPLayer->getCamera();
-
 	pManager->SetAnim(cameraNode);
 	cameraNode->addAnimator(pManager->GetAnim());
-
+	p_Timer = new Timer(pManager->getDevice());
 	pManager->SetCollision();
 //	pManager->GetAnim()->drop();
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -63,6 +63,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), pManager->getSceneManager()->getSceneNodeFromName("house"),obstacles, pManager->GetMeta() ,enemyManager);
 	spawnPoint->drop();
+	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
@@ -76,6 +77,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 }
 void TestLevelState::Update(CGameManager* pManager) {
+	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 	enemyManager->Update();
@@ -87,6 +89,9 @@ void TestLevelState::Update(CGameManager* pManager) {
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	
+	playerReticle->Draw(pManager->getDriver());
+	//if (p_Timer->alarm()) readyToShoot = true;
+
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }
@@ -112,21 +117,27 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 void TestLevelState::MouseEvent(CGameManager* pManager) {
 	// Remember the mouse statess
 	//bool isDown = false;
+	int maxTime;
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
 	{
+	
 	//	isDown = true;
 		// spawn turret function insert here
 	//	int idTest = PoManager->collidedObject->getID();
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
-
 	}
-
+	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
-		ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(),pPLayer->getCamera(), pManager->getSceneManager());
-		enemyManager->CheckCollision(node);
+		if (readyToShoot) {
+			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
+			enemyManager->CheckCollision(node);
+			readyToShoot = false;
+			p_Timer->set(500);
+		}
+
 	}
 	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
 	{

@@ -20,13 +20,13 @@ public:
 	TurretAI(EnemyManager* _pEnemyManager);
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice);
-	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent);
+	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition);
+		bool enemySpotted = false;
 
 	~TurretAI();
 	std::vector <Opponent*> opList;
 private:
 	int start = 0;
 	bool targeted = false;
-	bool enemySpotted = false;
 };
 

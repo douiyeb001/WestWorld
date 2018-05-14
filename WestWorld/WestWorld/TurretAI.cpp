@@ -17,7 +17,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
 	ISceneNode* turret = pSmgr->getSceneNodeFromName("Turret");
-	float radius = 125;
+	float radius = 300;
 
 	for (Opponent* p : opList) {
 
@@ -30,18 +30,19 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 			(p->getPosition().Z >= turret->getPosition().Z - radius && turret->getPosition().Z - radius) && enemySpotted == false) {
 			enemySpotted = true;
 
-			pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
 			if (enemySpotted) {
-				ShootTimer(pDevice, p);
+				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
+
+				ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
 			}
+
 		}
-		else {
-			enemySpotted = false;
-		}
+		
+		
 	}
 }
 
-void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent) {
+void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
 
 	if (!targeted) {
 		timer = pDevice->getTimer();
@@ -49,11 +50,29 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent) {
 		targeted = true;
 	}
 //	timer->tick();
-	if (timer->getTime() >= (start + 2000)) {
+
+	if (timer->getTime() >= (start + 5000)) {
 		pEnemyManager->RemoveFromArray(opponent);
-		//enemySpotted = false;
+		start =  pDevice->getTimer()->getTime();
 		targeted = false;
-		//start =  pDevice->getTimer()->getTime();
+		ISceneNode* node = 0;
+		node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10));
+		node->setMaterialFlag(EMF_LIGHTING, false);
+		node->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/particlewhite.bmp"));
+		node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+
+		ISceneNodeAnimator* anim = 0;
+		vector3df start = turretPosition;
+
+		const f32 speed = 0.8f;
+
+		anim = smgr->createFlyStraightAnimator(turretPosition, targetPosition , 50);
+		node->addAnimator(anim);
+		anim->drop();
+		anim = smgr->createDeleteAnimator(50);
+		node->addAnimator(anim);
+		anim->drop();
 	}
 
 	}

@@ -21,6 +21,7 @@ void Player::HandleMovement() {
 }
 
 void Player::CreatePlayer(ISceneManager* smgr) {
+
 	SKeyMap pKeyMap[9];
 	ITriangleSelector* selector = 0;
 	pKeyMap[0].Action = EKA_MOVE_FORWARD;
@@ -42,11 +43,7 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	cameraNode->setPosition(vector3df(20,20,450));
 	
 	//collision response            
-	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-		selector, cameraNode, core::vector3df(30, 50, 30), //<----Elipsoid value
-		core::vector3df(0, -0.1, 0),vector3df(0, 50, 0));
-	cameraNode->addAnimator(anim);
-	anim->drop();
+	
 }
 ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
@@ -54,15 +51,17 @@ ICameraSceneNode* Player::getCamera() {
 
 ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
-	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
+	
+
+	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	// Add it to the meta selector, which will take a reference to it
 	pMeta->addTriangleSelector(pSelector);
 	// And drop my reference to it, so that the meta selector owns it.
 
 	ray.start = pPlayer->getPosition();
-	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 100.0f;
+	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 1000.0f;
 
-	scene::ISceneNode * selectedSceneNode =
+	ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
 			ray,
 			intersection, // This will be the position of the collision
@@ -81,6 +80,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	ISceneNode* test;
 	if (collMan->getCollisionPoint(line, pMeta, end, hitTriangle, test)) {
 		vector3df out = hitTriangle.getNormal();
+		OnShoot(end, smgr);
 		out.setLength(0.03f);
 	}
 	else {
@@ -110,8 +110,8 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 
 	anim = smgr->createFlyStraightAnimator(start, end, time);
 	node->addAnimator(anim);
-	anim->drop();
-	anim = smgr->createDeleteAnimator(time);
+	//anim->drop();
+	anim = smgr->createDeleteAnimator(100);
 	node->addAnimator(anim);
 	anim->drop();
 
@@ -125,10 +125,25 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 		//selectedSceneNode->setPosition(vector3d());
 	
 		return selectedSceneNode;
-	} 
+	} else {
+		return NULL;
+	}
 }
 
-void Player::OnShoot(vector3df start, vector3df end, ISceneNode* hitNode, ISceneManager* smgr) {
-	// create fire ball
+void Player::OnShoot(vector3df placeHit, ISceneManager* smgr) {
+	// on the place hit create a bloodspatter
+	ISceneNode* node = 0;
+	node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10), placeHit);
+	node->setMaterialFlag(EMF_LIGHTING, false);
+	node->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
+	node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
+	ISceneNodeAnimator* anim = 0;
+
+	node->addAnimator(anim);
+//	anim->drop();
+	anim = smgr->createDeleteAnimator(300);
+	node->addAnimator(anim);
+	//anim->drop();
 }
