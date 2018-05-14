@@ -31,7 +31,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 			enemySpotted = true;
 
 			if (enemySpotted) {
-				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
+				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
 				ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
 			}
@@ -65,7 +65,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		ISceneNodeAnimator* anim = 0;
 		const f32 speed = 0.8f;
 
-		anim = smgr->createFlyStraightAnimator(turretPosition, targetPosition , speed);
+		anim = smgr->createFlyStraightAnimator(turretPosition, vector3df(targetPosition.X, targetPosition.Y + 5, targetPosition.Z), speed);
 		node->addAnimator(anim);
 		anim = smgr->createDeleteAnimator(50);
 		node->addAnimator(anim);
