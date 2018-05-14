@@ -43,11 +43,7 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	cameraNode->setPosition(vector3df(20,20,450));
 	
 	//collision response            
-	scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-		selector, cameraNode, core::vector3df(30, 50, 30), //<----Elipsoid value
-		core::vector3df(0, -0.1, 0),vector3df(0, 50, 0));
-	cameraNode->addAnimator(anim);
-	anim->drop();
+	
 }
 ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
@@ -114,7 +110,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 
 	anim = smgr->createFlyStraightAnimator(start, end, time);
 	node->addAnimator(anim);
-	anim->drop();
+	//anim->drop();
 	anim = smgr->createDeleteAnimator(100);
 	node->addAnimator(anim);
 	anim->drop();
