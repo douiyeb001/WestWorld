@@ -6,7 +6,7 @@
 
 
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager)
+TurretAI::TurretAI(EnemyManager* _pEnemyManager) 
 {
 	pEnemyManager = _pEnemyManager;
 }

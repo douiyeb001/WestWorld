@@ -32,6 +32,9 @@ void TestLevelState::Init(CGameManager* pManager) {
 		obstacles.push_back(false);
 	cManager = new Currency();
 	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+
+	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
+
 	
 	
 	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
@@ -58,7 +61,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 				}
 		}
 	}
-	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
+	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager);
@@ -88,7 +91,11 @@ void TestLevelState::Update(CGameManager* pManager) {
 	healthbar->Draw(pManager->getDriver());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
-	
+	if (playerCore->health <= 0) {
+		pGameOver->Draw(pManager->getDriver());
+
+	}
+
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
 

@@ -1,4 +1,4 @@
-#include "GUIBase.h"
+ #include "GUIBase.h"
 #include <stdio.h> 
 
 PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
@@ -28,6 +28,12 @@ CurrencyUI::CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pI
 	pInfinityTexture = driver->getTexture(pInfinity);
 
 }
+GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
+	GameOverSprite = driver->getTexture(deadLogo);
+
+
+}
+
 
 void Reticle::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
@@ -60,6 +66,14 @@ void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 		video::SColor(255, 255, 255, 255), true); //Draw bar
 	
 }
+void GameOverScreen::Draw(IVideoDriver* driver) {
 
+	driver->draw2DImage(GameOverSprite,
+		core::position2d<int>(0, 0),
+		core::rect<int>(0, 0, GameOverSprite->getSize().Width, GameOverSprite->getSize().Height),
+		0,
+		video::SColor(255, 255, 255, 255), true); //Draw bar
+
+}
 
 

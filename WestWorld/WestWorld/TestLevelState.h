@@ -108,6 +108,7 @@ private:
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
+	GameOverScreen* pGameOver;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;

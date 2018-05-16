@@ -106,6 +106,18 @@ public:
 private:
 	ITexture * reticleSprite;
 };
+class GameOverScreen {
+
+public:
+	GameOverScreen(IVideoDriver* driver, char const* deadLogo);
+	void Draw(IVideoDriver* driver);
+	const wchar_t* deadText;
+
+
+private:
+	ITexture * GameOverSprite;
+
+};
 
 class CurrencyUI {
 public:
