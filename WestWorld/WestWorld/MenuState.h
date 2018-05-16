@@ -3,6 +3,7 @@
 #define  MenuState_H
 
 #include "GameStates.h"
+#include "Sprite.h"
 
 using namespace irr;
 using namespace video;
@@ -12,14 +13,6 @@ enum menuStateID {
 	START = 0,
 	CONTROLS = 1,
 	QUIT = 2
-};
-
-class UI {
-public:
-	UI(IVideoDriver* driver, char const* icon);
-	void Draw(IVideoDriver* driver);
-private:
-	ITexture * texture;
 };
 
 class MenuState : public CGameState
@@ -37,9 +30,8 @@ public:
 
 protected:
 	MenuState();
-	UI* pMouseCursor;
-	UI* pBackgroundImage;
-	UI* pStartImage;
+	Sprite* backgroundSprite;
+	Sprite* revolverSprite;
 	ICameraSceneNode* m_pCamera;
 	ISceneNode* m_pNode;
 	position2d<s32> m_MousePos;
@@ -49,8 +41,7 @@ private:
 	static MenuState m_MenuState; // singleton...
 	int currentMenuId = 0;										// local game variables
 	void MouseClicked(CGameManager* pManager);
-
-	void DrawUI(CGameManager* pManager);
+	void switchMousePos(int state);
 };
 
 

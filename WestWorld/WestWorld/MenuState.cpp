@@ -17,9 +17,19 @@ void MenuState::Init(CGameManager* pManager) {
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
 	float width = pManager->getDriver()->getScreenSize().Width;
+	backgroundSprite = new Sprite(pManager->getDriver());
+	backgroundSprite->texture = pManager->getDriver()->getTexture("media/UI/StartMenu.png");
+	backgroundSprite->position.X = pManager->getDriver()->getScreenSize().Width / 2;
+	backgroundSprite->position.Y = pManager->getDriver()->getScreenSize().Height / 2;
 
-	pBackgroundImage = new UI(pManager->getDriver(), "media/UI/StartMenu.png");
-	pMouseCursor = new UI(pManager->getDriver(), "media/UI/revolverIcon.png");
+
+	revolverSprite = new Sprite(pManager->getDriver());
+	revolverSprite->texture = pManager->getDriver()->getTexture("media/UI/revolverIcon.png");
+	revolverSprite->scale.X = .3;
+	revolverSprite->scale.Y = .3;
+	revolverSprite->position.X = 350;
+	revolverSprite->position.Y = 150;
+	
 
 	m_pCamera = pManager->getSceneManager()->addCameraSceneNode(0, core::vector3df(0, 0, 10));
 
@@ -34,8 +44,10 @@ void MenuState::Init(CGameManager* pManager) {
 void MenuState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
-	pBackgroundImage->Draw(pManager->getDriver());
-	pMouseCursor->Draw(pManager->getDriver());
+	backgroundSprite->draw();
+	revolverSprite->draw();
+//	pBackgroundImage->Draw(pManager->getDriver());
+//	pMouseCursor->Draw(pManager->getDriver());
 	DisplayMouse(pManager);
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
@@ -49,8 +61,14 @@ void MenuState::MouseEvent(CGameManager* pManager) {  }
 
 void MenuState::KeyboardEvent(CGameManager* pManager) {
 
-	if ((pManager->GetKeyboard() == KEY_DOWN) && currentMenuId < 2) currentMenuId++;
-	if ((pManager->GetKeyboard() == KEY_UP) && currentMenuId > 0) currentMenuId--;
+	if ((pManager->GetKeyboard() == KEY_DOWN) && currentMenuId < 2) {
+		currentMenuId++;
+		revolverSprite->position.Y += 125;
+	}
+	if ((pManager->GetKeyboard() == KEY_UP) && currentMenuId > 0) {
+		currentMenuId--;
+		revolverSprite->position.Y -= 125;
+	}
 	
 	if (pManager->GetKeyboard() == KEY_RETURN) switch (menuStateID(currentMenuId)) {
 	case START:
@@ -77,18 +95,19 @@ void MenuState::DisplayMouse(CGameManager* pManager) {
 
 void MenuState::MouseClicked(CGameManager* pManager) {  }
 
-UI::UI(IVideoDriver* driver, char const* icon) {
-	texture = driver->getTexture(icon);
-}
-
-void UI::Draw(IVideoDriver* driver) {
-	driver->draw2DImage(texture,
-		core::position2d<int>(20, 20),
-		core::rect<int>(0, 0, texture->getSize().Width, texture->getSize().Height),
-		0,
-		video::SColor(255, 255, 255, 255), true); //Draw bar
-}
-
+//void MenuState::switchMousePos(int state) {
+//	switch(state) {
+//	case START:
+//		revolverSprite->position.Y = 150;
+//		
+//		break;
+//	case CONTROLS:
+//		 Controls = 275
+//		break;
+//	case Quit:
+//		// Quit = 400
+//	}
+//}
 
 
 
