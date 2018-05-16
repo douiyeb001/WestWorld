@@ -54,8 +54,8 @@ void Opponent::Update() {
 
 irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float speed)
 {
-	//if (pathProgress >= path.size())
-		//return pos;
+	if (pathProgress >= path.size())
+		return pos;
 
 	irr::core::vector3df nextPos;
 

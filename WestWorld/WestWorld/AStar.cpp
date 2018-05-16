@@ -90,10 +90,11 @@ GridCell* AStar::NextCell() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AStar::FindPath() {
+	if (possibleNextCells.empty())
+		return;
 	GridCell* currentCell = NextCell();
 
 	if (currentCell == pGoalCell) {
-		possibleNextCells.clear();
 		if (initialPath.size() == 0)
 			initialPath = ReversePath(currentCell->pathToCell);
 		currentPath = ReversePath(currentCell->pathToCell);
@@ -190,11 +191,15 @@ bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
 		for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
 			cellDictionary[CoordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
 
+		possibleNextCells.clear();
 		possibleNextCells.push_back(pStartCell);
 		FindPath();
-		return true;
+		if (possibleNextCells.empty()) {
+			cellDictionary[CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
+			return false;
+		}
 	}
-	return false;
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

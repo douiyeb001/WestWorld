@@ -72,7 +72,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
 		if(isPlacementValid(intersection, camera))
-		SpawnTurret(intersection, selector, meta, camera, anim);
+			SpawnTurret(intersection, selector, meta, camera, anim);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		
 	}
@@ -122,6 +122,7 @@ bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* pl
 	vector3df intersectingCell = spawner->path->GetCentre(intersection);
 	if (spawner->path->GetCell(intersection) == goalCell) return false;
 	else if (currentCell == spawner->path->GetCell(intersection)) return false;
+	else if (!spawner->path->RecalculatePath(intersection)) return false;
 	else if ((intersectingCell.X >= player->getPosition().X - radius && intersectingCell.X <= player->getPosition().X + radius) &&
 		(intersectingCell.Z >= player->getPosition().Z - radius && player->getPosition().Z - radius)) {
 		return false;
