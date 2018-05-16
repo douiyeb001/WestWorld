@@ -111,6 +111,7 @@ private:
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
+	bool pause = false;
 
 };
 #endif

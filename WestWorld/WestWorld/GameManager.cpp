@@ -1,6 +1,7 @@
 #include "GameStates.h"
 #include "GameManager.h"
 #include "TestLevelState.h"
+#include  "MenuState.h"
 
 //! Default constructor
 CGameManager::CGameManager()
@@ -9,7 +10,7 @@ CGameManager::CGameManager()
 	CreateDevice();
 	// by default, we start with the introduction mode...
 //	m_pGameState = TestLevelState::Instance();
-	ChangeState(TestLevelState::Instance());
+	ChangeState(MenuState::Instance());
 }
 
 //! Default destructor

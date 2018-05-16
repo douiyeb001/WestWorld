@@ -77,6 +77,8 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 }
 void TestLevelState::Update(CGameManager* pManager) {
+	if (pause) return;
+
 	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
@@ -97,6 +99,10 @@ void TestLevelState::Update(CGameManager* pManager) {
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
+	if (pManager->GetKeyboard() == KEY_ESCAPE) pause = !pause;
+
+	if (pause) return;
+
 	if(pManager->GetKeyboard() == KEY_KEY_E)
 	{
 		//trigger Placement indicator
@@ -115,6 +121,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
+	if (pause) return;
 	// Remember the mouse statess
 	//bool isDown = false;
 	int maxTime;
