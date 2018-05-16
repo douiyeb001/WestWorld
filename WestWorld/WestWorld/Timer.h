@@ -18,10 +18,12 @@ public:
 	int stop();
 	int check();
 	void reset();
+	int deltaTime();
 private:
 	int beginTime;
 	int interval;
 	ITimer* irrTimer;
+	int previousTime;
 };
 
 #endif

@@ -88,6 +88,7 @@ private:
 
 	Timer* p_Timer;
 	bool readyToShoot = true;
+	bool isBuildPhase;
 
 	/// <summary>	The camera node. </summary>
 	ICameraSceneNode* cameraNode;

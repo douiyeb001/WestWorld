@@ -3,7 +3,7 @@
 
 
 
-EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* _cManager)
+EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* _cManager, Timer* pTimer) : p_Timer(pTimer)
 {
 	ismgr = smgr;
 	iselector = selector;
@@ -14,8 +14,9 @@ EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector*
 
 void EnemyManager::Update() {
 	// update all the enemies
+	int deltaTime = p_Timer->deltaTime();
 	for (Opponent* op : opponentList) {
-		op->Update();
+		op->Update(deltaTime);
 	}
 
 	// give turret ai list of enemies ~ events / not in update next version

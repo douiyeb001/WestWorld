@@ -11,6 +11,7 @@
 #include "IMaterialRenderer.h"
 #include "IFileSystem.h"
 #include "EnemySpawner.h"
+#include "Timer.h"
 namespace irr
 {
 	namespace scene
@@ -22,9 +23,9 @@ namespace irr
 			const core::vector3df& scale,
 			PlayerBase* goalNode_, std::vector<bool> Obstacle,
 			IMetaTriangleSelector* imeta,
-			EnemyManager* pEnemyManager)
+			EnemyManager* pEnemyManager, Timer* pTimer)
 			: IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), Shadow(0),
-			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_->base,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager), obstacle(Obstacle)
+			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_->base,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager), obstacle(Obstacle),p_Timer(pTimer)
 			
 		{
 #ifdef _DEBUG
@@ -415,7 +416,7 @@ namespace irr
 				newManager = SceneManager;
 
 			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
-				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager);
+				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager,p_Timer);
 
 			nb->cloneMembers(this, newManager);
 			nb->ReadOnlyMaterials = ReadOnlyMaterials;
@@ -446,13 +447,18 @@ namespace irr
 		}
 
 		void EnemySpawner::Update() {
-			countdownSpawn -= 0.1;
-			if (countdownSpawn < 0) {
-				SpawnOpponent();
-				countdownSpawn = 50.0f;
+			if(p_Timer->alarm()){
+				if (enemiesInWave > 0) {
+					SpawnOpponent();
+					p_Timer->set(1000);
+					enemiesInWave--;
+				}
 			}
-			//for (int i = 0; i < ((enemies).size()); i++)
-				//(enemies[i])->Update();
+		}
+
+		void EnemySpawner::NewWave(int enemies) {
+			enemiesInWave = enemies;
+			p_Timer->set(1000);
 		}
 	} // end namespace scene
 } // end namespace irr
