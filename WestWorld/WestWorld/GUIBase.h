@@ -69,6 +69,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void Draw(IVideoDriver* driver);
+
 private:
 	/// <summary>	The hp bar. </summary>
 	ITexture* hpBar;
@@ -93,6 +94,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void Draw(IVideoDriver* driver);
+
 private:
 	/// <summary>	The placeable icon. </summary>
 	ITexture * placeableIcon;
@@ -123,5 +125,29 @@ private:
 	ITexture* pInfinityTexture;
 
 };
+
+class WaveCounter {
+public:
+	WaveCounter(IVideoDriver* driver, char const* pWaveImage);
+	void Draw(IVideoDriver* driver);
+private:
+	ITexture * pWaveImage;
+
+};
+
+class DrawUI {
+public:
+	DrawUI(IVideoDriver* driver);
+	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
+
+private:
+	PlayerHealthBar * pPlayerHealthBar;
+	CurrencyUI* pCurrencyUI;
+	Reticle* pReticle;
+	WaveCounter* pWaveCounter;
+
+
+};
+
 
 #endif

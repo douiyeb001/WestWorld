@@ -104,13 +104,14 @@ private:
 	TurretAI* pTurretAI;
 	Opponent* enemy;
 	/// <summary>	The player core. </summary>
-	PlayerBase* playerCore;
+	//PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
+	DrawUI* pDrawUI;
 
 };
 #endif
