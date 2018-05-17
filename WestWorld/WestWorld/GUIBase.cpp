@@ -33,7 +33,11 @@ GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
 
 
 }
+Objective::Objective(IVideoDriver* driver, char const* objectiveText, IrrlichtDevice* pDevice) {
+	ObjectiveSprite = driver->getTexture(objectiveText);
+	font = pDevice->getGUIEnvironment()->getFont("medi.bmp");
 
+}
 
 void Reticle::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
@@ -72,7 +76,22 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		core::position2d<int>(0, 0),
 		core::rect<int>(0, 0, GameOverSprite->getSize().Width, GameOverSprite->getSize().Height),
 		0,
-		video::SColor(255, 255, 255, 255), true); //Draw bar
+		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
+
+}
+void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
+	
+	driver->draw2DImage(ObjectiveSprite, core::position2d<int>(1260, 20),
+		core::rect<int>(0, 0, ObjectiveSprite->getSize().Width, ObjectiveSprite->getSize().Height),
+		0,
+		video::SColor(255, 255, 255, 255), true);// draw objective 
+	StaticKillCount = gui->addStaticText(killCountText, rect<s32>(70, 30, 270, 50), false);
+	//if (font)
+	//{
+	//	font->draw((L"%d", (stringc)pTurret->killcount),
+	//		core::rect<s32>(70, 30, 270, 50),
+	//		video::SColor(255, 0, 0, 0));
+	//}
 
 }
 

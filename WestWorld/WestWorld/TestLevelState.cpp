@@ -34,6 +34,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
+	pObjective = new Objective(pManager->getDriver(), "media/UI/ObjectiveNotDone.png", pManager->getDevice());
 
 	
 	
@@ -95,6 +96,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		pGameOver->Draw(pManager->getDriver());
 
 	}
+	pObjective->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
 
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;

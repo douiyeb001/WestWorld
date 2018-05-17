@@ -5,7 +5,7 @@
 
 
 
-PlayerBase::PlayerBase(scene::ISceneNode* node, ISceneManager* mgr,IrrlichtDevice* pDevice) : health(5)
+PlayerBase::PlayerBase(scene::ISceneNode* node, ISceneManager* mgr,IrrlichtDevice* pDevice) : health(500)
 {
 	base = node;
 	_pDevice = pDevice;

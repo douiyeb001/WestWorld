@@ -5,6 +5,7 @@
 #include "currency.h"
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // namespace: irr
 //
@@ -119,6 +120,7 @@ private:
 
 };
 
+
 class CurrencyUI {
 public:
 	CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity);
@@ -127,7 +129,6 @@ public:
 	const wchar_t* pScore;
 private:
 
-	//IGUIFont * font;
 	IGUIStaticText * pStaticText;
 	IGUIStaticText* pScoreText;
 	Currency * cManager;
@@ -135,5 +136,23 @@ private:
 	ITexture* pInfinityTexture;
 
 };
+class Objective {
 
+public:
+	Objective(IVideoDriver* driver, char const* Objective, IrrlichtDevice* pDevice);
+	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
+	const wchar_t* objectiveText;
+	const wchar_t* killCountText;
+	IGUIFont * font;
+
+	
+	
+
+private:
+	
+	ITexture * ObjectiveSprite;
+	IGUIStaticText * StaticKillCount;
+
+
+};
 #endif
