@@ -1,4 +1,6 @@
 #include <irrlicht.h>
+#ifndef sprite_h
+#define sprite_h
 
 using namespace irr;
 using namespace video;
@@ -22,3 +24,4 @@ public:
 
 	IVideoDriver * driver;
 };
+#endif

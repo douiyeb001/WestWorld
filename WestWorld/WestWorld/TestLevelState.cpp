@@ -17,6 +17,7 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
+	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	pManager->getDevice()->getCursorControl()->setVisible(false);
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/TurretSceneNew.irr");
@@ -77,17 +78,20 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 }
 void TestLevelState::Update(CGameManager* pManager) {
-	if (pause) return;
+	if (pauseManager->isGamePaused()) return;
 
 	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
+	
 	enemyManager->Update();
 	pTurretAI->GetList(enemyManager->GiveArray());
 	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
 	//enemy->Update();
 	(*spawnPoint).Update();
+
 	healthbar->Draw(pManager->getDriver());
+	
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	
@@ -95,13 +99,15 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//if (p_Timer->alarm()) readyToShoot = true;
 
 	pManager->getGUIEnvironment()->drawAll();
+	pauseManager->Draw();
 	pManager->getDriver()->endScene();
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
-	if (pManager->GetKeyboard() == KEY_ESCAPE) pause = !pause;
-
-	if (pause) return;
+	if (pManager->GetKeyboard() == KEY_ESCAPE) {
+		pauseManager->TogglePause();
+	}
+	if (pauseManager->isGamePaused()) return;
 
 	if(pManager->GetKeyboard() == KEY_KEY_E)
 	{
@@ -121,7 +127,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
-	if (pause) return;
+	if (pauseManager->isGamePaused()) return;
 	// Remember the mouse statess
 	//bool isDown = false;
 	int maxTime;

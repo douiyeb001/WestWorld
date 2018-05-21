@@ -67,6 +67,7 @@ void Sprite::draw()
 		material.Lighting = false;
 		material.ZWriteEnable = false;
 		material.TextureLayer[0].Texture = texture;
+		material.ZBuffer = 0;
 		//material.TextureLayer[0].TrilinearFilter = true;
 
 		material.MaterialType = EMT_TRANSPARENT_ALPHA_CHANNEL;

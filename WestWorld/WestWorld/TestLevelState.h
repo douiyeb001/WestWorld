@@ -15,6 +15,7 @@
 #include <vector>
 #include "EnemyManager.h"
 #include "Timer.h"
+#include "PauseManager.h"
 
 class TestLevelState : public CGamePlayState {
 
@@ -108,10 +109,9 @@ private:
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
+	PauseManager* pauseManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
-	bool pause = false;
-
 };
 #endif
