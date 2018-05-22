@@ -31,12 +31,11 @@ void MenuState::Init(CGameManager* pManager) {
 	revolverSprite->position.Y = 150;
 	
 
-	m_pCamera = pManager->getSceneManager()->addCameraSceneNode(0, core::vector3df(0, 0, 10));
+	/*m_pCamera = pManager->getSceneManager()->addCameraSceneNode(0, core::vector3df(0, 0, 10));
 
 	ISceneNodeAnimator* anim = pManager->getSceneManager()->createFlyCircleAnimator(
 		vector3df(0, 5, 0), 25.0f, 0.0002f);
-	m_pCamera->addAnimator(anim);
-	anim->drop();
+	m_pCamera->addAnimator(anim);*/
 	
 	CGameState::FadeInOut(pManager);
 }
@@ -79,6 +78,10 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 	case QUIT:
 		pManager->getDevice()->closeDevice();
 		break;
+	}
+	if (pManager->GetKeyboard() == KEY_F1)
+	{
+		ReinitializeState(pManager, MenuState::Instance());
 	}
 }
 

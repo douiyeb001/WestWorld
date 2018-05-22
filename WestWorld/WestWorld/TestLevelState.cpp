@@ -1,10 +1,9 @@
 #include "TestLevelState.h"
-
+#include "MenuState.h"
 
 TestLevelState TestLevelState::m_TestLevelState;
 
 TestLevelState::TestLevelState(){
-
 }
 
 
@@ -75,7 +74,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
-
+	pManager->getSceneManager()->clear();
+	// delete all???
 }
 void TestLevelState::Update(CGameManager* pManager) {
 	if (pauseManager->isGamePaused()) return;
@@ -107,7 +107,12 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 	if (pManager->GetKeyboard() == KEY_ESCAPE) {
 		pauseManager->TogglePause();
 	}
-	if (pauseManager->isGamePaused()) return;
+	if (pauseManager->isGamePaused()) {
+		// every event that happens while in the pause state
+		pauseManager->KeyboardEvent(pManager);
+		//
+		return;
+	}
 
 	if(pManager->GetKeyboard() == KEY_KEY_E)
 	{
@@ -123,6 +128,11 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 			PoManager->ResetPlacementIndicator();
 			
 		}
+	}
+
+	if (pManager->GetKeyboard() == KEY_F1)
+	{
+		ChangeState(pManager, MenuState::Instance());
 	}
 }
 

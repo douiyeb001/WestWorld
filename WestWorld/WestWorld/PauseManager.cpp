@@ -1,6 +1,6 @@
 #include "PauseManager.h"
-
-
+#include "MenuState.h"
+#include "TestLevelState.h"
 
 PauseManager::PauseManager(IVideoDriver* driver, IGUIEnvironment* gui)
 {
@@ -26,6 +26,31 @@ void PauseManager::TogglePause() {
 	isPaused = !isPaused;
 }
 
+void PauseManager::KeyboardEvent(CGameManager* pManager) {
+	if ((pManager->GetKeyboard() == KEY_DOWN) && currentPauseId < 3) {
+		currentPauseId++;
+	}
+	if ((pManager->GetKeyboard() == KEY_UP) && currentPauseId > 0) {
+		currentPauseId--;
+	}
+
+	if (pManager->GetKeyboard() == KEY_RETURN) switch (pauseStateID(currentPauseId)) {
+	case RESUME:
+		TogglePause();
+		break;
+	case RESTART:
+		RestartLevel(pManager);
+		break;
+	case MENU:
+		GoToStartMenu(pManager);
+		break;
+	case EXIT:
+		ExitGame(pManager);
+		break;
+	}
+}
+
+
 void PauseManager::Draw() {
 //	if (!isPaused) return;
 
@@ -37,11 +62,13 @@ bool PauseManager::isGamePaused() {
 	return isPaused;
 }
 
+void PauseManager::RestartLevel(CGameManager* pManager) {
+	pManager->ChangeState(TestLevelState::Instance());
+}
 
-
-void PauseManager::RestartLevel(CGameManager* pManager) {  }
-
-void PauseManager::GoToStartMenu(CGameManager* pManager) {  }
+void PauseManager::GoToStartMenu(CGameManager* pManager) {
+	pManager->ChangeState(MenuState::Instance());
+}
 
  void PauseManager::ExitGame(CGameManager* pManager) {
 	pManager->getDevice()->closeDevice();

@@ -16,6 +16,7 @@
 #include "EnemyManager.h"
 #include "Timer.h"
 #include "PauseManager.h"
+#include <memory>
 
 class TestLevelState : public CGamePlayState {
 
@@ -85,7 +86,7 @@ protected:
 
 private:
 	/// <summary>	The title picture. </summary>
-	ITexture * m_titlePic;
+	ITexture* m_titlePic;
 
 	Timer* p_Timer;
 	bool readyToShoot = true;
@@ -108,8 +109,9 @@ private:
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
-	EnemyManager* enemyManager;
+
 	PauseManager* pauseManager;
+	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;

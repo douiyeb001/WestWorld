@@ -31,6 +31,13 @@ void CGameManager::ChangeState(CGameState * pState)
 	}
 }
 
+void CGameManager::ReinitializeState(CGameState * pState) {
+	m_pGameState->Clear(this);
+	//delete m_pGameState;
+		m_pGameState = pState;
+		m_pGameState->Init(this);
+}
+
 //! Holds a pointer to the current states, (level) Update function
 //! The Update will be the game loop for the current state
 void CGameManager::Update()
