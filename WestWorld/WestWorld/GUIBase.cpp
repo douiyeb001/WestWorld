@@ -7,7 +7,7 @@ PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
 }
 
 void PlayerHealthBar::Draw(IVideoDriver* driver) {
-	driver->draw2DImage(hpBar, core::position2d<int>(0, driver->getScreenSize().Height - hpBar->getSize().Height), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+	driver->draw2DImage(hpBar, core::position2d<int>(driver->getScreenSize().Width - hpBar->getSize().Width - 25, 10 ), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
 Placeable::Placeable(IVideoDriver* driver, char const* icon1) {
@@ -21,6 +21,12 @@ void Placeable::Draw(IVideoDriver* driver) {
 Reticle::Reticle(IVideoDriver* driver, char const* reticle) {
 	reticleSprite = driver->getTexture(reticle);
 }
+
+
+void Reticle::Draw(IVideoDriver* driver) {
+	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
+}
+
 CurrencyUI::CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity) {
 	//font = device->getGUIEnvironment()->getFont("medi.bmp");
 	//pScore = (const wchar_t*)cManager->playerCurrency;
@@ -58,13 +64,13 @@ void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 	//		video::SColor(255, 0, 0, 0));
 	//}
 	driver->draw2DImage(pDollarTexture, 
-		core::position2d<int>(20, 20), 
+		core::position2d<int>(10, driver->getScreenSize().Height - pDollarTexture->getSize().Height - 10), 
 		core::rect<int>(0, 0, pDollarTexture->getSize().Width, pDollarTexture->getSize().Height), 
 		0, 
 		video::SColor(255, 255, 255, 255), true); //Draw bar
 
 	driver->draw2DImage(pInfinityTexture,
-		core::position2d<int>(100, 0),
+		core::position2d<int>(80, driver->getScreenSize().Height - pInfinityTexture->getSize().Height + 10),
 		core::rect<int>(0, 0, pInfinityTexture->getSize().Width, pInfinityTexture->getSize().Height),
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw bar
@@ -78,6 +84,9 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
 
+void WaveCounter::Draw(IVideoDriver* driver) {
+	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width, 100), core::rect<int>(0, 0, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+}
 }
 void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	
@@ -94,5 +103,22 @@ void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	//}
 
 }
+
+DrawUI::DrawUI(IVideoDriver* driver) {
+	pPlayerHealthBar = new PlayerHealthBar(driver, "media/UI/PlayerHealth.png");
+	pCurrencyUI = new CurrencyUI(driver, "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
+	pWaveCounter = new WaveCounter(driver, "media/UI/WaveCounter.png");
+}
+
+void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
+	pPlayerHealthBar->Draw(driver);
+	pCurrencyUI->Draw(gui, driver);
+	pReticle->Draw(driver);
+	pWaveCounter->Draw(driver);
+
+}
+
+
 
 

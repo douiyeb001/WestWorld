@@ -1,5 +1,6 @@
-#pragma once
+//#pragma once
 #include <irrlicht.h>
+//#include "HealthBar.h"
 #include "HealthBar.h"
 
 

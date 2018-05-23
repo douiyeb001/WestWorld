@@ -88,6 +88,7 @@ private:
 
 	Timer* p_Timer;
 	bool readyToShoot = true;
+	bool isBuildPhase;
 
 	/// <summary>	The camera node. </summary>
 	ICameraSceneNode* cameraNode;
@@ -113,6 +114,7 @@ private:
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
+	DrawUI* pDrawUI;
 
 };
 #endif

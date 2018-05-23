@@ -7,6 +7,7 @@
 #include <vector>
 #include "Opponent.h" 
 #include "Currency.h"
+#include "Timer.h"
 //#include <vector>
 
 
@@ -41,7 +42,7 @@ public:
 	video::IVideoDriver* idriver;
 	Currency* cManager;
 
-	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* cManager);
+	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* cManager, Timer * pTimer);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Default constructor. </summary>
@@ -81,7 +82,7 @@ public:
 
 	std::vector<Opponent*> opponentList;
 	void UpdatePath(std::vector<GridCell*> newPath, GridCell* changedCell);
-
+	Timer* p_Timer;
 	
 };
 #endif

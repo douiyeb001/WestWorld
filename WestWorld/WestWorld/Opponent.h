@@ -42,7 +42,7 @@ public:
 	///
 	/// <remarks> Moves the enemy along its path. </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Update();
+	void Update(int deltaTime);
 	void ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell);
 	/// <summary>	The path for the enemy to follow. </summary>
 	std::vector<GridCell*> path;

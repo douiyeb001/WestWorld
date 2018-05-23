@@ -107,4 +107,6 @@ public:
 
 	core::vector3df GetCentre(core::vector3df position);
 	GridCell* GetCell(core::vector3df position);
+
+	//bool isPathValid()
 };
