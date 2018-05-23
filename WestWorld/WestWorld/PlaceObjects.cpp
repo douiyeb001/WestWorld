@@ -28,6 +28,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
 			if (barrelNode)
 			{
+				barrelNode->setName("Barricade");
 				barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
@@ -52,9 +53,10 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 		{
 			scene::IMesh* turretMesh = smgr->getMesh("meshes/Barrel.obj");
 			scene::IMeshSceneNode* turretNode = 0;
-			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedObstacle);
+			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
+				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				turretNode->setPosition(spawner->path->GetCentre(position));

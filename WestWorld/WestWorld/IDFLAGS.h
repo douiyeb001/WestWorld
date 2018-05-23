@@ -7,6 +7,8 @@ enum IDFlag
 	// not pickable by getSceneNodeAndCollisionPointFromRay()
 	spawnGround = 14,
 	spawnedObstacle = 15,
+	spawnedTurret = 16,
+	spawnedEnemy = 17,
 	ID_IsNotPickable = 0
 };
 
