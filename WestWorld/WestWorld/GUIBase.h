@@ -138,17 +138,6 @@ private:
 	ITexture* pInfinityTexture;
 
 };
-class Objective {
-
-class WaveCounter {
-public:
-	WaveCounter(IVideoDriver* driver, char const* pWaveImage);
-	void Draw(IVideoDriver* driver);
-private:
-	ITexture * pWaveImage;
-
-};
-
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver);
@@ -162,6 +151,19 @@ private:
 
 
 };
+class WaveCounter {
+public:
+	WaveCounter(IVideoDriver* driver, char const* pWaveImage);
+	void Draw(IVideoDriver* driver);
+private:
+	ITexture * pWaveImage;
+
+};
+class Objective {
+
+
+
+
 
 
 public:

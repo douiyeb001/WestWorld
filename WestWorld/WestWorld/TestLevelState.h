@@ -98,6 +98,7 @@ private:
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
 	PlaceObjects* PoManager;
+	
 	/// <summary>	The p layer. </summary>
 	Currency* cManager;
 	Player* pPLayer; 
@@ -111,10 +112,11 @@ private:
 	EnemyManager* enemyManager;
 	GameOverScreen* pGameOver;
 	Objective* pObjective;
+	
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
-	DrawUI* pDrawUI;
+	
 
 };
 #endif

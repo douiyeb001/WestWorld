@@ -45,9 +45,6 @@ Objective::Objective(IVideoDriver* driver, char const* objectiveText, IrrlichtDe
 
 }
 
-void Reticle::Draw(IVideoDriver* driver) {
-	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
-}
 void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 	
 	//pStaticText = gui->addStaticText(pText, rect<s32>(20, 30, 220, 50), false);
@@ -83,11 +80,13 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		core::rect<int>(0, 0, GameOverSprite->getSize().Width, GameOverSprite->getSize().Height),
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
+}
+void Objective::WaveCounter::Draw(IVideoDriver* driver)
+{
 
-void WaveCounter::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width, 100), core::rect<int>(0, 0, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
-}
+
 void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	
 	driver->draw2DImage(ObjectiveSprite, core::position2d<int>(1260, 20),
@@ -104,14 +103,17 @@ void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 
 }
 
-DrawUI::DrawUI(IVideoDriver* driver) {
+Objective::DrawUI::DrawUI(IVideoDriver* driver)
+{
+	
+
 	pPlayerHealthBar = new PlayerHealthBar(driver, "media/UI/PlayerHealth.png");
 	pCurrencyUI = new CurrencyUI(driver, "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
 	pWaveCounter = new WaveCounter(driver, "media/UI/WaveCounter.png");
 }
 
-void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
+void Objective::DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	pPlayerHealthBar->Draw(driver);
 	pCurrencyUI->Draw(gui, driver);
 	pReticle->Draw(driver);
