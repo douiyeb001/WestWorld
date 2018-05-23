@@ -17,6 +17,7 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
+	int waveCount = 1;
 	pManager->getDevice()->getCursorControl()->setVisible(false);
 	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
@@ -28,7 +29,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	isBuildPhase = true;
 //	pManager->GetAnim()->drop();
-	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/PlayerHealth.png");
+	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/PlayerHealth.png");
 	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
@@ -37,6 +38,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
+	pVictory = new VictoryScreen(pManager->getDriver(), "media/UI/VictoryScreen.png");
 	//pObjective = new Objective(pManager->getDriver(), "media/UI/ObjectiveNotDone.png", pManager->getDevice());
 
 	
@@ -73,7 +75,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
 	spawnPoint->drop();
-	//playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
+	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
@@ -104,11 +106,11 @@ void TestLevelState::Update(CGameManager* pManager) {
 		(*spawnPoint).Update();
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);
+			waveCount++;
 			isBuildPhase = true;
 		}
 	}
 	
-	//playerReticle->Draw(pManager->getDriver());
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
 	(*spawnPoint).Update();
 	healthbar->Draw(pManager->getDriver());
@@ -118,7 +120,12 @@ void TestLevelState::Update(CGameManager* pManager) {
 		pGameOver->Draw(pManager->getDriver());
 
 	}
-	//pObjective->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
+	if(waveCount == 1)
+	{
+		pVictory->Draw(pManager->getDriver());
+	}
+	
+
 
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;

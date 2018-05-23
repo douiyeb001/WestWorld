@@ -122,6 +122,18 @@ private:
 
 };
 
+class VictoryScreen {
+
+public:
+	 VictoryScreen(IVideoDriver* driver, char const* winLogo);
+	void Draw(IVideoDriver* driver);
+	const wchar_t* deadText;
+
+
+private:
+	ITexture * VictorySprite;
+
+};
 
 class CurrencyUI {
 public:
@@ -147,6 +159,7 @@ private:
 	ITexture * pWaveImage;
 
 };
+
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver);
@@ -156,8 +169,9 @@ private:
 	PlayerHealthBar * pPlayerHealthBar;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
-	WaveCounter *pWaveCounter;
+	WaveCounter* pWaveCounter;
 
 
 };
+
 #endif

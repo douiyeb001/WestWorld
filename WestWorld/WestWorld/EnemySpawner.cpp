@@ -196,7 +196,7 @@ namespace irr
 							video::SColor(255, 190, 128, 128));
 					}
 				}
-
+				
 				if (DebugDataVisible & scene::EDS_NORMALS)
 				{
 					// draw normals

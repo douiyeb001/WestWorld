@@ -29,13 +29,18 @@ void Reticle::Draw(IVideoDriver* driver) {
 
 CurrencyUI::CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity) {
 	//font = device->getGUIEnvironment()->getFont("medi.bmp");
-	//pScore = (const wchar_t*)cManager->playerCurrency;
+	//pScore = (const wchar_t*)cager->playerCurrency;
 	pDollarTexture = driver->getTexture(pDollar);
 	pInfinityTexture = driver->getTexture(pInfinity);
 
 }
 GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
 	GameOverSprite = driver->getTexture(deadLogo);
+
+
+}
+VictoryScreen::VictoryScreen(IVideoDriver* driver, char const* victoryLogo) {
+	VictorySprite = driver->getTexture(victoryLogo);
 
 
 }
@@ -77,6 +82,20 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
 }
+void VictoryScreen::Draw(IVideoDriver* driver) {
+
+	driver->draw2DImage(VictorySprite,
+		core::position2d<int>(0, 0),
+		core::rect<int>(0, 0, VictorySprite->getSize().Width * 2, VictorySprite->getSize().Height*2),
+		0,
+		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
+}
+
+WaveCounter::WaveCounter(IVideoDriver* driver, char const* bar) {
+	pWaveImage = driver->getTexture(bar);
+	driver->makeColorKeyTexture(pWaveImage, core::position2d<s32>(0, 0));
+}
+
 void WaveCounter::Draw(IVideoDriver* driver)
 {
 

@@ -89,6 +89,7 @@ private:
 	Timer* p_Timer;
 	bool readyToShoot = true;
 	bool isBuildPhase;
+	int waveCount = 0;
 
 	/// <summary>	The camera node. </summary>
 	ICameraSceneNode* cameraNode;
@@ -98,6 +99,7 @@ private:
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
 	PlaceObjects* PoManager;
+	VictoryScreen* pVictory;
 	
 	/// <summary>	The p layer. </summary>
 	Currency* cManager;
