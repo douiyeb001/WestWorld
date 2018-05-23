@@ -134,6 +134,7 @@ private:
 	/// <summary>	The node. </summary>
 	IMeshSceneNode* node;
 
+	bool isPlacementValid(vector3df intersection, ICameraSceneNode* player);
 	///
 	scene::IMeshSceneNode* placementIndicatorNode;
 };
