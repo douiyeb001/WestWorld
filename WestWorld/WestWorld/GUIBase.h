@@ -138,6 +138,15 @@ private:
 	ITexture* pInfinityTexture;
 
 };
+
+class WaveCounter {
+public:
+	WaveCounter(IVideoDriver* driver, char const* pWaveImage);
+	void Draw(IVideoDriver* driver);
+private:
+	ITexture * pWaveImage;
+
+};
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver);
@@ -147,39 +156,7 @@ private:
 	PlayerHealthBar * pPlayerHealthBar;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
-	WaveCounter* pWaveCounter;
-
-
-};
-class WaveCounter {
-public:
-	WaveCounter(IVideoDriver* driver, char const* pWaveImage);
-	void Draw(IVideoDriver* driver);
-private:
-	ITexture * pWaveImage;
-
-};
-class Objective {
-
-
-
-
-
-
-public:
-	Objective(IVideoDriver* driver, char const* Objective, IrrlichtDevice* pDevice);
-	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
-	const wchar_t* objectiveText;
-	const wchar_t* killCountText;
-	IGUIFont * font;
-
-	
-	
-
-private:
-	
-	ITexture * ObjectiveSprite;
-	IGUIStaticText * StaticKillCount;
+	WaveCounter *pWaveCounter;
 
 
 };

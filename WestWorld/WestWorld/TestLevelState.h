@@ -111,8 +111,8 @@ private:
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
 	GameOverScreen* pGameOver;
-	Objective* pObjective;
-	
+	//Objective* pObjective;
+	DrawUI * pDrawUI;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;

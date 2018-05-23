@@ -39,11 +39,7 @@ GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
 
 
 }
-Objective::Objective(IVideoDriver* driver, char const* objectiveText, IrrlichtDevice* pDevice) {
-	ObjectiveSprite = driver->getTexture(objectiveText);
-	font = pDevice->getGUIEnvironment()->getFont("medi.bmp");
 
-}
 
 void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 	
@@ -81,29 +77,14 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
 }
-void Objective::WaveCounter::Draw(IVideoDriver* driver)
+void WaveCounter::Draw(IVideoDriver* driver)
 {
 
 	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width, 100), core::rect<int>(0, 0, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
-void Objective::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
-	
-	driver->draw2DImage(ObjectiveSprite, core::position2d<int>(1260, 20),
-		core::rect<int>(0, 0, ObjectiveSprite->getSize().Width, ObjectiveSprite->getSize().Height),
-		0,
-		video::SColor(255, 255, 255, 255), true);// draw objective 
-	StaticKillCount = gui->addStaticText(killCountText, rect<s32>(70, 30, 270, 50), false);
-	//if (font)
-	//{
-	//	font->draw((L"%d", (stringc)pTurret->killcount),
-	//		core::rect<s32>(70, 30, 270, 50),
-	//		video::SColor(255, 0, 0, 0));
-	//}
 
-}
-
-Objective::DrawUI::DrawUI(IVideoDriver* driver)
+DrawUI::DrawUI(IVideoDriver* driver)
 {
 	
 
@@ -113,7 +94,7 @@ Objective::DrawUI::DrawUI(IVideoDriver* driver)
 	pWaveCounter = new WaveCounter(driver, "media/UI/WaveCounter.png");
 }
 
-void Objective::DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
+void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	pPlayerHealthBar->Draw(driver);
 	pCurrencyUI->Draw(gui, driver);
 	pReticle->Draw(driver);
