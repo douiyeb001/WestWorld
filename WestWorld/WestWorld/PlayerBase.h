@@ -1,5 +1,5 @@
 //#pragma once
-//#include <irrlicht.h>
+#include <irrlicht.h>
 //#include "HealthBar.h"
 //
 // summary:	.

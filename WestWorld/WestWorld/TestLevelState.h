@@ -104,7 +104,7 @@ private:
 	TurretAI* pTurretAI;
 	Opponent* enemy;
 	/// <summary>	The player core. </summary>
-	//PlayerBase* playerCore;
+	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
 	EnemyManager* enemyManager;
