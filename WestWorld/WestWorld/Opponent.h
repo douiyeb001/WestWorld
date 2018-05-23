@@ -12,15 +12,19 @@
 // summary:	Opponent class that inherits from IMeshSceneNode so it always has a represented node
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+class EnemyManager;
 using namespace irr;
 
 class Opponent : public scene::IMeshSceneNode {
 public:
-	Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale);
+	Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, PlayerBase* _target, EnemyManager* _enemyManager);
 	~Opponent();
 
 	/// <summary>	The speed at which the enemy moves. </summary>
 	float speed;
+	bool isExploding;
+	float scale;
+	EnemyManager* enemyManager;
 
 	/// <summary>	Despawns the enemy from the scene. </summary>
 	void Despawn();
@@ -46,7 +50,7 @@ public:
 	int pathProgress;
 	bool backTracePath;
 	int startOfNewPath;
-
+	PlayerBase* target;
 	/* The following are implementations needed for the mesh scene node interface.
 	   They are copied from the Irrlicht example named "CMeshSceneNode". */
 	virtual void OnRegisterSceneNode();
