@@ -16,29 +16,30 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
-	ISceneNode* turret = pSmgr->getSceneNodeFromName("Turret");
+	ISceneNode* turret = pSmgr->getSceneNodeFromId(16);
 	float radius = 300;
+	if (turret != NULL) {
+		for (Opponent* p : opList) {
 
-	for (Opponent* p : opList) {
+			SMaterial m;
+			m.Lighting = false;
+			pSmgr->getVideoDriver()->setMaterial(m);
+			pSmgr->getVideoDriver()->setTransform(video::ETS_WORLD, core::matrix4());
 
-		SMaterial m;
-		m.Lighting = false;
-		pSmgr->getVideoDriver()->setMaterial(m);
-		pSmgr->getVideoDriver()->setTransform(video::ETS_WORLD, core::matrix4());
+			if ((p->getPosition().X >= turret->getPosition().X - radius && p->getPosition().X <= turret->getPosition().X + radius) &&
+				(p->getPosition().Z >= turret->getPosition().Z - radius && turret->getPosition().Z - radius) && enemySpotted == false) {
+				enemySpotted = true;
 
-		if ((p->getPosition().X >= turret->getPosition().X - radius && p->getPosition().X <= turret->getPosition().X + radius) &&
-			(p->getPosition().Z >= turret->getPosition().Z - radius && turret->getPosition().Z - radius) && enemySpotted == false) {
-			enemySpotted = true;
+				if (enemySpotted) {
+					pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
 
-			if (enemySpotted) {
-				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
+					ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
+				}
 
-				ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
 			}
 
+
 		}
-		
-		
 	}
 }
 
