@@ -26,6 +26,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	cameraNode->addAnimator(pManager->GetAnim());
 	p_Timer = new Timer(pManager->getDevice());
 	pManager->SetCollision();
+	isBuildPhase = true;
 //	pManager->GetAnim()->drop();
 	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/PlayerHealth.png");
 	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
@@ -58,10 +59,12 @@ void TestLevelState::Init(CGameManager* pManager) {
 				}
 		}
 	}
+	Timer* enemyTimer = new Timer(pManager->getDevice());
+	(*enemyTimer).set(5000);
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
-	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
+	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	pTurretAI = new TurretAI(enemyManager);
-	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager);
+	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
 	spawnPoint->drop();
 	//playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 
@@ -69,7 +72,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
-	(*spawnPoint).SpawnOpponent();
+	
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 }
 
@@ -80,14 +83,23 @@ void TestLevelState::Update(CGameManager* pManager) {
 	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
-	enemyManager->Update();
 	pTurretAI->GetList(enemyManager->GiveArray());
 	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
 	//enemy->Update();
-	(*spawnPoint).Update();
-	//healthbar->Draw(pManager->getDriver());
-	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
-	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+	if (isBuildPhase) {
+		PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+		if (enemyManager->p_Timer->alarm()) {
+			isBuildPhase = false;
+			spawnPoint->NewWave(10);
+		}
+	} else {
+		enemyManager->Update();
+		(*spawnPoint).Update();
+		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
+			enemyManager->p_Timer->set(5000);
+			isBuildPhase = true;
+		}
+	}
 	
 	//playerReticle->Draw(pManager->getDriver());
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
@@ -98,7 +110,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
-	if(pManager->GetKeyboard() == KEY_KEY_E)
+	if(pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
 	{
 		//trigger Placement indicator
 		if (!PoManager->isInBuildMode)
@@ -120,7 +132,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	//bool isDown = false;
 	int maxTime;
 
-	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN)
+	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN && isBuildPhase)
 	{
 	
 	//	isDown = true;

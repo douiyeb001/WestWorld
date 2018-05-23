@@ -43,7 +43,7 @@ void Opponent::Despawn() {
 	setVisible(false);
 }
 
-void Opponent::Update() {
+void Opponent::Update(int deltaTime) {
 	core::vector3df pos = getAbsolutePosition();
 	//int i = 1;
 	if (pathProgress > path.size()) { isExploding = true; }
@@ -99,7 +99,7 @@ void Opponent::Update() {
 		}
 		distance.normalize();
 
-		setPosition(pos + (speed * distance));
+		setPosition(pos + (speed * distance * deltaTime));
 	}
 	//setPosition(NextPathPosition(getAbsolutePosition(), speed));
 

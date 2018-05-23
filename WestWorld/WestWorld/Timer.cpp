@@ -18,6 +18,7 @@ void Timer::set(int timeout) {
 
 void Timer::start() {
 	beginTime = irrTimer->getTime();
+	previousTime = beginTime;
 	interval = 0;
 }
 
@@ -45,4 +46,11 @@ int Timer::check() {
 void Timer::reset() {
 	beginTime = 0;
 	interval = 0;
+}
+
+int Timer::deltaTime() {
+	int now = irrTimer->getTime();
+	int deltaTime = now - previousTime;
+	previousTime = now;
+	return deltaTime;
 }

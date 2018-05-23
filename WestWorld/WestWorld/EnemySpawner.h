@@ -10,6 +10,7 @@
 #include "AStar.h" 
 #include "Opponent.h"
 #include "EnemyManager.h"
+#include "timer.h"
 
 namespace irr
 {
@@ -27,12 +28,15 @@ namespace irr
 				const core::vector3df& scale,
 				PlayerBase* goalNode_, std::vector<bool> Obstacle,
 				IMetaTriangleSelector* meta,
-				EnemyManager* pEnemyManager);
+				EnemyManager* pEnemyManager, Timer* pTimer);
 
 			//! destructor
 			virtual ~EnemySpawner();
 
+
 			EnemyManager* _pEnemyManager;
+
+			Timer* p_Timer;
 
 			//! frame
 			virtual void OnRegisterSceneNode();
@@ -96,6 +100,8 @@ namespace irr
 			ISceneManager* smgr;
 			IMetaTriangleSelector* meta;
 			void Update();
+			void NewWave(int enemies);
+			int enemiesInWave;
 
 		protected:
 
@@ -111,6 +117,7 @@ namespace irr
 			s32 PassCount;
 			bool ReadOnlyMaterials;
 			float countdownSpawn;
+
 		};
 
 	} // end namespace scene
