@@ -93,7 +93,14 @@ void TestLevelState::Update(CGameManager* pManager) {
 			spawnPoint->NewWave(10);
 		}
 	} else {
-		enemyManager->Update();
+		/*float z = (*pPLayer).getCamera()->getPosition().Z;
+		float x = (*pPLayer).getCamera()->getPosition().Y;	
+		std::vector<GridCell*> list = (*spawnPoint).path->GetSurroundingCells((*pPLayer).getCamera()->getPosition());
+		for (GridCell* g : list) {
+			irr::core::aabbox3df box = irr::core::aabbox3df(g->x - Cell_Size / 2, x, g->y - Cell_Size / 2, g->x + Cell_Size / 2, x, g->y + Cell_Size / 2);
+			pManager->getSceneManager()->addCubeSceneNode(5,NULL,10,vector3df(g->x, x, g->y));
+		}*/
+		enemyManager->Update((*spawnPoint).path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()));
 		(*spawnPoint).Update();
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);

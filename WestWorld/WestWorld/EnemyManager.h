@@ -61,7 +61,7 @@ public:
 	void CheckCollision(scene::ISceneNode* collidedObject);
 	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
-	void Update();
+	void Update(std::vector<GridCell*> PlayerRange);
 	void RemoveFromArray(scene::ISceneNode* turrentOpponent);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

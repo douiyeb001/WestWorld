@@ -12,11 +12,17 @@ EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector*
 	cManager = _cManager;
 }
 
-void EnemyManager::Update() {
+void EnemyManager::Update(std::vector<GridCell*> PlayerRange) {
 	// update all the enemies
-	int deltaTime = p_Timer->deltaTime();
+ 	int deltaTime = p_Timer->deltaTime();
 	for (Opponent* op : opponentList) {
-		op->Update(deltaTime);
+		if (op->isExploding){
+			op->Update(deltaTime);
+		}
+		else if (std::find(PlayerRange.begin(), PlayerRange.end(), op->path[op->path.size() - op->pathProgress]) != PlayerRange.end()) { op->isExploding = true; }
+		else {
+			op->Update(deltaTime);
+		}
 	}
 
 	// give turret ai list of enemies ~ events / not in update next version

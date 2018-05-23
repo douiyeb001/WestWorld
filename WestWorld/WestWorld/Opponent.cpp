@@ -46,7 +46,6 @@ void Opponent::Despawn() {
 void Opponent::Update(int deltaTime) {
 	core::vector3df pos = getAbsolutePosition();
 	//int i = 1;
-	if (pathProgress > path.size()) { isExploding = true; }
 
 	if (isExploding) {
 		setScale(core::vector3df(scale, scale, scale));
@@ -90,8 +89,12 @@ void Opponent::Update(int deltaTime) {
 			if (backTracePath) {
 				pathProgress--;
 			}
-			else
+			else {
 				pathProgress++;
+				if (pathProgress > path.size()) {
+					isExploding = true; pathProgress = path.size();
+				}
+			}
 		}
 		if (backTracePath && startOfNewPath == pathProgress) {
 			backTracePath = false;

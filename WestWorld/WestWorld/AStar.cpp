@@ -247,6 +247,15 @@ core::vector3df AStar::GetCentre(core::vector3df position) {
 GridCell* AStar::GetCell(core::vector3df position) {
 	return &cellDictionary[CoordinatesToID(position.X, position.Z)];
 }
+
+std::vector<GridCell*> AStar::GetSurroundingCells(core::vector3df position) {
+	core::vector3df centre = GetCentre(position);
+	std::vector<GridCell*> cells;
+	for (int x = -1; x <= 1; x++) 
+		for (int z = -1; z <= 1; z++) 
+				cells.push_back(&cellDictionary[CoordinatesToID(centre.X + ((x)* Cell_Size) - Cell_Size, centre.Z + ((z) * Cell_Size)-Cell_Size)]);
+	return cells;
+}
 /*irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// <summary>	Next path position. </summary>
