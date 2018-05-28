@@ -3,9 +3,7 @@
 #include <vector3d.h>
 #include <vector>
 #include <map>
-#include "SearchGrid.h"
 #include "GridCell.h"
-#include <math.h>
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +13,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using namespace irr;
+using namespace scene;
+using namespace core;
 
 class AStar {
 public:
@@ -35,7 +35,7 @@ public:
 	/// <param name="_obstacle">  	A list of places that have obstacles placed on them. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	AStar(scene::ISceneNode* _startNode, scene::ISceneNode* _goalNode, std::vector<bool> _obstacle);
+	AStar(ISceneNode* _startNode, ISceneNode* _goalNode, std::vector<bool> _obstacle);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>
@@ -76,9 +76,16 @@ public:
 	/// <remarks> Resets the pathfinding and calls FindPath(). </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool RecalculatePath(core::vector3df spawnedPosition);
+	bool RecalculatePath(vector3df spawnedPosition);
 
-	std::vector<GridCell*> GetSurroundingCells(core::vector3df position);
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Looks at the cells around it. </summary>
+	///
+	/// <remarks> Gets the data from the cells surrounding it </remarks>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	std::vector<GridCell*> GetSurroundingCells(vector3df position);
+	
 	/// <summary>	The start cell. </summary>
 	GridCell* pStartCell;
 	/// <summary>	The goal cell. </summary>
@@ -106,8 +113,18 @@ public:
 	/// <returns>	Returns the centre of the cell that is selected. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	core::vector3df GetCentre(core::vector3df position);
-	GridCell* GetCell(core::vector3df position);
+	vector3df GetCentre(vector3df position);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Get the cell. </summary>
+	///
+	///
+	/// <param name="position">	The selected position. </param>
+	///
+	/// <returns>	Returns the position of the cell that is selected. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	GridCell* GetCell(vector3df position);
 
 	//bool isPathValid()
 };

@@ -9,11 +9,9 @@
 #include "Player.h"
 #include "Opponent.h"
 #include "TurretAI.h"
-#include "AStar.h"
 #include "EnemySpawner.h"
 #include <vector>
 #include "EnemyManager.h"
-#include "Timer.h"
 #include "PauseManager.h"
 #include <memory>
 
@@ -86,8 +84,11 @@ protected:
 private:
 
 	//Timer *p_Timer;
+	/// <summary>	If you can shoot or not. </summary>
 	bool readyToShoot = true;
+	/// <summary>	The builiding phase. </summary>
 	bool isBuildPhase;
+	/// <summary>	The wave count. </summary>
 	int waveCount = 0;
 
 	/// <summary>	The camera node. </summary>
@@ -95,30 +96,40 @@ private:
 	/// <summary>	The healthbar. </summary>
 	//std::unique_ptr<PlayerHealthBar> healthbar;
 	PlayerHealthBar* healthbar;
-	/// <summary>	Manager for po. </summary>
+	/// <summary>	The UI for the currency. </summary>
 	CurrencyUI* currencyUI;
+	/// <summary>	The player reticle. </summary>
 	Reticle* playerReticle;
+	/// <summary>	The manager for placing objects. </summary>
 	PlaceObjects* PoManager;
+	/// <summary>	The victory screen. </summary>
 	VictoryScreen* pVictory;
 	
 	/// <summary>	The player. </summary>
 	std::unique_ptr<Player> pPLayer;
+	/// <summary>	The manager for the currency. </summary>
 	Currency* cManager;
 	
 	TurretAI* pTurretAI;
-	/// <summary>	The player core. </summary>
+	/// <summary>	The AI of the turrets. </summary>
 	PlayerBase* playerCore;
-	/// <summary>	State of the test level. </summary>
+	/// <summary>	The enemy spawn point. </summary>
 	EnemySpawner* spawnPoint;
-
+	/// <summary>	The manager for pausing the game. </summary>
 	PauseManager* pauseManager;
+	/// <summary>	The manager for the enemies. </summary>
 	EnemyManager* enemyManager;
+	/// <summary>	The game over screen. </summary>
 	GameOverScreen* pGameOver;
 	//Objective* pObjective;
+	/// <summary>	Draws the UI onto the screen. </summary>
 	DrawUI * pDrawUI;
+	/// <summary>	The UI for the wave counter. </summary>
 	WaveCounterUI* pWaveCounterUI;
+	/// <summary>	The test level. </summary>
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
+	/// <summary>	The obstacles. </summary>
 	std::vector<bool> obstacles;
 	
 };
