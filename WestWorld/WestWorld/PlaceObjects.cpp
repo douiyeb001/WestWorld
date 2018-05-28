@@ -1,14 +1,18 @@
 #include "PlaceObjects.h"
 #include "GridCell.h"
+#include "TurretAI.h"
+
 //#include "MouseInput.h"
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager) : spawner(_spawner)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager, vector<TurretAI*> turretlist) : spawner(_spawner)
 {
 	driver = iDriver;
 	smgr = iSmgr;
 	cManager = _cManager;
+	IEnemyManager = enemyManager;
+	ITurretList = turretlist;
 }
 
 bool hasSpawnedTurret;
@@ -61,6 +65,8 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
+				TurretAI* turret = new TurretAI(IEnemyManager, turretNode);
+				ITurretList.push_back(turret);
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));

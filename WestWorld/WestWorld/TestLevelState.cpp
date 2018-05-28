@@ -71,11 +71,11 @@ void TestLevelState::Init(CGameManager* pManager) {
 	(*enemyTimer).set(5000);
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
-	pTurretAI = new TurretAI(enemyManager);
+	//pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
 	//spawnPoint->drop();
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
+	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager, enemyManager, turretList);
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -111,8 +111,12 @@ void TestLevelState::Update(CGameManager* pManager) {
 	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
-	pTurretAI->GetList(enemyManager->GiveArray());
-	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
+	//pTurretAI->GetList(enemyManager->GiveArray());
+	//pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
+	for (TurretAI* t : turretList) {
+		t->GetList(enemyManager->GiveArray());
+		t->TurretShooting(pManager->getSceneManager(), pManager->getDevice());
+	}
 	//enemy->Update();
 	if (isBuildPhase) {
 

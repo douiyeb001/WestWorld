@@ -1,4 +1,4 @@
-#pragma once
+
 #include <irrlicht.h>
 
 #include "IDFLAGS.h"
@@ -6,6 +6,8 @@
 #include "EnemySpawner.h"
 #include "Currency.h"
 #include "GUIBase.h"
+#include  "EnemyManager.h"
+#include "TurretAI.h"
 //#include "MouseInput.h"
 
 
@@ -75,7 +77,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager, vector<TurretAI*> turretlist);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +134,8 @@ public:
 private:
 	/// <summary>	The driver. </summary>
 	IVideoDriver * driver;
+	EnemyManager* IEnemyManager;
+	vector<TurretAI*> ITurretList;
 	/// <summary>	The smgr. </summary>
 	ISceneManager * smgr;
 	Currency * cManager;

@@ -5,17 +5,18 @@
 #include "Opponent.h"
 
 
+ISceneNode* turret;
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager) 
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret) 
 {
 	pEnemyManager = _pEnemyManager;
+	turret = newTurret;
 }
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice) 
 {
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
-	ISceneNode* turret = pSmgr->getSceneNodeFromId(16);
 	float radius = 300;
 	if (turret != NULL) {
 		for (Opponent* p : opList) {

@@ -1,3 +1,6 @@
+#ifndef TURRETAI_H
+#define TURRETAI_H
+
 #include <irrlicht.h>
 #include <vector>
 #include "EnemyManager.h" 
@@ -17,7 +20,7 @@ public:
 	EnemyManager * pEnemyManager;
 	ITimer* timer;
 	IMetaTriangleSelector* pMeta;
-	TurretAI(EnemyManager* _pEnemyManager);
+	TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret);
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition);
@@ -30,4 +33,5 @@ private:
 	int start = 0;
 	bool targeted = false;
 };
+#endif
 
