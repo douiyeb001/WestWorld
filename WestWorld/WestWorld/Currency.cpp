@@ -11,6 +11,9 @@ Currency::Currency()
 	playerCurrency = STARTCURRENCY;
 }
 
+Currency::~Currency() {  }
+
+
 
 void Currency::SellBuilding()
 {

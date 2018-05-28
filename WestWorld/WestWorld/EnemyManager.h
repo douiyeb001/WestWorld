@@ -3,12 +3,10 @@
 #define EnemyManager_H
 
 #include <irrlicht.h>
-//#include <list>
 #include <vector>
 #include "Opponent.h" 
 #include "Currency.h"
 #include "Timer.h"
-//#include <vector>
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +78,7 @@ public:
 
 	~EnemyManager();
 
-	std::vector<Opponent*> opponentList;
+	vector<Opponent*> opponentList;
 	void UpdatePath(std::vector<GridCell*> newPath, GridCell* changedCell);
 	Timer* p_Timer;
 	

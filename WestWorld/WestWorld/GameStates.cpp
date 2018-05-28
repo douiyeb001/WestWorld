@@ -29,6 +29,11 @@ void CGameState::ChangeState(CGameManager * pManager, CGameState * pState)
 	pManager->ChangeState(pState);
 }
 
+void CGameState::ReinitializeState(CGameManager* pManager, CGameState* pState) {
+	pManager->ReinitializeState(pState);
+}
+
+
 //! Implemented by subclass
 //! Keyboard event for state, main keyboard events
 //! passed down by Game manager. 

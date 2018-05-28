@@ -161,6 +161,8 @@
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="GUIBase.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SearchGrid.h" />
     <ClInclude Include="IDFLAGS.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="PlaceObjects.h" />
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="PlayerBase.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestLevelState.h" />
@@ -185,6 +188,8 @@
     <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
+    <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="PauseManager.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Opponent.cpp">
@@ -192,6 +197,7 @@
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

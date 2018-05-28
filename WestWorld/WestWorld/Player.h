@@ -33,7 +33,7 @@ public:
 	/// <param name="anim">  	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Player(ISceneManager* smgr, IVideoDriver* driver, ISceneNodeAnimator* anim);
+	Player(ISceneManager* smgr, IVideoDriver* driver, ISceneNodeAnimator* anim, IMetaTriangleSelector* meta);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a player. </summary>
@@ -41,7 +41,7 @@ public:
 	/// <param name="smgr">	[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CreatePlayer(ISceneManager* smgr);
+	void CreatePlayer(ISceneManager* smgr, IMetaTriangleSelector* meta);
 	//void Update();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +85,7 @@ private:
 	triangle3df  hitTriangle;
 	/// <summary>	The collided object. </summary>
 	ISceneNode* collidedObject;
+	ISceneNodeAnimatorCollisionResponse* anim;
 	void OnShoot(vector3df placeHit, ISceneManager* smgr);
 };
 #endif // !1

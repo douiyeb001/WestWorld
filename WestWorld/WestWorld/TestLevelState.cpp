@@ -1,10 +1,11 @@
 #include "TestLevelState.h"
-
+#include "MenuState.h"
+#include <memory>
 
 TestLevelState TestLevelState::m_TestLevelState;
+Timer* p_Timer;
 
 TestLevelState::TestLevelState(){
-
 }
 
 
@@ -17,26 +18,25 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
-	pManager->getDevice()->getCursorControl()->setVisible(false);
-	//m_titlePic = pManager->getDriver()->getTexture("media/fire.jpg");
-	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
-	pPLayer = new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim());
-	cameraNode = pPLayer->getCamera();
-	pManager->SetAnim(cameraNode);
-	cameraNode->addAnimator(pManager->GetAnim());
+	CGamePlayState::Init(pManager);
+	readyToShoot = true;
+	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
+	pManager->getDevice()->getCursorControl()->setVisible(false);
+	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
 	isBuildPhase = true;
-//	pManager->GetAnim()->drop();
-	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/PlayerHealth.png");
-	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
+	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
+
+	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
+
+		for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
-	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pDrawUI = new DrawUI(pManager->getDriver());
-	
-	//bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
-	//std::fill(std::begin(obstacles), std::end(obstacles), false);
+//  //bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
+//	//std::fill(std::begin(obstacles), std::end(obstacles), false);
 
 	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
 	core::list<scene::ISceneNode*>::Iterator it = children.begin();
@@ -65,21 +65,41 @@ void TestLevelState::Init(CGameManager* pManager) {
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
-	spawnPoint->drop();
+	//spawnPoint->drop();
 	//playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
-
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
-	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
-	//enemy->drop();
+//	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
+//	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
 	
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
+	pManager->getSceneManager()->clear();
 
+	delete enemyManager;
+	delete pTurretAI;
+	delete spawnPoint;
+
+	delete p_Timer;
+	delete healthbar;
+	delete currencyUI;
+	delete playerReticle;
+	delete playerCore;
+	delete pauseManager;
+
+	delete PoManager;
+	delete cManager;
 }
+
 void TestLevelState::Update(CGameManager* pManager) {
+	pauseManager->Draw();
+	if (pauseManager->isGamePaused()) {
+		enemyManager->p_Timer->deltaTime();
+		return;
+	}
+
 	if (p_Timer->alarm())  readyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
@@ -87,7 +107,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
 	//enemy->Update();
 	if (isBuildPhase) {
-		PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+
+		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			spawnPoint->NewWave(10);
@@ -103,26 +124,37 @@ void TestLevelState::Update(CGameManager* pManager) {
 	
 	//playerReticle->Draw(pManager->getDriver());
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
-	//if (p_Timer->alarm()) readyToShoot = true;
-
+	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
+	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+	//
+	pauseManager->Draw();
 	pManager->getGUIEnvironment()->drawAll();
+
 	pManager->getDriver()->endScene();
 }
 
 void TestLevelState::KeyboardEvent(CGameManager* pManager) {
-	if(pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
+	if(pManager->GetKeyboard() == KEY_ESCAPE)
+		pauseManager->TogglePause();
+
+	if (pauseManager->isGamePaused()) {
+		// every event that happens while in the pause state
+		pauseManager->KeyboardEvent(pManager);
+		//
+		return;
+	}
+
+	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
 	{
 		//trigger Placement indicator
 		if (!PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = true;
-		
 		}
 		else if(PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = false;
 			PoManager->ResetPlacementIndicator();
-			
 		}
 	}
 	if(pManager->GetKeyboard() == KEY_KEY_1)
@@ -145,19 +177,17 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
+	if (pauseManager->isGamePaused()) return;
 	// Remember the mouse statess
-	//bool isDown = false;
-	int maxTime;
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN && isBuildPhase)
 	{
-	
 	//	isDown = true;
 		// spawn turret function insert here
 	//	int idTest = PoManager->collidedObject->getID();
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
-		PoManager->CreateRay(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
+		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	}
 	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
@@ -167,11 +197,5 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 			readyToShoot = false;
 			p_Timer->set(500);
 		}
-
 	}
-	if (pManager->GetMouse() == EMIE_RMOUSE_LEFT_UP)
-	{
-		//isDown = false;
-	}
-
 }

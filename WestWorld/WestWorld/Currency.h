@@ -18,6 +18,7 @@ class Currency
 {
 public:
 	Currency();
+	~Currency();
 	void SellBuilding();
 	void BuildingCost(IMeshSceneNode* buildNode);
 	void EnemyCurrency();

@@ -7,7 +7,6 @@
 #include "PlaceObjects.h" 
 #include "Currency.h"
 #include "Player.h"
-#include "IDFLAGS.h"
 #include "Opponent.h"
 #include "TurretAI.h"
 #include "AStar.h"
@@ -15,6 +14,8 @@
 #include <vector>
 #include "EnemyManager.h"
 #include "Timer.h"
+#include "PauseManager.h"
+#include <memory>
 
 class TestLevelState : public CGamePlayState {
 
@@ -83,36 +84,35 @@ protected:
 	TestLevelState();
 
 private:
-	/// <summary>	The title picture. </summary>
-	ITexture * m_titlePic;
 
-	Timer* p_Timer;
+	//Timer *p_Timer;
 	bool readyToShoot = true;
 	bool isBuildPhase;
 
 	/// <summary>	The camera node. </summary>
-	ICameraSceneNode* cameraNode;
+	//ICameraSceneNode* cameraNode;
 	/// <summary>	The healthbar. </summary>
+	//std::unique_ptr<PlayerHealthBar> healthbar;
 	PlayerHealthBar* healthbar;
 	/// <summary>	Manager for po. </summary>
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
 	PlaceObjects* PoManager;
-	/// <summary>	The p layer. </summary>
+	/// <summary>	The player. </summary>
+	std::unique_ptr<Player> pPLayer;
 	Currency* cManager;
-	Player* pPLayer; 
-	/// <summary>	The enemy. </summary>
+	
 	TurretAI* pTurretAI;
-	Opponent* enemy;
 	/// <summary>	The player core. </summary>
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
+
+	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
 	DrawUI* pDrawUI;
-
 };
 #endif
