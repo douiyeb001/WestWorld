@@ -66,7 +66,6 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			if (turretNode)
 			{
 				TurretAI* turret = new TurretAI(IEnemyManager, turretNode);
-				ITurretList.push_back(turret);
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
@@ -75,6 +74,9 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				turretNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
 				selector->drop();
+
+				ITurretList.push_back(turret);
+
 				//meta->drop();
 				if (spawner->path->RecalculatePath(position))
 					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
@@ -162,6 +164,10 @@ void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* se
 	if (objectToPlace == 2) {
 		
 	}
+}
+vector<TurretAI*> PlaceObjects::GiveList()
+{
+	return ITurretList;
 }
 
 bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {

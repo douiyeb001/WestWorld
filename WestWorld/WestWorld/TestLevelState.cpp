@@ -113,7 +113,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getSceneManager()->drawAll();
 	//pTurretAI->GetList(enemyManager->GiveArray());
 	//pTurretAI->TurretShooting(pManager->getSceneManager(),pManager->getDevice());
-	for (TurretAI* t : turretList) {
+	for (TurretAI* t : PoManager->GiveList()) {
 		t->GetList(enemyManager->GiveArray());
 		t->TurretShooting(pManager->getSceneManager(), pManager->getDevice());
 	}

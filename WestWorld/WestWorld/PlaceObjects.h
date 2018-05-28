@@ -113,7 +113,7 @@ public:
 	
 
 	void Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim);
-
+	vector<TurretAI*>  GiveList();
 	/// <summary>	The intersection. </summary>
 	vector3df intersection;
 	/// <summary>	The hit triangle. </summary>
