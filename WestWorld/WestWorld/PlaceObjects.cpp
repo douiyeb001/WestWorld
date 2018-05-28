@@ -166,10 +166,10 @@ bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* pl
 	vector3df intersectingCell = spawner->path->GetCentre(intersection);
 	if (spawner->path->GetCell(intersection) == goalCell) return false;
 	else if (currentCell == spawner->path->GetCell(intersection)) return false;
-	else if (!spawner->path->RecalculatePath(intersection)) return false;
 	else if ((intersectingCell.X >= player->getPosition().X - radius && intersectingCell.X <= player->getPosition().X + radius) &&
 		(intersectingCell.Z >= player->getPosition().Z - radius && player->getPosition().Z - radius)) {
 		return false;
 	}
+	else if (!spawner->path->RecalculatePath(intersection)) return false;
 	return true;
 }
