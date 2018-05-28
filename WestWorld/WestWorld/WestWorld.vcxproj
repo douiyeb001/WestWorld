@@ -161,6 +161,7 @@
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="GUIBase.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="IDamagable.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />

@@ -131,7 +131,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			irr::core::aabbox3df box = irr::core::aabbox3df(g->x - Cell_Size / 2, x, g->y - Cell_Size / 2, g->x + Cell_Size / 2, x, g->y + Cell_Size / 2);
 			pManager->getSceneManager()->addCubeSceneNode(5,NULL,10,vector3df(g->x, x, g->y));
 		}*/
-		enemyManager->Update((*spawnPoint).path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()));
+		enemyManager->Update((*spawnPoint).path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()), pPLayer.get());
 		(*spawnPoint).Update();
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);

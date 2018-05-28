@@ -49,7 +49,9 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 	}
 
 	if (timer->getTime() >= (start + 5000)) {
-		pEnemyManager->RemoveFromArray(opponent);
+		opponent->target = NULL;
+		opponent->isExploding = true;
+		//pEnemyManager->RemoveFromArray(opponent);
 		start =  pDevice->getTimer()->getTime();
 		targeted = false;
 		ISceneNode* node = 0;

@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <irrlicht.h>
+#pragma once
 #include "EnemyManager.h"
 
 using namespace std;
@@ -13,7 +14,7 @@ using namespace io;
 using namespace gui;
 
 
-class Player
+class Player : public IDamagable
 {
 public:
 
@@ -68,6 +69,8 @@ public:
 	/// <param name="smgr">			[in,out] If non-null, the smgr. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	void Damaged(int damage);
+	irr::core::vector3df GetPosition();
 private:
 
 	/// <summary>	The key map. </summary>

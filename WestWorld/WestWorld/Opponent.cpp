@@ -12,10 +12,11 @@
 
 using namespace irr;
 
-Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, PlayerBase* _target, EnemyManager* _enemyManager)
-	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false), target(_target),isExploding(false),scale(1.0f), enemyManager(_enemyManager)
+Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager)
+	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false), target(_target),isExploding(false),scale(1.0f), enemyManager(_enemyManager), targetPos(_target->GetPosition())
 {
 	setMesh(mesh);
+	//tartgetPos = target->base->getAbsolutePosition();
 }
 
 Opponent::~Opponent()
@@ -42,7 +43,12 @@ void Opponent::Update(int deltaTime) {
 	core::vector3df pos = getAbsolutePosition();
 	//int i = 1;
 
+	irr::core::vector3df nextPos;
 	if (isExploding) {
+		if (target) {
+		nextPos.X = target->GetPosition().X;
+		nextPos.Z = target->GetPosition().Z;
+	}
 		setScale(core::vector3df(scale, scale, scale));
 		scale += 0.01;
 		if (scale > 2 && scale < 2.5) {
@@ -60,7 +66,8 @@ void Opponent::Update(int deltaTime) {
 		}
 			else if (scale > 3) {
 
-				target->Damaged(1,getSceneManager()->getVideoDriver());
+				if (target)
+					target->Damaged(1);
 			scene::ISceneNodeAnimator* anim = 0;
 
 			addAnimator(anim);
@@ -68,14 +75,13 @@ void Opponent::Update(int deltaTime) {
 			anim = getSceneManager()->createDeleteAnimator(300);
 			addAnimator(anim);
 			enemyManager->RemoveFromArray(this);
+			return;
 		}
 	}
 	else {
-
-		irr::core::vector3df nextPos;
-
 		nextPos.X = path[path.size() - pathProgress]->x;
 		nextPos.Z = path[path.size() - pathProgress]->y;
+	}
 		irr::core::vector3df distance = nextPos - pos;
 
 		if (distance.getLength() < 1)
@@ -97,7 +103,7 @@ void Opponent::Update(int deltaTime) {
 		distance.normalize();
 
 		setPosition(pos + (speed * distance * deltaTime));
-	}
+	
 	//setPosition(NextPathPosition(getAbsolutePosition(), speed));
 
 	//while (CollidesWith(ground))
@@ -112,7 +118,11 @@ irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float 
 		setScale(core::vector3df(scale,scale,scale));
 		scale += 0.01;
 		if (scale > 2) {
-			target->Damaged(1,getSceneManager()->getVideoDriver());
+			if (targetPos == target->GetPosition()) {
+				target->Damaged(1);
+			} else {
+
+			}
 
 			setMaterialFlag(video::EMF_LIGHTING, false);
 			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));

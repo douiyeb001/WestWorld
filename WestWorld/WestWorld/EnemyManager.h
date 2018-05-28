@@ -7,6 +7,7 @@
 #include "Opponent.h" 
 #include "Currency.h"
 #include "Timer.h"
+#include "IDamagable.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@ public:
 	void CheckCollision(scene::ISceneNode* collidedObject);
 	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
-	void Update(std::vector<GridCell*> PlayerRange);
+	void Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlayer);
 	void RemoveFromArray(scene::ISceneNode* turrentOpponent);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

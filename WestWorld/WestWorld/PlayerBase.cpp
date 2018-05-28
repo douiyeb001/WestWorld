@@ -5,9 +5,10 @@
 
 
 
-PlayerBase::PlayerBase(scene::ISceneNode* node, ISceneManager* mgr,IrrlichtDevice* pDevice) : health(5)
+PlayerBase::PlayerBase(scene::ISceneNode* _node, ISceneManager* mgr,IrrlichtDevice* pDevice)
 {
-	base = node;
+	node = _node;
+	health = 5;
 	_pDevice = pDevice;
 	//healthBar = new HealthBar(node, mgr, 666);
 	//HealthBar->setPosition(irr::core::vector3df(50, 1100, 0));
@@ -23,11 +24,15 @@ PlayerBase::~PlayerBase()
 	
 
 
-void PlayerBase::Damaged(int damage, video::IVideoDriver * driver) {
+void PlayerBase::Damaged(int damage) {
 	health -= damage;
 
 	if (health <= 0) {
 
 		health = 0;
 	}
+}
+
+irr::core::vector3df PlayerBase::GetPosition() {
+	return node->getAbsolutePosition();
 }
