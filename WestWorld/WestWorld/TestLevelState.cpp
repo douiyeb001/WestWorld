@@ -19,6 +19,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
+	int waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -35,8 +36,13 @@ void TestLevelState::Init(CGameManager* pManager) {
 	cManager = new Currency();
 	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pDrawUI = new DrawUI(pManager->getDriver());
-//  //bool obstacles[1000];//[(World_Size / Cell_Size)*(World_Size / Cell_Size)];
-//	//std::fill(std::begin(obstacles), std::end(obstacles), false);
+	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+
+	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
+	pVictory = new VictoryScreen(pManager->getDriver(), "media/UI/VictoryScreen.png");
+	pWaveCounterUI = new WaveCounterUI(pManager->getDriver(),pManager->getGUIEnvironment());
+	//pObjective = new Objective(pManager->getDriver(), "media/UI/ObjectiveNotDone.png", pManager->getDevice());
+
 
 	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
 	core::list<scene::ISceneNode*>::Iterator it = children.begin();
@@ -59,14 +65,16 @@ void TestLevelState::Init(CGameManager* pManager) {
 				}
 		}
 	}
+	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
+	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
 	(*enemyTimer).set(5000);
-	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
+	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	pTurretAI = new TurretAI(enemyManager);
 	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
 	//spawnPoint->drop();
-	//playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
+	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
@@ -127,16 +135,28 @@ void TestLevelState::Update(CGameManager* pManager) {
 		(*spawnPoint).Update();
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);
+			waveCount++;
 			isBuildPhase = true;
 		}
 	}
 	
-	//playerReticle->Draw(pManager->getDriver());
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	//
 	pauseManager->Draw();
+	if (playerCore->health <= 0) {
+		pGameOver->Draw(pManager->getDriver());
+	}
+	//Set the amount of waves needed	
+	if(waveCount == 1 + 1)
+	{
+		pVictory->Draw(pManager->getDriver());
+	}
+
+	playerReticle->Draw(pManager->getDriver());
+	//if (p_Timer->alarm()) readyToShoot = true;
+	pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount + 1);
 	pManager->getGUIEnvironment()->drawAll();
 
 	pManager->getDriver()->endScene();

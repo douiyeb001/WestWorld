@@ -88,6 +88,7 @@ private:
 	//Timer *p_Timer;
 	bool readyToShoot = true;
 	bool isBuildPhase;
+	int waveCount = 0;
 
 	/// <summary>	The camera node. </summary>
 	//ICameraSceneNode* cameraNode;
@@ -98,6 +99,8 @@ private:
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
 	PlaceObjects* PoManager;
+	VictoryScreen* pVictory;
+	
 	/// <summary>	The player. </summary>
 	std::unique_ptr<Player> pPLayer;
 	Currency* cManager;
@@ -110,9 +113,13 @@ private:
 
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
+	GameOverScreen* pGameOver;
+	//Objective* pObjective;
+	DrawUI * pDrawUI;
+	WaveCounterUI* pWaveCounterUI;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
-	DrawUI* pDrawUI;
+	
 };
 #endif

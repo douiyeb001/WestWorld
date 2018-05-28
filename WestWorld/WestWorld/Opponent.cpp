@@ -32,15 +32,7 @@ Opponent::~Opponent()
 	updateAbsolutePosition();
 	return ground->getTransformedBoundingBox().intersectsWithBox(getTransformedBoundingBox());
 }
-
-void Opponent::CollidesWithTarget(PlayerBase target)
-{
-	//temp
-	target.base->updateAbsolutePosition();
-	updateAbsolutePosition();
-	if (target.base->getTransformedBoundingBox().intersectsWithBox(getTransformedBoundingBox()))
-		target.Damaged(1);
-}*/
+*/
 
 void Opponent::Despawn() {
 	setVisible(false);
@@ -54,12 +46,11 @@ void Opponent::Update(int deltaTime) {
 		setScale(core::vector3df(scale, scale, scale));
 		scale += 0.01;
 		if (scale > 2 && scale < 2.5) {
-
 			setMaterialFlag(video::EMF_LIGHTING, false);
 			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
 			setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 			setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-
+			
 			//scene::ISceneNodeAnimator* anim = 0;
 
 			//addAnimator(anim);
@@ -69,7 +60,7 @@ void Opponent::Update(int deltaTime) {
 		}
 			else if (scale > 3) {
 
-				target->Damaged(1);
+				target->Damaged(1,getSceneManager()->getVideoDriver());
 			scene::ISceneNodeAnimator* anim = 0;
 
 			addAnimator(anim);
@@ -121,7 +112,7 @@ irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float 
 		setScale(core::vector3df(scale,scale,scale));
 		scale += 0.01;
 		if (scale > 2) {
-			target->Damaged(1);
+			target->Damaged(1,getSceneManager()->getVideoDriver());
 
 			setMaterialFlag(video::EMF_LIGHTING, false);
 			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));

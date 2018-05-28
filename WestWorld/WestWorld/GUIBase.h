@@ -5,6 +5,7 @@
 #include "currency.h"
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // namespace: irr
 //
@@ -108,6 +109,31 @@ public:
 private:
 	ITexture * reticleSprite;
 };
+class GameOverScreen {
+
+public:
+	GameOverScreen(IVideoDriver* driver, char const* deadLogo);
+	void Draw(IVideoDriver* driver);
+	const wchar_t* deadText;
+
+
+private:
+	ITexture * GameOverSprite;
+
+};
+
+class VictoryScreen {
+
+public:
+	 VictoryScreen(IVideoDriver* driver, char const* winLogo);
+	void Draw(IVideoDriver* driver);
+	const wchar_t* deadText;
+
+
+private:
+	ITexture * VictorySprite;
+
+};
 
 class CurrencyUI {
 public:
@@ -117,13 +143,23 @@ public:
 	const wchar_t* pScore;
 private:
 
-	//IGUIFont * font;
 	IGUIStaticText * pStaticText;
 	IGUIStaticText* pScoreText;
 	Currency * cManager;
 	ITexture* pDollarTexture;
 	ITexture* pInfinityTexture;
 
+};
+class WaveCounterUI
+{
+	public:
+	WaveCounterUI(IVideoDriver* pDriver, IGUIEnvironment * pGui);
+	void Draw(IGUIEnvironment * pGui, IVideoDriver* pDriver,int waveNumber);
+	IGUIFont* pFont;
+	
+private:
+	IGUIStaticText * pWaveCounterText;
+		
 };
 
 class WaveCounter {
@@ -148,6 +184,5 @@ private:
 
 
 };
-
 
 #endif

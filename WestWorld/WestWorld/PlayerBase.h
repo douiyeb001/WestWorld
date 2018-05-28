@@ -1,12 +1,18 @@
 //#pragma once
 #include <irrlicht.h>
 //#include "HealthBar.h"
+#include "HealthBar.h"
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// namespace: irr
 //
 // summary:	.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using namespace irr;
-
+using namespace video;
 class PlayerBase
 {
 public:
@@ -19,9 +25,7 @@ public:
 	/// <param name="base">	[in,out] If non-null, the base. </param>
 	/// <param name="mgr"> 	[in,out] If non-null, the manager. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	PlayerBase(scene::ISceneNode* base, scene::ISceneManager* mgr);
-
+	PlayerBase(scene::ISceneNode* base, scene::ISceneManager* mgr, IrrlichtDevice* pDevice);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>
 	///
@@ -31,6 +35,7 @@ public:
 	~PlayerBase();
 	/// <summary>	The base. </summary>
 	scene::ISceneNode* base;
+	IrrlichtDevice* _pDevice;
 	/// <summary>	The health. </summary>
 	int health;
 
@@ -48,7 +53,7 @@ public:
 	/// <remarks>	Rache, 23-Apr-18. </remarks>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Despawn();   
+bool Lost(bool GameOver);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Damaged. </summary>
@@ -58,7 +63,7 @@ public:
 	/// <param name="damage">	The damage. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Damaged(int damage);
+	void Damaged(int damage, IVideoDriver* driver);
 	/// <summary>	= new HealthBar((smgr->getRootSceneNode(), smgr, 666)) </summary>
 	//HealthBar *healthBar;
 };

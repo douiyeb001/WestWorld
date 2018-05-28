@@ -68,6 +68,7 @@ public:
 	virtual void setReadOnlyMaterials(bool readonly);
 	virtual bool isReadOnlyMaterials() const;
 	virtual bool removeChild(ISceneNode* child);
+	void DamageCore(PlayerBase* target);
 
 protected:	
 	/* The following are variables needed for the mesh scene node interface.
