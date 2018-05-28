@@ -24,30 +24,64 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	//player can't be on the cell
 
 	//Tim & Daniel spawning objects
-	
-	if (cManager->CheckCurrency())
-	{
-		scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
-		scene::IMeshSceneNode* barrelNode = 0;
-		barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
-		if (barrelNode)
+	//spawn a barricade
+	if (objectToPlace == 1) {
+		if (cManager->CheckCurrency())
 		{
-			barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
-			barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
-			barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
-			barrelNode->setPosition(spawner->path->GetCentre(position));
-			selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
-			barrelNode->setTriangleSelector(selector);
-			meta->addTriangleSelector(selector);
-			selector->drop();
-			//meta->drop();
-			if (spawner->path->RecalculatePath(position))
-				spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
-			CreateCollision(anim, camera, meta);
-			cManager->BuildingCost(barrelNode);
+			scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
+			scene::IMeshSceneNode* barrelNode = 0;
+			barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
+			if (barrelNode)
+			{
+				barrelNode->setName("Barricade");
+				barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
+				barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+				barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
+				barrelNode->setPosition(spawner->path->GetCentre(position));
+				selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
+				barrelNode->setTriangleSelector(selector);
+				meta->addTriangleSelector(selector);
+				selector->drop();
+				//meta->drop();
+				if (spawner->path->RecalculatePath(position))
+					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
+				CreateCollision(anim, camera, meta);
+				cManager->BuildingCost(barrelNode);
+			}
+			barrelNode = 0;
 		}
-		barrelNode = 0;
 	}
+
+	//spawn a turret
+	if (objectToPlace == 2) {
+		if (cManager->CheckCurrency())
+		{
+			scene::IMesh* turretMesh = smgr->getMesh("meshes/Barrel.obj");
+			scene::IMeshSceneNode* turretNode = 0;
+			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
+			if (turretNode)
+			{
+				turretNode->setName("Turret");
+				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
+				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+				turretNode->setPosition(spawner->path->GetCentre(position));
+				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
+				turretNode->setTriangleSelector(selector);
+				meta->addTriangleSelector(selector);
+				selector->drop();
+				//meta->drop();
+				if (spawner->path->RecalculatePath(position))
+					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
+				CreateCollision(anim, camera, meta);
+				cManager->BuildingCost(turretNode);
+			}
+			turretNode = 0;
+		}
+	}
+
+
+
+
 	
 }
 
@@ -80,10 +114,17 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 }
 
  void PlaceObjects::SpawnPlacementIndicator(core::vector3df position) {
-	scene::IMesh* placementIndicatorMesh = smgr->getMesh("meshes/Barrel.obj");
+	 
+	 if (objectToPlace == 1) {
+		 placementIndicatorMesh = smgr->getMesh("meshes/tempBarricade.obj");
+	 }
+	 if (objectToPlace == 2) {
+		 placementIndicatorMesh = smgr->getMesh("meshes/Barrel.obj");
+	 }
+	
 	 placementIndicatorNode = 0;
 	 placementIndicatorNode = smgr->addMeshSceneNode(placementIndicatorMesh, 0, 20);
-
+	 placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	 placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 	 placementIndicatorNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 	 placementIndicatorNode->setPosition(position);
@@ -112,6 +153,9 @@ void PlaceObjects::ResetPlacementIndicator()
 
 void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim){
 	MovePlacementIndicator(camera, selector, meta, anim);
+	if (objectToPlace == 2) {
+		
+	}
 }
 
 bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {

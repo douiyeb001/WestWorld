@@ -123,6 +123,11 @@ public:
 	EnemySpawner* spawner;
 	///
 	bool isInBuildMode;
+	///
+	int objectToPlace = 1;
+
+	scene::IMeshSceneNode* placementIndicatorNode;
+
 
 private:
 	/// <summary>	The driver. </summary>
@@ -136,6 +141,8 @@ private:
 
 	bool isPlacementValid(vector3df intersection, ICameraSceneNode* player);
 	///
-	scene::IMeshSceneNode* placementIndicatorNode;
+	
+
+	scene::IMesh* placementIndicatorMesh;
 };
 
