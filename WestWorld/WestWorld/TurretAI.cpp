@@ -13,7 +13,6 @@ TurretAI::TurretAI(EnemyManager* _pEnemyManager)
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 {
-
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
 	ISceneNode* turret = pSmgr->getSceneNodeFromId(16);
@@ -35,10 +34,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 
 					ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
 				}
-
 			}
-
-
 		}
 	}
 }
