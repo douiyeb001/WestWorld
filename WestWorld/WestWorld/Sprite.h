@@ -19,6 +19,7 @@ public:
 	f32 rotation;
 
 	Sprite(IVideoDriver *driver);
+	~Sprite();
 	void draw();
 	void scaleToDimensions(dimension2d<u32> size);
 

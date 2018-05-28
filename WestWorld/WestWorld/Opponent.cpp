@@ -20,6 +20,9 @@ Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager*
 
 Opponent::~Opponent()
 {
+	path.clear();
+	updatedPath.clear();
+//	delete Shadow;
 }
 
 /*bool Opponent::CollidesWith(scene::ISceneNode* ground)

@@ -42,6 +42,7 @@ private:
 	int currentMenuId = 0;										// local game variables
 	void MouseClicked(CGameManager* pManager);
 	void switchMousePos(int state);
+	ISceneManager* ismgr;
 };
 
 

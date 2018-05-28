@@ -21,7 +21,7 @@ public:
 	PauseManager(IVideoDriver* driver, IGUIEnvironment* gui);
 	~PauseManager();
 	void TogglePause();
-	virtual void KeyboardEvent(CGameManager* pManager);
+	void KeyboardEvent(CGameManager* pManager);
 	void RestartLevel(CGameManager* pManager);
 	void GoToStartMenu(CGameManager* pManager);
 	void ExitGame(CGameManager* pManager);
@@ -31,7 +31,7 @@ public:
 private:
 	Sprite* menuScreen;
 	int currentPauseId = 0;
-	bool isPaused = false;
+	bool isPaused;
 	
 };
 

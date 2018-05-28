@@ -1,26 +1,24 @@
 #include "Player.h"
-#include <iostream>
 
 using namespace std;
 	
-Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* anim) {
-	// constructor
-	pDriver = driver;
+Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* anim, IMetaTriangleSelector* meta) {
 	//pSmgr = smgr;
 	// create new player
-	CreatePlayer(smgr);
+	CreatePlayer(smgr, meta);
 
 }
 
 Player::~Player() {
 	// destructor
+	anim->drop();
 }
 
 
 void Player::HandleMovement() {
 }
 
-void Player::CreatePlayer(ISceneManager* smgr) {
+void Player::CreatePlayer(ISceneManager* smgr, IMetaTriangleSelector* meta) {
 
 	SKeyMap pKeyMap[9];
 	ITriangleSelector* selector = 0;
@@ -39,8 +37,19 @@ void Player::CreatePlayer(ISceneManager* smgr) {
 	pKeyMap[4].Action = EKA_JUMP_UP;
 	pKeyMap[4].KeyCode = KEY_SPACE;
 
+
+
 	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.2f, -1, pKeyMap, 8, true, .4);
 	cameraNode->setPosition(vector3df(20,20,450));
+	anim = smgr->createCollisionResponseAnimator(meta, cameraNode, vector3df(15, 15, 15), vector3df(0, -1, 0));
+	//meta->drop();
+	cameraNode->addAnimator(anim);
+	
+	//anim->drop();
+	//anim(cameraNode);
+	//anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(15, 15, 15), vector3df(0, -1, 0));
+	//pManager->SetCollision();
+	//cameraNode->addAnimator(pManager->GetAnim()); // problem here when deleting
 	
 	//collision response            
 	
@@ -51,8 +60,6 @@ ICameraSceneNode* Player::getCamera() {
 
 ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
-	
-
 	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	// Add it to the meta selector, which will take a reference to it
 	pMeta->addTriangleSelector(pSelector);

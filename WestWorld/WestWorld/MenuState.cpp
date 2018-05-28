@@ -13,7 +13,6 @@ MenuState* MenuState::Instance() {
 
 void MenuState::Init(CGameManager* pManager) {
 	CGameState::Init(pManager);
-
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
 	float width = pManager->getDriver()->getScreenSize().Width;
@@ -54,6 +53,11 @@ void MenuState::Update(CGameManager* pManager) {
 
 void MenuState::Clear(CGameManager* pManager) {
 	pManager->getSceneManager()->clear();
+	delete backgroundSprite;
+	backgroundSprite = 0;
+	delete revolverSprite;
+	revolverSprite = 0;
+	//delete[] ismgr;
 }
 
 void MenuState::MouseEvent(CGameManager* pManager) {  }
@@ -81,6 +85,10 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 	}
 	if (pManager->GetKeyboard() == KEY_F1)
 	{
+	//	ReinitializeState(pManager, MenuState::Instance());
+		//delete[]	MenuState::Instance();
+		Clear(pManager);
+		Init(pManager);
 		ReinitializeState(pManager, MenuState::Instance());
 	}
 }

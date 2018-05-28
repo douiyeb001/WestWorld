@@ -88,4 +88,5 @@ void TurretAI::GetList(std::vector <Opponent*> opArray){
 
 TurretAI::~TurretAI()
 {
+	opList.clear();
 }

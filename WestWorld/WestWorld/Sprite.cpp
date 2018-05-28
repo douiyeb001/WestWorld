@@ -86,3 +86,6 @@ void Sprite::scaleToDimensions(dimension2d<u32> size)
 	this->scale.X = (float)(size.Width / (float)original.Width);
 	this->scale.Y = (float)(size.Height / (float)original.Height);
 }
+
+Sprite::~Sprite() {
+}

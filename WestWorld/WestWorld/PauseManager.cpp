@@ -2,6 +2,9 @@
 #include "MenuState.h"
 #include "TestLevelState.h"
 
+float originalPosX;
+float originalPosY;
+
 PauseManager::PauseManager(IVideoDriver* driver, IGUIEnvironment* gui)
 {
 	const float screenWidth = driver->getScreenSize().Width;
@@ -10,12 +13,15 @@ PauseManager::PauseManager(IVideoDriver* driver, IGUIEnvironment* gui)
 	menuScreen->texture = driver->getTexture("media/UI/StartMenu.png");
 	menuScreen->scale = vector2d<f32>(.1, .1);
 	//gui->addImage(menuScreen->texture,vector2d<s32>(0,0));
-
+	originalPosX = screenWidth / 2;
+	originalPosY = screenHeight / 2;
 	
-	menuScreen->position.X = screenWidth / 2;
-	menuScreen->position.Y = screenHeight / 2;
+	menuScreen->position.X = originalPosX;
+	menuScreen->position.Y = originalPosY;
+	//test->setImage(menuScreen->texture);
+	isPaused = false;
 	//MouseIndicator = new Sprite(driver);
-
+	menuScreen->draw();
 }
 
 PauseManager::~PauseManager()
@@ -52,10 +58,7 @@ void PauseManager::KeyboardEvent(CGameManager* pManager) {
 
 
 void PauseManager::Draw() {
-//	if (!isPaused) return;
-
-	menuScreen->draw();// this no work
-	
+//	menuScreen->draw();// this no work
 }
 
 bool PauseManager::isGamePaused() {
@@ -63,6 +66,7 @@ bool PauseManager::isGamePaused() {
 }
 
 void PauseManager::RestartLevel(CGameManager* pManager) {
+	
 	pManager->ChangeState(TestLevelState::Instance());
 }
 

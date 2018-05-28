@@ -2,6 +2,8 @@
 #include "GameManager.h"
 #include "TestLevelState.h"
 #include  "MenuState.h"
+#include <chrono>
+#include <thread>
 
 //! Default constructor
 CGameManager::CGameManager()
@@ -26,16 +28,25 @@ void CGameManager::ChangeState(CGameState * pState)
 		m_pGameState->Clear(this);
 	if (pState != m_pGameState)
 	{
+		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
 		m_pGameState = pState;
+		meta->drop();
+		meta = m_pSceneManager->createMetaTriangleSelector();
+		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
 		m_pGameState->Init(this);
+		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
 	}
+	//selector = 0;
+
+	
 }
 
 void CGameManager::ReinitializeState(CGameState * pState) {
 	m_pGameState->Clear(this);
-	//delete m_pGameState;
-		m_pGameState = pState;
+		//m_pGameState = pState;
 		m_pGameState->Init(this);
+
+	//pState.
 }
 
 //! Holds a pointer to the current states, (level) Update function
