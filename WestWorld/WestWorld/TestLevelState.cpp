@@ -111,6 +111,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
+			PoManager->isInBuildMode = false;
+			PoManager->ResetPlacementIndicator();
 			spawnPoint->NewWave(10);
 		}
 	} else {
