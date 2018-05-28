@@ -100,7 +100,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 	delete PoManager;
 	delete cManager;
 }
-
+// :)
 void TestLevelState::Update(CGameManager* pManager) {
 	pauseManager->Draw();
 	if (pauseManager->isGamePaused()) {
