@@ -44,6 +44,18 @@ VictoryScreen::VictoryScreen(IVideoDriver* driver, char const* victoryLogo) {
 
 
 }
+WaveCounterUI::WaveCounterUI(IVideoDriver* pDriver, IGUIEnvironment* pGui)
+{
+	pFont = pGui->getFont("media/bigfont.png");
+}
+void WaveCounterUI::Draw(IGUIEnvironment* pGui, IVideoDriver* pDriver, int waveNumber)
+{
+	
+	pFont->draw((L"%d", (stringc)waveNumber),
+			core::rect<s32>(1150, 180, 500, 500),
+			video::SColor(255, 0, 0, 0));
+}
+
 
 
 void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
@@ -83,12 +95,12 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
 }
 void VictoryScreen::Draw(IVideoDriver* driver) {
-
-	driver->draw2DImage(VictorySprite,
-		core::position2d<int>(0, 0),
-		core::rect<int>(0, 0, VictorySprite->getSize().Width * 2, VictorySprite->getSize().Height*2),
+	
+		driver->draw2DImage(VictorySprite,
+		core::position2d<int>(-40, -40),
+		core::rect<int>(0, 0, VictorySprite->getSize().Width, VictorySprite->getSize().Height),
 		0,
-		video::SColor(255, 255, 255, 255), true); //Draw game over sprite
+		video::SColor(255, 255, 255, 255), true); //Draw victory screen sprite
 }
 
 WaveCounter::WaveCounter(IVideoDriver* driver, char const* bar) {
@@ -98,19 +110,18 @@ WaveCounter::WaveCounter(IVideoDriver* driver, char const* bar) {
 
 void WaveCounter::Draw(IVideoDriver* driver)
 {
-
-	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width, 100), core::rect<int>(0, 0, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
-}
-
+	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width, 100),
+	core::rect<int>(-25, -40, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+}			
 
 DrawUI::DrawUI(IVideoDriver* driver)
 {
 	
 
-	pPlayerHealthBar = new PlayerHealthBar(driver, "media/UI/PlayerHealth.png");
+	pPlayerHealthBar = new PlayerHealthBar(driver, "media/UI/playerHealth (Custom).png");
 	pCurrencyUI = new CurrencyUI(driver, "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
-	pWaveCounter = new WaveCounter(driver, "media/UI/WaveCounter.png");
+	pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 }
 
 void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
@@ -120,7 +131,4 @@ void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	pWaveCounter->Draw(driver);
 
 }
-
-
-
 

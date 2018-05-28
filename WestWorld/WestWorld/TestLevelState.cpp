@@ -29,7 +29,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	isBuildPhase = true;
 //	pManager->GetAnim()->drop();
-	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/PlayerHealth.png");
+	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/playerHealth (Custom).png");
 	for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
@@ -39,6 +39,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
 	pVictory = new VictoryScreen(pManager->getDriver(), "media/UI/VictoryScreen.png");
+	pWaveCounterUI = new WaveCounterUI(pManager->getDriver(),pManager->getGUIEnvironment());
 	//pObjective = new Objective(pManager->getDriver(), "media/UI/ObjectiveNotDone.png", pManager->getDevice());
 
 	
@@ -113,23 +114,22 @@ void TestLevelState::Update(CGameManager* pManager) {
 	
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
 	(*spawnPoint).Update();
-	healthbar->Draw(pManager->getDriver());
+	//healthbar->Draw(pManager->getDriver());
 	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(cameraNode, pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	if (playerCore->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
 
 	}
-	if(waveCount == 1)
+	//Set the amount of waves needed	
+	if(waveCount == 1 + 1)
 	{
 		pVictory->Draw(pManager->getDriver());
 	}
-	
-
 
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
-
+	pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount + 1);
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }

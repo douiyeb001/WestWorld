@@ -150,6 +150,17 @@ private:
 	ITexture* pInfinityTexture;
 
 };
+class WaveCounterUI
+{
+	public:
+	WaveCounterUI(IVideoDriver* pDriver, IGUIEnvironment * pGui);
+	void Draw(IGUIEnvironment * pGui, IVideoDriver* pDriver,int waveNumber);
+	IGUIFont* pFont;
+	
+private:
+	IGUIStaticText * pWaveCounterText;
+		
+};
 
 class WaveCounter {
 public:

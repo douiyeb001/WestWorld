@@ -115,6 +115,7 @@ private:
 	GameOverScreen* pGameOver;
 	//Objective* pObjective;
 	DrawUI * pDrawUI;
+	WaveCounterUI* pWaveCounterUI;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
 	std::vector<bool> obstacles;
