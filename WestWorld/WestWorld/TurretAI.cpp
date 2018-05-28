@@ -31,7 +31,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 				enemySpotted = true;
 
 				if (enemySpotted) {
-					pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), p->getPosition(), SColor(255));
+				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
 					ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
 				}
@@ -44,13 +44,13 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 }
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
-
-	if (!targeted) {
+	if(target == NULL || target != opponent) {
+		target = opponent;
 		timer = pDevice->getTimer();
 		start = timer->getTime();
 		targeted = true;
+		return;
 	}
-//	timer->tick();
 
 	if (timer->getTime() >= (start + 5000)) {
 		pEnemyManager->RemoveFromArray(opponent);
@@ -64,28 +64,20 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
 		ISceneNodeAnimator* anim = 0;
-		vector3df start = turretPosition;
-
 		const f32 speed = 0.8f;
 
-		anim = smgr->createFlyStraightAnimator(turretPosition, targetPosition , 50);
+		anim = smgr->createFlyStraightAnimator(turretPosition, vector3df(targetPosition.X, targetPosition.Y + 5, targetPosition.Z), speed);
 		node->addAnimator(anim);
-		anim->drop();
 		anim = smgr->createDeleteAnimator(50);
 		node->addAnimator(anim);
 		anim->drop();
+		}
 	}
-
-	}
-
-
 
 void TurretAI::GetList(std::vector <Opponent*> opArray){
 	opList = opArray;
 	
 }
-
-
 
 TurretAI::~TurretAI()
 {
