@@ -78,6 +78,7 @@ public:
 
 	bool RecalculatePath(core::vector3df spawnedPosition);
 
+	std::vector<GridCell*> GetSurroundingCells(core::vector3df position);
 	/// <summary>	The start cell. </summary>
 	GridCell* pStartCell;
 	/// <summary>	The goal cell. </summary>
