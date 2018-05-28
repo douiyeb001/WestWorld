@@ -127,7 +127,8 @@ public:
 	int objectToPlace = 1;
 
 	scene::IMeshSceneNode* placementIndicatorNode;
-
+	std::vector <ISceneNode*> turretList;
+	//	list<ISceneNode*> turretList;
 
 private:
 	/// <summary>	The driver. </summary>

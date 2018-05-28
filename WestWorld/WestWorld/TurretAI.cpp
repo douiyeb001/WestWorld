@@ -15,6 +15,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 {
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
+	
 	ISceneNode* turret = pSmgr->getSceneNodeFromId(16);
 	float radius = 300;
 	if (turret != NULL) {
