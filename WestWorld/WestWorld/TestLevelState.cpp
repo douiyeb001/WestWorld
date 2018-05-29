@@ -29,14 +29,14 @@ void TestLevelState::Init(CGameManager* pManager) {
 	isBuildPhase = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
-	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
+	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 
 		for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
-	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pDrawUI = new DrawUI(pManager->getDriver());
-	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/UI_Currency.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
 	pVictory = new VictoryScreen(pManager->getDriver(), "media/UI/VictoryScreen.png");
@@ -141,7 +141,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	}
 	
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
-	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
+	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	//
 	pauseManager->Draw();

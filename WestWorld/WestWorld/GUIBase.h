@@ -109,6 +109,7 @@ public:
 private:
 	ITexture * reticleSprite;
 };
+
 class GameOverScreen {
 
 public:
@@ -137,17 +138,19 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity);
-	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	CurrencyUI(IVideoDriver* driver, char const* pCurrencyUI);
+	/*void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
 	const wchar_t* pText;
-	const wchar_t* pScore;
+	const wchar_t* pScore;*/
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+
 private:
 
-	IGUIStaticText * pStaticText;
+	/*IGUIStaticText * pStaticText;
 	IGUIStaticText* pScoreText;
-	Currency * cManager;
-	ITexture* pDollarTexture;
-	ITexture* pInfinityTexture;
+	Currency * cManager;*/
+	ITexture* pCurrencyTexture;
+	//ITexture* pInfinityTexture;
 
 };
 class WaveCounterUI
