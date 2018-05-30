@@ -174,10 +174,27 @@ private:
 
 };
 
+class BuildPhaseUI {
+public:
+	BuildPhaseUI(IVideoDriver* driver, char const* _pTurretImage, char const* _pBarricadeImage);
+	void Draw(IVideoDriver* driver);
+	bool isBuildPhase;
+	bool isBarricade;
+
+
+	ITexture * pBuildImage;
+	ITexture * pTurretImage;
+	ITexture * pBarricadeImage;
+private:
+};
+
+
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver);
 	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
+
+	BuildPhaseUI* pBuildPhaseUI;
 
 private:
 	PlayerHealthBar * pPlayerHealthBar;

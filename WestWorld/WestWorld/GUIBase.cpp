@@ -113,7 +113,21 @@ void WaveCounter::Draw(IVideoDriver* driver)
 {
 	driver->draw2DImage(pWaveImage, core::position2d<int>(driver->getScreenSize().Width - pWaveImage->getSize().Width + 25, 144),
 	core::rect<int>(0, 0, pWaveImage->getSize().Width, pWaveImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
-}			
+}	
+
+BuildPhaseUI::BuildPhaseUI(IVideoDriver* driver, char const* _pTurretImage, char const* _pBarricadeImage) {
+	isBuildPhase = false;
+	pTurretImage = driver->getTexture(_pTurretImage);
+	pBarricadeImage = driver->getTexture(_pBarricadeImage);
+	pBuildImage = pBarricadeImage;
+
+}
+
+void BuildPhaseUI::Draw(IVideoDriver* driver)
+{
+	driver->draw2DImage(pBuildImage, core::position2d<int>(0,0),
+		core::rect<int>(0, 0, pBuildImage->getSize().Width, pBuildImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+}
 
 DrawUI::DrawUI(IVideoDriver* driver)
 {
@@ -123,14 +137,20 @@ DrawUI::DrawUI(IVideoDriver* driver)
 	pCurrencyUI = new CurrencyUI(driver, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
 	pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
+	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
 }
 
 void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	pPlayerHealthBar->Draw(driver);
-	//test
+	if (pBuildPhaseUI->isBuildPhase)
+	{
+		pBuildPhaseUI->Draw(driver);
+	}
 	pCurrencyUI->Draw(gui, driver);
 	pReticle->Draw(driver);
 	pWaveCounter->Draw(driver);
+
+
 
 }
 

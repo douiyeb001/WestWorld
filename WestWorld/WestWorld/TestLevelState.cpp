@@ -120,6 +120,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 			spawnPoint->NewWave(10);
 		}
@@ -175,14 +176,17 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 
 	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
 	{
+		
 		//trigger Placement indicator
 		if (!PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = true;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
 		}
 		else if(PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = false;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 		}
 	}
@@ -193,6 +197,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
+		pDrawUI->pBuildPhaseUI->pBuildImage = pDrawUI->pBuildPhaseUI->pBarricadeImage;
 	}
 	if (pManager->GetKeyboard() == KEY_KEY_2)
 	{
@@ -201,6 +206,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
+		pDrawUI->pBuildPhaseUI->pBuildImage = pDrawUI->pBuildPhaseUI->pTurretImage;
 	}
 
 }
@@ -219,7 +225,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	}
 	
-	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
+	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
 		if (readyToShoot) {
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
 			enemyManager->CheckCollision(node);
