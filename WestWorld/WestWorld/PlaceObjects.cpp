@@ -6,19 +6,18 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager, vector<TurretAI*> turretlist) : spawner(_spawner)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager) : spawner(_spawner)
 {
 	driver = iDriver;
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
-	ITurretList = turretlist;
 }
 
 bool hasSpawnedTurret;
 
 //This method will create a Turret after the ray has detected ground and update the meta with the Triangleselector of the placed turret
-void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim)
+void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist)
 {
 
 	//goal cell can't be chosen
@@ -70,13 +69,13 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				turretNode->setPosition(spawner->path->GetCentre(position));
 				TurretAI* turret = new TurretAI(IEnemyManager, turretNode->getPosition());
-
 				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
+				turretlist.push_back(turret);
 				turretNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
 				selector->drop();
 
-				ITurretList.push_back(turret);
+			
 
 				//meta->drop();
 				if (spawner->path->RecalculatePath(position))
@@ -107,7 +106,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 }
 
 //This method will create a ray after the right mouse button is pressed and check if the ray hits the ground to spawn a new turret
- void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim) {
+ void PlaceObjects::CreateRay(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist) {
 	ray.start = camera->getPosition();
 	ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 150.0f;
 	//scene::ISceneNode * selectedSceneNode =
@@ -115,7 +114,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 	if (collidedObject)
 	if (collidedObject->getID() == IDFlag::spawnGround) {
 		if(isPlacementValid(intersection, camera))
-			SpawnTurret(intersection, selector, meta, camera, anim);
+			SpawnTurret(intersection, selector, meta, camera, anim, turretlist);
 		//SpawnTurret(vector3df(floor32(intersection.X / Cell_Size) * Cell_Size - Cell_Size/2, intersection.Y, floor32(intersection.Z / Cell_Size) * Cell_Size - Cell_Size / 2), selector, meta);
 		
 	}

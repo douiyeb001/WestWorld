@@ -77,8 +77,8 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager, vector<TurretAI*> turretlist);
-	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager, EnemyManager* enemyManager);
+	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Spawn turret. </summary>
@@ -88,7 +88,7 @@ public:
 	/// <param name="meta">	   	[in,out] If non-null, the meta. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim);
+	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a collision. </summary>

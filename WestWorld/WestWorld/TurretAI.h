@@ -32,6 +32,7 @@ public:
 private:
 	int start = 0;
 	bool targeted = false;
+	vector3df turret;
 };
 #endif
 

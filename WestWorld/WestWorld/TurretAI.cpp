@@ -5,7 +5,7 @@
 #include "Opponent.h"
 
 
-vector3df turret;
+
 
 TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos)
 {
@@ -49,7 +49,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		return;
 	}
 
-	if (timer->getTime() >= (start + 250)) {
+	if (timer->getTime() >= (start + 1000)) {
 		pEnemyManager->RemoveFromArray(opponent);
 		start =  pDevice->getTimer()->getTime();
 		targeted = false;
