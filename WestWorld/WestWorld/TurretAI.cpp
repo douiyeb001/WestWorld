@@ -5,12 +5,12 @@
 #include "Opponent.h"
 
 
-ISceneNode* turret;
+vector3df turret;
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret) 
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos)
 {
 	pEnemyManager = _pEnemyManager;
-	turret = newTurret;
+	turret = newTurretPos;
 }
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice) 
@@ -18,27 +18,27 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
 	float radius = 300;
-	if (turret != NULL) {
+	
 		for (Opponent* p : opList) {
-
+			
 			SMaterial m;
 			m.Lighting = false;
 			pSmgr->getVideoDriver()->setMaterial(m);
 			pSmgr->getVideoDriver()->setTransform(video::ETS_WORLD, core::matrix4());
 
-			if ((p->getPosition().X >= turret->getPosition().X - radius && p->getPosition().X <= turret->getPosition().X + radius) &&
-				(p->getPosition().Z >= turret->getPosition().Z - radius && turret->getPosition().Z - radius) && enemySpotted == false) {
+			if ((p->getPosition().X >= turret.X - radius && p->getPosition().X <= turret.X + radius) &&
+				(p->getPosition().Z >= turret.Z - radius && turret.Z - radius) && enemySpotted == false) {
 				enemySpotted = true;
 
 				if (enemySpotted) {
-				pSmgr->getVideoDriver()->draw3DLine(turret->getPosition(), vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
+				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
-					ShootTimer(pDevice, p, pSmgr, turret->getPosition(), p->getPosition());
+					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition());
 				}
 			}
 		}
 	}
-}
+
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
 	if(target == NULL || target != opponent) {
@@ -49,7 +49,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		return;
 	}
 
-	if (timer->getTime() >= (start + 25000)) {
+	if (timer->getTime() >= (start + 250)) {
 		pEnemyManager->RemoveFromArray(opponent);
 		start =  pDevice->getTimer()->getTime();
 		targeted = false;

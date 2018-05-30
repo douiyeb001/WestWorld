@@ -20,11 +20,11 @@ public:
 	EnemyManager * pEnemyManager;
 	ITimer* timer;
 	IMetaTriangleSelector* pMeta;
-	TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret);
+	TurretAI(EnemyManager* _pEnemyManager, vector3df newTurret);
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition);
-		bool enemySpotted = false;
+	bool enemySpotted = false;
 
 	~TurretAI();
 	std::vector <Opponent*> opList;

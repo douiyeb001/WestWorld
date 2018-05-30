@@ -65,11 +65,12 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
-				TurretAI* turret = new TurretAI(IEnemyManager, turretNode);
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				turretNode->setPosition(spawner->path->GetCentre(position));
+				TurretAI* turret = new TurretAI(IEnemyManager, turretNode->getPosition());
+
 				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
 				turretNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
