@@ -128,6 +128,8 @@ public:
 
 	scene::IMeshSceneNode* placementIndicatorNode;
 	std::vector <ISceneNode*> turretList;
+
+	vector<ISceneNode*> GiveTurretArray();
 	//	list<ISceneNode*> turretList;
 
 private:
