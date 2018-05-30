@@ -110,6 +110,8 @@ private:
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
+	EnemySpawner* spawnPoint2;
+	EnemySpawner* spawnPoint3;
 
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
@@ -119,7 +121,7 @@ private:
 	WaveCounterUI* pWaveCounterUI;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
-	std::vector<bool> obstacles;
-	
+	//std::vector<bool> obstacles;
+	Grid* grid;
 };
 #endif

@@ -19,8 +19,7 @@ Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager*
 	//tartgetPos = target->base->getAbsolutePosition();
 }
 
-Opponent::~Opponent()
-{
+Opponent::~Opponent() {
 	path.clear();
 	updatedPath.clear();
 //	delete Shadow;

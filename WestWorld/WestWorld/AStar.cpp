@@ -11,28 +11,26 @@
 /// <param name="Obstacle">  	True to obstacle. </param>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, std::vector<bool> Obstacle) {
+AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, Grid* _grid) : grid(_grid) {
 	//bool test = Obstacle[0];
 	//int test2 = CoordinatesToID(25*Cell_Size, -100*Cell_Size);
 	//CellDictionary = std::map<int, GridCell> (rint(World_Size / Cell_Size)*rint(World_Size / Cell_Size));
-	for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
-		for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
-			cellDictionary.insert(std::pair<int, GridCell>(CoordinatesToID(x*Cell_Size, z*Cell_Size), GridCell(x*Cell_Size + Cell_Size / 2, z*Cell_Size + Cell_Size / 2, NULL, Obstacle[CoordinatesToID(x*Cell_Size, z*Cell_Size)])));
 	//CellDictionary[CoordinatesToID(x,z)] = GridCell(x,z,NULL);
+
 
 	int xcoord = startNode_->getAbsolutePosition().X;
 	int zcoord = startNode_->getAbsolutePosition().Z;
 
 	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)));
-	pStartCell = &(cellDictionary[CoordinatesToID(xcoord, zcoord)]);
+	pStartCell = &((*grid).cellDictionary[(*grid).CoordinatesToID(xcoord, zcoord)]);
 	possibleNextCells.push_back(pStartCell);
 
 
 	int xcoordGoal = goalNode_->getAbsolutePosition().X;
 	int zcoordGoal = goalNode_->getAbsolutePosition().Z;
 
-	(cellDictionary[CoordinatesToID(xcoord, zcoord)]).AssignParent(xcoord, zcoord, xcoordGoal, zcoordGoal, NULL, false);
-	pGoalCell = &cellDictionary[CoordinatesToID(xcoordGoal, zcoordGoal)];
+	((*grid).cellDictionary[(*grid).CoordinatesToID(xcoord, zcoord)]).AssignParent(xcoord, zcoord, xcoordGoal, zcoordGoal, NULL, false);
+	pGoalCell = &(*grid).cellDictionary[(*grid).CoordinatesToID(xcoordGoal, zcoordGoal)];
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Calls the FindPath() function. </summary>
@@ -90,14 +88,23 @@ GridCell* AStar::NextCell() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AStar::FindPath() {
-	if (possibleNextCells.empty())
+	if (possibleNextCells.empty()) {
+
+		for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
+			for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
+				(*grid).cellDictionary[(*grid).CoordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
 		return;
+	}
 	GridCell* currentCell = NextCell();
 
 	if (currentCell == pGoalCell) {
 		if (initialPath.size() == 0)
 			initialPath = ReversePath(currentCell->pathToCell);
 		currentPath = ReversePath(currentCell->pathToCell);
+
+		for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
+			for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
+				(*grid).cellDictionary[(*grid).CoordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
 		return;
 	}
 	int xPos = currentCell->x;
@@ -170,11 +177,11 @@ void AStar::FindPath() {
 		for (int z = -1; z <= 1; z++) {
 			//if ((x != 0 || z != 0)) {
 			if (abs(x)!=abs(z)){
-				int id = CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2);
-				bool test = (cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath;
-				if ((cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath && !(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).obstacle) {
-					(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)].AssignParent(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2, pGoalCell->x, pGoalCell->y, currentCell, (abs(x) == abs(z))));
-					possibleNextCells.push_back(&(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]));
+				int id = (*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2);
+				bool test = ((*grid).cellDictionary[(*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath;
+				if (((*grid).cellDictionary[(*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath && !((*grid).cellDictionary[(*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).obstacle) {
+					((*grid).cellDictionary[(*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)].AssignParent(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2, pGoalCell->x, pGoalCell->y, currentCell, (abs(x) == abs(z))));
+					possibleNextCells.push_back(&((*grid).cellDictionary[(*grid).CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]));
 				}
 			}
 		}
@@ -185,17 +192,14 @@ void AStar::FindPath() {
 
 
 bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
-	cellDictionary[CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
-	if (std::find(std::begin(currentPath), std::end(currentPath), (&(cellDictionary[CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)]))) != std::end(currentPath)) {
-	for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
-		for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
-			cellDictionary[CoordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
+	(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
+	if (std::find(std::begin(currentPath), std::end(currentPath), (&((*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)]))) != std::end(currentPath)) {
 
 		possibleNextCells.clear();
 		possibleNextCells.push_back(pStartCell);
 		FindPath();
 		if (possibleNextCells.empty()) {
-			cellDictionary[CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
+			(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
 			return false;
 		}
 	}
@@ -230,22 +234,17 @@ std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
 /// <returns>	An int. </returns>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int AStar::CoordinatesToID(int x, int z) {
-	/// <summary>	The test. </summary>
-	int test = ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
-	return ((x / Cell_Size) + World_Size / (2 * Cell_Size)) * (World_Size / Cell_Size) + ((z / Cell_Size) + World_Size / (2 * Cell_Size));
-	//return (x / Cell_Size)*World_Size + (World_Size / Cell_Size * World_Size / Cell_Size) / 2 + (z / Cell_Size) + (World_Size / Cell_Size) / 10;
-}
+
 
 core::vector3df AStar::GetCentre(core::vector3df position) {
 	core::vector3df centre = position;
-	centre.X = cellDictionary[CoordinatesToID(position.X, position.Z)].x;
-	centre.Z = cellDictionary[CoordinatesToID(position.X, position.Z)].y;
+	centre.X = (*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)].x;
+	centre.Z = (*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)].y;
 	return centre;
 }
 
 GridCell* AStar::GetCell(core::vector3df position) {
-	return &cellDictionary[CoordinatesToID(position.X, position.Z)];
+	return &(*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)];
 }
 
 std::vector<GridCell*> AStar::GetSurroundingCells(core::vector3df position) {
@@ -253,7 +252,7 @@ std::vector<GridCell*> AStar::GetSurroundingCells(core::vector3df position) {
 	std::vector<GridCell*> cells;
 	for (int x = -1; x <= 1; x++) 
 		for (int z = -1; z <= 1; z++) 
-				cells.push_back(&cellDictionary[CoordinatesToID(centre.X + ((x)* Cell_Size) - Cell_Size, centre.Z + ((z) * Cell_Size)-Cell_Size)]);
+				cells.push_back(&(*grid).cellDictionary[(*grid).CoordinatesToID(centre.X + ((x)* Cell_Size) - Cell_Size, centre.Z + ((z) * Cell_Size)-Cell_Size)]);
 	return cells;
 }
 /*irr::core::vector3df AStar::NextPathPosition(irr::core::vector3df pos, float speed)

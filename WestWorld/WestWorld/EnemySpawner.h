@@ -26,7 +26,7 @@ namespace irr
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,
-				PlayerBase* goalNode_, std::vector<bool> Obstacle,
+				PlayerBase* goalNode_, Grid* _grid,
 				IMetaTriangleSelector* meta,
 				EnemyManager* pEnemyManager, Timer* pTimer);
 
@@ -102,7 +102,7 @@ namespace irr
 			void Update();
 			void NewWave(int enemies);
 			int enemiesInWave;
-
+			Grid* grid;
 		protected:
 
 			void copyMaterials();
