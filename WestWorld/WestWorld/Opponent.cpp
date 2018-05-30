@@ -45,10 +45,6 @@ void Opponent::Update(int deltaTime) {
 
 	irr::core::vector3df nextPos;
 	if (isExploding) {
-		if (target) {
-		nextPos.X = target->GetPosition().X;
-		nextPos.Z = target->GetPosition().Z;
-	}
 		setScale(core::vector3df(scale, scale, scale));
 		scale += 0.01;
 		if (scale > 2 && scale < 2.5) {
@@ -77,6 +73,13 @@ void Opponent::Update(int deltaTime) {
 			enemyManager->RemoveFromArray(this);
 			return;
 		}
+			if (target) {
+				nextPos.X = target->GetPosition().X;
+				nextPos.Z = target->GetPosition().Z;
+			}
+			else {
+				return;
+			}
 	}
 	else {
 		nextPos.X = path[path.size() - pathProgress]->x;
@@ -84,7 +87,7 @@ void Opponent::Update(int deltaTime) {
 	}
 		irr::core::vector3df distance = nextPos - pos;
 
-		if (distance.getLength() < 1)
+		if (distance.getLength() < Cell_Size / 2)
 		{
 			if (backTracePath) {
 				pathProgress--;
@@ -100,66 +103,15 @@ void Opponent::Update(int deltaTime) {
 			backTracePath = false;
 			path = updatedPath;
 		}
+		if (pathProgress < path.size()) {
+			irr::core::vector3df offset = vector3df(path[path.size() - (pathProgress + 1)]->x, 0, path[path.size() - (pathProgress + 1)]->y) - pos;
+			distance = distance.getInterpolated(offset, 0.6);
+		}
+		//distance.rotateXYBy(offset.getSphericalCoordinateAngles.getAs3Values.X / 10);
+		//distance.interpolate(distance, offset, 0.9);
 		distance.normalize();
 
 		setPosition(pos + (speed * distance * deltaTime));
-	
-	//setPosition(NextPathPosition(getAbsolutePosition(), speed));
-
-	//while (CollidesWith(ground))
-	//	setPosition(getPosition() + core::vector3df(0, 0.001f, 0));
-}
-
-irr::core::vector3df Opponent::NextPathPosition(irr::core::vector3df pos, float speed)
-{
-	if (pathProgress > path.size()) { isExploding = true; }
-
-	if (isExploding){
-		setScale(core::vector3df(scale,scale,scale));
-		scale += 0.01;
-		if (scale > 2) {
-			if (targetPos == target->GetPosition()) {
-				target->Damaged(1);
-			} else {
-
-			}
-
-			setMaterialFlag(video::EMF_LIGHTING, false);
-			setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
-			setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-			setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-
-			//scene::ISceneNodeAnimator* anim = 0;
-
-			//addAnimator(anim);
-			//	anim->drop();
-			//anim = getSceneManager()->createDeleteAnimator(300);
-			//addAnimator(anim);
-			delete this;
-		}
-		return pos;
-	}
-
-	irr::core::vector3df nextPos;
-
-	nextPos.X = path[path.size() - pathProgress]->x;
-	nextPos.Z = path[path.size() - pathProgress]->y;
-	irr::core::vector3df distance = nextPos - pos;
-
-	if (distance.getLength() < 1)
-	{
-		if (backTracePath) {
-			pathProgress--;
-		}else
-		pathProgress++;
-	}
-	if (backTracePath && startOfNewPath == pathProgress) {
-		backTracePath = false;
-		path = updatedPath;
-	}
-	distance.normalize();
-
-	return (pos + (speed * distance));
 }
 
 void Opponent::ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell) {
