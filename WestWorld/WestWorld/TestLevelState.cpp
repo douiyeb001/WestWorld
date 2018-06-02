@@ -113,7 +113,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pManager->getSceneManager()->drawAll();
 	for (int i = 0; i < turretList.size(); i++){
 		turretList[i]->GetList(enemyManager->GiveArray());
-		turretList[i]->TurretShooting(pManager->getSceneManager(), pManager->getDevice());
+		turretList[i]->TurretShooting(pManager->getSceneManager(), pManager->getDevice(), pManager->GetMeta());
 	}
 	//for ( TurretAI* p : turretList) {
 	//	p->GetList(enemyManager->GiveArray());
@@ -164,7 +164,6 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//if (p_Timer->alarm()) readyToShoot = true;
 	pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount + 1);
 	pManager->getGUIEnvironment()->drawAll();
-
 	pManager->getDriver()->endScene();
 }
 

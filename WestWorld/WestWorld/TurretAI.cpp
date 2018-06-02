@@ -4,16 +4,19 @@
 #include "TurretAI.h"
 #include "Opponent.h"
 
+line3df ray;
+ICameraSceneNode* cam;
 
-
-
-TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos)
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr)
 {
 	pEnemyManager = _pEnemyManager;
 	turret = newTurretPos;
+	cam = smgr->addCameraSceneNode(0, vector3df(0, 0, 0),vector3df(0,0,0),0,false);
+	vector3df turretRayPos = vector3df(turret.X, turret.Y + 40, turret.Z);
+	cam->setPosition(turretRayPos);
 }
 
-void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice) 
+void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMetaTriangleSelector* meta) 
 {
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
@@ -28,7 +31,50 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 
 			if ((p->getPosition().X >= turret.X - radius && p->getPosition().X <= turret.X + radius) &&
 				(p->getPosition().Z >= turret.Z - radius && turret.Z - radius) && enemySpotted == false) {
-				enemySpotted = true;
+		//		enemySpotted = true;
+
+				ISceneCollisionManager* collMan = pSmgr->getSceneCollisionManager();
+				vector3df intersection;
+				triangle3df hitTriangle;
+	
+
+				ray.start = cam->getPosition();
+				cam->setTarget(p->getPosition());
+				ray.end = p->getPosition();
+
+				ISceneNode * selectedSceneNode =
+					collMan->getSceneNodeAndCollisionPointFromRay(
+						ray,
+						intersection, // This will be the position of the collision
+						hitTriangle,
+						0, 0);
+
+				vector3df start = cam->getPosition();
+				vector3df end = (cam->getTarget() - start);
+				end.Y += 5;
+				end.normalize();
+				start += end * 20.0f;
+			//	end = start + (end * cam->getFarValue());
+				end = start + (end * radius);
+				line3d<f32> line(start, end);
+				ISceneNode* test;
+
+				if (collMan->getCollisionPoint(line, meta, ray.end, hitTriangle, test)) {
+					vector3df out = hitTriangle.getNormal();
+					//OnShoot(end, smgr);
+					//out.setLength(0.03f);
+					if (test->getID() == 17)
+						enemySpotted = true;
+					// pleur dit in de volgende methode
+				}
+
+				pSmgr->getVideoDriver()->draw3DLine(ray.start, ray.end, SColor(255));
+
+				//if (selectedSceneNode != NULL && selectedSceneNode->getID() != 10) {
+				//	// alleen maar als not collide mit wall
+				//	enemySpotted = true;
+				//}
+
 
 				if (enemySpotted) {
 				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
@@ -39,6 +85,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice)
 		}
 	}
 
+bool koekje = false;
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
 	if(target == NULL || target != opponent) {
@@ -47,7 +94,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		start = timer->getTime();
 		targeted = true;
 		return;
-	}
+	}	
 
 	if (timer->getTime() >= (start + 1000)) {
 		pEnemyManager->RemoveFromArray(opponent);

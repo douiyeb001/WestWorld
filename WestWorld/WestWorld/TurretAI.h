@@ -20,9 +20,9 @@ public:
 	EnemyManager * pEnemyManager;
 	ITimer* timer;
 	IMetaTriangleSelector* pMeta;
-	TurretAI(EnemyManager* _pEnemyManager, vector3df newTurret);
+	TurretAI(EnemyManager* _pEnemyManager, vector3df newTurret, ISceneManager* smgr);
 	void GetList(vector <Opponent*> opArray);
-	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice);
+	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMetaTriangleSelector* meta);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition);
 	bool enemySpotted = false;
 
