@@ -6,16 +6,15 @@
 #include "GridCell.h"
 
 
+using namespace irr;
+using namespace scene;
+using namespace core;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // file: AStar.h
 //
 // summary:	Finds the shortest path between the start and goal nodes using the A* algorithm by defining a grid based on the position.
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using namespace irr;
-using namespace scene;
-using namespace core;
-
 class AStar {
 public:
 	/// <summary>	Key map of grid cells. </summary>

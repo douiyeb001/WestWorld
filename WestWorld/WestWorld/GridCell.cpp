@@ -44,3 +44,7 @@ void GridCell::Clear() {
 	f = 0;
 	isFindingPath = true;
 }
+
+bool GridCell::PossibleNextCell() {
+	return isFindingPath && !obstacle;
+}

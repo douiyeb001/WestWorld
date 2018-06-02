@@ -12,7 +12,7 @@ using namespace core;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // file: Currency.h
 //
-// summary:This class manages the currency of the player in one central place so that you can easily modify it without searching the methods.
+// summary: This class manages the currency of the player in one central place so that you can easily modify it without searching the methods.
 // Every method in this class will effect the currency of the player
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

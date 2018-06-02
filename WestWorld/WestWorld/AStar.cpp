@@ -171,15 +171,14 @@ void AStar::FindPath() {
 			//if ((x != 0 || z != 0)) {
 			if (abs(x)!=abs(z)){
 				int id = CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2);
-				bool test = (cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath;
-				if ((cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).isFindingPath && !(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]).obstacle) {
-					(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)].AssignParent(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2, pGoalCell->x, pGoalCell->y, currentCell, (abs(x) == abs(z))));
-					possibleNextCells.push_back(&(cellDictionary[CoordinatesToID(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2)]));
+				
+				if (cellDictionary[id].PossibleNextCell()) {
+					(cellDictionary[id].AssignParent(xPos + x * Cell_Size - Cell_Size / 2, yPos + z * Cell_Size - Cell_Size / 2, pGoalCell->x, pGoalCell->y, currentCell, (abs(x) == abs(z))));
+					possibleNextCells.push_back(&(cellDictionary[id]));
 				}
 			}
 		}
 	}
-
 	FindPath();
 }
 
