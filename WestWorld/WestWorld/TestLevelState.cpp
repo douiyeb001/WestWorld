@@ -135,7 +135,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
-			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveCount);
+			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveManager->waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 			waveManager->NewWave(5);
@@ -165,10 +165,10 @@ void TestLevelState::Update(CGameManager* pManager) {
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
 	playerReticle->Draw(pManager->getDriver());
-	pPlayerHealth->Draw(pManager->getDriver(), playerCore->health);
+	pPlayerHealth->Draw(pManager->getDriver(), pPLayer->health);
 
 	pauseManager->Draw();
-	if (playerCore->health <= 0) {
+	if (playerCore->health <= 0 || pPLayer->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
 	}
 	//Set the amount of waves needed	

@@ -8,6 +8,7 @@ Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* ani
 	//pSmgr = smgr;
 	// create new player
 	CreatePlayer(smgr, meta);
+	health = 5;
 
 }
 
