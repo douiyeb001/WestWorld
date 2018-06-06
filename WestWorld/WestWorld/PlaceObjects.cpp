@@ -4,7 +4,7 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, EnemySpawner* _spawner, Currency* _cManager) : spawner(_spawner)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
@@ -37,14 +37,13 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				barrelNode->setScale(vector3df(1.2, 1.2, 1.2));
-				barrelNode->setPosition(spawner->path->GetCentre(position));
+				barrelNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(position));
 				selector = smgr->createTriangleSelector(barrelNode->getMesh(), barrelNode);
 				barrelNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
 				selector->drop();
-				//meta->drop();
-				if (spawner->path->RecalculatePath(position))
-					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
+				for(int i = 0; i < (*waveManager).spawnPoints.size();i++)
+					(*waveManager).spawnPoints[i]->_pEnemyManager->UpdatePath((*waveManager).spawnPoints[i]->path->currentPath, (*waveManager).spawnPoints[i]->path->GetCell(position));
 				CreateCollision(anim, camera, meta);
 				cManager->BuildingCost(barrelNode);
 			}
@@ -64,14 +63,14 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
-				turretNode->setPosition(spawner->path->GetCentre(position));
+				turretNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(position));
 				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
 				turretNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
 				selector->drop();
 				//meta->drop();
-				if (spawner->path->RecalculatePath(position))
-					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
+				for (int i = 0; i < (*waveManager).spawnPoints.size(); i++)
+					(*waveManager).spawnPoints[i]->_pEnemyManager->UpdatePath((*waveManager).spawnPoints[i]->path->currentPath, (*waveManager).spawnPoints[i]->path->GetCell(position));
 				CreateCollision(anim, camera, meta);
 				cManager->BuildingCost(turretNode);
 				turretList.push_back(turretNode);
@@ -147,7 +146,7 @@ void PlaceObjects::ResetPlacementIndicator()
 		 if (collidedObject) {
 			 if (collidedObject->getID() == IDFlag::spawnGround)
 			 {
-				 placementIndicatorNode->setPosition(spawner->path->GetCentre(intersection));
+				 placementIndicatorNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(intersection));
 			 }
 		 }
 	 }
@@ -162,17 +161,23 @@ void PlaceObjects::Update(scene::ICameraSceneNode *camera, ITriangleSelector* se
 
 bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {
 	// object can't be place on goalnode cell
-	GridCell* goalCell = spawner->path->GetCell(spawner->goalNode->base->getPosition());
+	GridCell* goalCell = (*waveManager).spawnPoints[0]->path->GetCell((*waveManager).spawnPoints[0]->goalNode->node->getPosition());
 	const float radius = 20;
-	GridCell* currentCell = spawner->path->GetCell(player->getPosition());
-	vector3df intersectingCell = spawner->path->GetCentre(intersection);
-	if (spawner->path->GetCell(intersection) == goalCell) return false;
-	else if (currentCell == spawner->path->GetCell(intersection)) return false;
+	GridCell* currentCell = (*waveManager).spawnPoints[0]->path->GetCell(player->getPosition());
+	vector3df intersectingCell = (*waveManager).spawnPoints[0]->path->GetCentre(intersection);
+	if ((*waveManager).spawnPoints[0]->path->GetCell(intersection) == goalCell) return false;
+	else if (currentCell == (*waveManager).spawnPoints[0]->path->GetCell(intersection)) return false;
 	else if ((intersectingCell.X >= player->getPosition().X - radius && intersectingCell.X <= player->getPosition().X + radius) &&
 		(intersectingCell.Z >= player->getPosition().Z - radius && player->getPosition().Z - radius)) {
 		return false;
 	}
-	else if (!spawner->path->RecalculatePath(intersection)) return false;
+	for (int i = 0; i < (*waveManager).spawnPoints.size(); i++)
+		if (!(*waveManager).spawnPoints[i]->path->RecalculatePath(intersection)) {
+			for (int j = i; i >= 0; i--) {
+				(*waveManager).spawnPoints[i]->path->SetObstacle(false, intersection);//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
+			}
+			return false;
+		}
 	return true;
 }
 

@@ -10,7 +10,7 @@
 #include "AStar.h" 
 #include "Opponent.h"
 #include "EnemyManager.h"
-#include "timer.h"
+#include "Timer.h"
 
 namespace irr
 {
@@ -26,7 +26,7 @@ namespace irr
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,
-				PlayerBase* goalNode_, std::vector<bool> Obstacle,
+				PlayerBase* goalNode_, Grid* _grid,
 				IMetaTriangleSelector* meta,
 				EnemyManager* pEnemyManager, Timer* pTimer);
 
@@ -99,10 +99,7 @@ namespace irr
 			//std::vector<Opponent*> enemies;  // remove this
 			ISceneManager* smgr;
 			IMetaTriangleSelector* meta;
-			void Update();
-			void NewWave(int enemies);
-			int enemiesInWave;
-
+			Grid* grid;
 		protected:
 
 			void copyMaterials();

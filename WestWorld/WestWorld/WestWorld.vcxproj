@@ -158,9 +158,11 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayState.h" />
     <ClInclude Include="GameStates.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="GUIBase.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="IDamagable.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
@@ -177,6 +179,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TurretAI.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
@@ -187,6 +190,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
     <ClCompile Include="GameStates.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -208,6 +212,7 @@
     <ClCompile Include="TestLevelState.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TurretAI.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

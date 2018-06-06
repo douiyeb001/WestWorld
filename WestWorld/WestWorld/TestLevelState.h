@@ -15,6 +15,7 @@
 #include "EnemyManager.h"
 #include "Timer.h"
 #include "PauseManager.h"
+#include "WaveManager.h"
 #include <memory>
 
 class TestLevelState : public CGamePlayState {
@@ -88,7 +89,6 @@ private:
 	//Timer *p_Timer;
 	bool readyToShoot = true;
 	bool isBuildPhase;
-	int waveCount = 0;
 
 	/// <summary>	The camera node. </summary>
 	//ICameraSceneNode* cameraNode;
@@ -110,8 +110,8 @@ private:
 	/// <summary>	The player core. </summary>
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
-	EnemySpawner* spawnPoint;
 	IMeshSceneNode* gunNode;
+	WaveManager* waveManager;
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
 	GameOverScreen* pGameOver;
@@ -120,7 +120,7 @@ private:
 	WaveCounterUI* pWaveCounterUI;
 	static TestLevelState  m_TestLevelState;
 	/// <summary>	. </summary>
-	std::vector<bool> obstacles;
-	
+	//std::vector<bool> obstacles;
+	Grid* grid;
 };
 #endif

@@ -20,7 +20,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
-	waveCount = 1;
+	//int waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -40,7 +40,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	gunNode->setPosition(core::vector3df(1.5, -1.5, 2.5));
 	gunNode->setScale(core::vector3df(0.3,0.3,0.3));
 
-
+	std::vector<bool> obstacles;
 		for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
@@ -75,6 +75,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 				}
 		}
 	}
+	grid = new Grid(obstacles);
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
@@ -82,10 +83,13 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	pTurretAI = new TurretAI(enemyManager);
-	spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,obstacles, pManager->GetMeta() ,enemyManager, enemyTimer);
+	waveManager = new WaveManager(pManager,playerCore,grid, enemyManager,enemyTimer);
+	//spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,grid, pManager->GetMeta() ,enemyManager, enemyTimer);
+	//spawnPoint2 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
+	//spawnPoint3 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
 	//spawnPoint->drop();
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
+	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
@@ -99,7 +103,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 	delete enemyManager;
 	delete pTurretAI;
-	delete spawnPoint;
+	delete waveManager;
 
 	delete p_Timer;
 	delete healthbar;
@@ -134,7 +138,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
-			spawnPoint->NewWave(10);
+			waveManager->NewWave(5);
 		}
 	} else {
 		/*float z = (*pPLayer).getCamera()->getPosition().Z;
@@ -144,11 +148,13 @@ void TestLevelState::Update(CGameManager* pManager) {
 			irr::core::aabbox3df box = irr::core::aabbox3df(g->x - Cell_Size / 2, x, g->y - Cell_Size / 2, g->x + Cell_Size / 2, x, g->y + Cell_Size / 2);
 			pManager->getSceneManager()->addCubeSceneNode(5,NULL,10,vector3df(g->x, x, g->y));
 		}*/
-		enemyManager->Update((*spawnPoint).path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()));
-		(*spawnPoint).Update();
-		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
+		enemyManager->Update((*waveManager).spawnPoints[0]->path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()), pPLayer.get());
+		if (enemyManager->p_Timer->alarm()){
+			waveManager->Update();
+		}
+		if (enemyManager->GiveArray().empty() && waveManager->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);
-			waveCount++;
+			(*waveManager).waveCount++;
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
 		}
@@ -166,7 +172,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		pGameOver->Draw(pManager->getDriver());
 	}
 	//Set the amount of waves needed	
-	if(waveCount == 3)
+	if((*waveManager).waveCount == 3)
 	{
 		pVictory->Draw(pManager->getDriver());
 	}

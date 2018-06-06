@@ -21,11 +21,11 @@ namespace irr
 			const core::vector3df& position,
 			const core::vector3df& rotation,
 			const core::vector3df& scale,
-			PlayerBase* goalNode_, std::vector<bool> Obstacle,
+			PlayerBase* goalNode_, Grid* _grid,
 			IMetaTriangleSelector* imeta,
 			EnemyManager* pEnemyManager, Timer* pTimer)
 			: IMeshSceneNode(parent, mgr, id, position, rotation, scale), Mesh(0), Shadow(0),
-			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_->base,Obstacle)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager), obstacle(Obstacle),p_Timer(pTimer)
+			PassCount(0), ReadOnlyMaterials(false), path(new AStar(this,goalNode_->node,_grid)),goalNode(goalNode_),smgr(mgr), countdownSpawn(100.0f), _pEnemyManager(pEnemyManager), grid(_grid),p_Timer(pTimer)
 			
 		{
 #ifdef _DEBUG
@@ -416,7 +416,7 @@ namespace irr
 				newManager = SceneManager;
 
 			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
-				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,obstacle, meta,_pEnemyManager,p_Timer);
+				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,grid, meta,_pEnemyManager,p_Timer);
 
 			nb->cloneMembers(this, newManager);
 			nb->ReadOnlyMaterials = ReadOnlyMaterials;
@@ -429,8 +429,7 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/EnemyMesh.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), goalNode,_pEnemyManager);
-			
+			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/tempEnemyBlobbert.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), goalNode,_pEnemyManager);
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 		//	spawnPoint->setPosition(position);
@@ -446,19 +445,5 @@ namespace irr
 			
 		}
 
-		void EnemySpawner::Update() {
-			if(p_Timer->alarm()){
-				if (enemiesInWave > 0) {
-					SpawnOpponent();
-					p_Timer->set(1000);
-					enemiesInWave--;
-				}
-			}
-		}
-
-		void EnemySpawner::NewWave(int enemies) {
-			enemiesInWave = enemies;
-			p_Timer->set(1000);
-		}
 	} // end namespace scene
 } // end namespace irr

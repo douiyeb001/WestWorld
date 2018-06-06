@@ -6,6 +6,7 @@
 #include "EnemySpawner.h"
 #include "Currency.h"
 #include "GUIBase.h"
+#include "WaveManager.h"
 //#include "MouseInput.h"
 
 
@@ -75,7 +76,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, EnemySpawner* _spawner, Currency* _cManager);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +121,7 @@ public:
 	ISceneNode *collidedObject;
 	/// <summary>	The ray. </summary>
 	core::line3d<f32> ray;
-	EnemySpawner* spawner;
+	WaveManager* waveManager;
 	///
 	bool isInBuildMode;
 	///

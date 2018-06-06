@@ -156,3 +156,16 @@ void Player::OnShoot(vector3df placeHit, ISceneManager* smgr) {
 	node->addAnimator(anim);
 	//anim->drop();
 }
+
+void Player::Damaged(int damage) {
+	health -= damage;
+
+	if (health <= 0) {
+
+		health = 0;
+	}
+}
+
+irr::core::vector3df Player::GetPosition() {
+	return cameraNode->getAbsolutePosition();
+}

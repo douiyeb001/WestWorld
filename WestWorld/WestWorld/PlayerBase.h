@@ -2,6 +2,7 @@
 #include <irrlicht.h>
 //#include "HealthBar.h"
 #include "HealthBar.h"
+#include "IDamagable.h"
 
 
 
@@ -13,7 +14,7 @@
 
 using namespace irr;
 using namespace video;
-class PlayerBase
+class PlayerBase : public IDamagable
 {
 public:
 
@@ -25,7 +26,7 @@ public:
 	/// <param name="base">	[in,out] If non-null, the base. </param>
 	/// <param name="mgr"> 	[in,out] If non-null, the manager. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	PlayerBase(scene::ISceneNode* base, scene::ISceneManager* mgr, IrrlichtDevice* pDevice);
+	PlayerBase(scene::ISceneNode* _node, scene::ISceneManager* mgr, IrrlichtDevice* pDevice);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Destructor. </summary>
 	///
@@ -34,10 +35,10 @@ public:
 
 	~PlayerBase();
 	/// <summary>	The base. </summary>
-	scene::ISceneNode* base;
+	scene::ISceneNode* node;
 	IrrlichtDevice* _pDevice;
 	/// <summary>	The health. </summary>
-	int health;
+	//int health;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Gets the health. </summary>
@@ -63,7 +64,8 @@ bool Lost(bool GameOver);
 	/// <param name="damage">	The damage. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Damaged(int damage, IVideoDriver* driver);
+	void Damaged(int damage);
+	irr::core::vector3df GetPosition();
 	/// <summary>	= new HealthBar((smgr->getRootSceneNode(), smgr, 666)) </summary>
 	//HealthBar *healthBar;
 };

@@ -2,7 +2,6 @@
 
 
 
-
 EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* _cManager, Timer* pTimer) : p_Timer(pTimer)
 {
 	ismgr = smgr;
@@ -12,14 +11,18 @@ EnemyManager::EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector*
 	cManager = _cManager;
 }
 
-void EnemyManager::Update(std::vector<GridCell*> PlayerRange) {
+void EnemyManager::Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlayer) {
 	// update all the enemies
  	int deltaTime = p_Timer->deltaTime();
 	for (Opponent* op : opponentList) {
 		if (op->isExploding){
 			op->Update(deltaTime);
 		}
-		else if (std::find(PlayerRange.begin(), PlayerRange.end(), op->path[op->path.size() - op->pathProgress]) != PlayerRange.end()) { op->isExploding = true; }
+		else if (std::find(PlayerRange.begin(), PlayerRange.end(), op->path[op->path.size() - op->pathProgress]) != PlayerRange.end()) { 
+			op->isExploding = true;
+			//op->targetPos = playerPos; 
+			op->target = pPlayer;
+		}
 		else {
 			op->Update(deltaTime);
 		}
@@ -52,8 +55,10 @@ void EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 		if (hitObject == opponentList[i])
 			{
 				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
-				opponentList[i]->remove();
-				opponentList.erase(opponentList.begin() + i);
+				opponentList[i]->target = NULL;
+				opponentList[i]->isExploding = true;
+				//opponentList[i]->remove();
+				//opponentList.erase(opponentList.begin() + i);
 				cManager->EnemyCurrency();
 			}
 	}
@@ -73,8 +78,6 @@ void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 	for (int i = 0; i < opponentList.size(); i++) {
 		if (opponentList[i] == turretOpponent)
 		{
-
-
 			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 			opponentList[i]->remove();
 			opponentList.erase(opponentList.begin() + i);
