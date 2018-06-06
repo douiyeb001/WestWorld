@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include  "TestLevelState.h"
 
+
 MenuState MenuState::m_MenuState;
 
 MenuState::MenuState(){}
@@ -12,6 +13,7 @@ MenuState* MenuState::Instance() {
 }
 
 void MenuState::Init(CGameManager* pManager) {
+	onControlScreen = false;
 	CGameState::Init(pManager);
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
@@ -21,6 +23,10 @@ void MenuState::Init(CGameManager* pManager) {
 	backgroundSprite->position.X = pManager->getDriver()->getScreenSize().Width / 2;
 	backgroundSprite->position.Y = pManager->getDriver()->getScreenSize().Height / 2;
 
+	controlSchemeSprite = new Sprite(pManager->getDriver());
+	controlSchemeSprite->texture = pManager->getDriver()->getTexture("media/UI/ControlScheme.png");
+	controlSchemeSprite->position.X = width/2;
+	controlSchemeSprite->position.Y = height/2;
 
 	revolverSprite = new Sprite(pManager->getDriver());
 	revolverSprite->texture = pManager->getDriver()->getTexture("media/UI/revolverIcon.png");
@@ -42,8 +48,11 @@ void MenuState::Init(CGameManager* pManager) {
 void MenuState::Update(CGameManager* pManager) {
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
+
 	backgroundSprite->draw();
 	revolverSprite->draw();
+	if (onControlScreen)
+	controlSchemeSprite->draw();
 //	pBackgroundImage->Draw(pManager->getDriver());
 //	pMouseCursor->Draw(pManager->getDriver());
 	DisplayMouse(pManager);
@@ -66,10 +75,12 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 
 	if ((pManager->GetKeyboard() == KEY_DOWN) && currentMenuId < 2) {
 		currentMenuId++;
+		if (onControlScreen) onControlScreen = false;
 		revolverSprite->position.Y += 125;
 	}
 	if ((pManager->GetKeyboard() == KEY_UP) && currentMenuId > 0) {
 		currentMenuId--;
+		if (onControlScreen) onControlScreen = false;
 		revolverSprite->position.Y -= 125;
 	}
 	
@@ -78,10 +89,15 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 			ChangeState(pManager, TestLevelState::Instance());
 		break;
 	case CONTROLS:
+		onControlScreen = true;
 		break;
 	case QUIT:
 		pManager->getDevice()->closeDevice();
 		break;
+	}
+
+	if(pManager->GetKeyboard() == KEY_ESCAPE) {
+		if (onControlScreen) onControlScreen = false;
 	}
 	if (pManager->GetKeyboard() == KEY_F1)
 	{

@@ -32,6 +32,8 @@ protected:
 	MenuState();
 	Sprite* backgroundSprite;
 	Sprite* revolverSprite;
+	bool onControlScreen = false;
+	Sprite* controlSchemeSprite;
 	ICameraSceneNode* m_pCamera;
 	ISceneNode* m_pNode;
 	position2d<s32> m_MousePos;
