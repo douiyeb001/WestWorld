@@ -76,6 +76,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//spawnPoint->drop();
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
+	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -146,7 +147,10 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
-	//
+
+	playerReticle->Draw(pManager->getDriver());
+	pPlayerHealth->Draw(pManager->getDriver(), playerCore->health);
+
 	pauseManager->Draw();
 	if (playerCore->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
@@ -157,7 +161,6 @@ void TestLevelState::Update(CGameManager* pManager) {
 		pVictory->Draw(pManager->getDriver());
 	}
 
-	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
 	//pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount);
 	pManager->getGUIEnvironment()->drawAll();

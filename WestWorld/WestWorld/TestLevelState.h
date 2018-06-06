@@ -98,6 +98,7 @@ private:
 	/// <summary>	Manager for po. </summary>
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
+	PlayerHealth* pPlayerHealth;
 	PlaceObjects* PoManager;
 	VictoryScreen* pVictory;
 	

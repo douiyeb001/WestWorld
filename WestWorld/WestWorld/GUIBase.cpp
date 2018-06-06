@@ -3,12 +3,32 @@
 
 PlayerCore::PlayerCore(IVideoDriver* driver, char const* bar) {
 	hpBar = driver->getTexture(bar);
-	driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
+	//driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
 }
 
 void PlayerCore::Draw(IVideoDriver* driver) {
-	driver->draw2DImage(hpBar, core::position2d<int>(driver->getScreenSize().Width - hpBar->getSize().Width - 27, 10), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+	driver->draw2DImage(hpBar, core::position2d<int>(0,0), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
+
+PlayerHealth::PlayerHealth(IVideoDriver* driver, char const* bar) {
+	hpBar = driver->getTexture(bar);
+}
+
+void PlayerHealth::Draw(IVideoDriver* driver, int playerHealth) {
+
+	int x = 20;
+	for (int i = 0; i < playerHealth; i++)
+	{
+		driver->draw2DImage(hpBar, core::position2d<int>(x, 10), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+		x += 60;
+	}
+
+}
+
+
+
+
+
 
 Placeable::Placeable(IVideoDriver* driver, char const* icon1) {
 	placeableIcon = driver->getTexture(icon1);
@@ -60,13 +80,6 @@ void WaveCounterUI::Draw(IGUIEnvironment* pGui, IVideoDriver* pDriver, int waveN
 
 void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 	
-	//pStaticText = gui->addStaticText(pText, rect<s32>(20, 30, 220, 50), false);
-//	pText = (const wchar_t)cManager->playerCurrency;
-		//swprintf_s(pText, L"%d", cManager->playerCurrency);
-	//pScoreText = gui->addStaticText(pText, rect<s32>(70, 30, 270, 50), false);
-	
-	
-	//pScoreText = gui->addStaticText(pScore, rect<s32>(70, 30, 270, 50), false);
 	//if (font)
 	//{
 	//	font->draw((L"%d", (stringc)cManager->playerCurrency),
@@ -78,13 +91,6 @@ void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 		core::rect<int>(0, 0, pCurrencyTexture->getSize().Width, pCurrencyTexture->getSize().Height), 
 		0, 
 		video::SColor(255, 255, 255, 255), true); //Draw bar
-
-	//driver->draw2DImage(pInfinityTexture,
-	//	core::position2d<int>(80, driver->getScreenSize().Height - pInfinityTexture->getSize().Height + 10),
-	//	core::rect<int>(0, 0, pInfinityTexture->getSize().Width, pInfinityTexture->getSize().Height),
-	//	0,
-	//	video::SColor(255, 255, 255, 255), true); //Draw bar
-	
 }
 
 void GameOverScreen::Draw(IVideoDriver* driver) {
