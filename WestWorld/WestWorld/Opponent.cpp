@@ -111,6 +111,7 @@ void Opponent::Update(int deltaTime) {
 		distance.normalize();
 
 		setPosition(pos + (speed * distance * deltaTime));
+		setRotation(distance.getHorizontalAngle());
 }
 
 void Opponent::ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell) {
