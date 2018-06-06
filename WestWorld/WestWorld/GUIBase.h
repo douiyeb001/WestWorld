@@ -61,7 +61,7 @@ public:
 	/// <param name="bar">   	The bar. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlayerCore(IVideoDriver* driver, char const* bar);
+	PlayerCore(IVideoDriver* driver, IGUIEnvironment* gui, char const* bar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Draws the given driver. </summary>
@@ -74,6 +74,7 @@ public:
 private:
 	/// <summary>	The hp bar. </summary>
 	ITexture* hpBar;
+	IGUIFont* font;
 };
 
 class PlayerHealth {

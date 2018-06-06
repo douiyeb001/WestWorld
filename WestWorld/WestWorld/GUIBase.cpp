@@ -1,7 +1,7 @@
  #include "GUIBase.h"
 #include <stdio.h> 
 
-PlayerCore::PlayerCore(IVideoDriver* driver, char const* bar) {
+PlayerCore::PlayerCore(IVideoDriver* driver, IGUIEnvironment* gui, char const* bar) {
 	hpBar = driver->getTexture(bar);
 	//driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
 }
@@ -24,11 +24,6 @@ void PlayerHealth::Draw(IVideoDriver* driver, int playerHealth) {
 	}
 
 }
-
-
-
-
-
 
 Placeable::Placeable(IVideoDriver* driver, char const* icon1) {
 	placeableIcon = driver->getTexture(icon1);
@@ -188,7 +183,7 @@ void Sign::ChangeImage(IVideoDriver* driver, int waveNumber)
 
 DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
-	pPlayerHealthBar = new PlayerCore(driver, "media/UI/UI_Core.png");
+	pPlayerHealthBar = new PlayerCore(driver, gui, "media/UI/UI_Core.png");
 	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
 	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
