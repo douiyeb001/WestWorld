@@ -1,104 +1,96 @@
 newmtl material
-Ka 0.300000 0.300000 0.300000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 50.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
-newmtl material1
-Ka 0.149000 0.149000 0.149000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 14.400000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver_Bump.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.30 0.30 0.30
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 50.00
 newmtl material2
-Ka 0.139000 0.139000 0.139000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 12.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
-newmtl material3
-Ka 0.300000 0.300000 0.300000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 50.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.15 0.15 0.15
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 14.40
 newmtl material4
-Ka 0.059000 0.059000 0.059000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 21.600000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver_Bump.png
-newmtl material5
-Ka 0.119000 0.119000 0.119000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 12.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver_Bump.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.14 0.14 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 12.00
 newmtl material6
-Ka 0.139000 0.139000 0.139000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 12.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
-newmtl material7
-Ka 0.300000 0.300000 0.300000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 50.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.30 0.30 0.30
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 50.00
 newmtl material8
-Ka 0.300000 0.300000 0.300000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 50.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
-newmtl material9
-Ka 0.300000 0.300000 0.300000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 50.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 21.60
 newmtl material10
-Ka 0.149000 0.149000 0.149000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 12.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver.png
-newmtl material11
-Ka 0.208000 0.208000 0.208000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 9.600000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Revolver_Bump.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.12 0.12 0.12
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 12.00
 newmtl material12
-Ka 0.168000 0.168000 0.168000
-Kd 0.700000 0.700000 0.700000
-Ks 1.000000 1.000000 1.000000
-Ns 12.000000
-Tr 0.000000
-illum 2
-map_Kd C:\Softimage\XSI_6.02\Data\PARPG_Weapons\Pictures\Nagant_Bullet.png
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.14 0.14 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 12.00
+newmtl material14
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.30 0.30 0.30
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 50.00
+newmtl material16
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.30 0.30 0.30
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 50.00
+newmtl material18
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.30 0.30 0.30
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 50.00
+newmtl material20
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.15 0.15 0.15
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 12.00
+newmtl material22
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.21 0.21 0.21
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 9.60
