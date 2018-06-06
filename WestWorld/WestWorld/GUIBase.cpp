@@ -97,7 +97,7 @@ void GameOverScreen::Draw(IVideoDriver* driver) {
 void VictoryScreen::Draw(IVideoDriver* driver) {
 	
 		driver->draw2DImage(VictorySprite,
-		core::position2d<int>(-40, -40),
+		core::position2d<int>(0, 0),
 		core::rect<int>(0, 0, VictorySprite->getSize().Width, VictorySprite->getSize().Height),
 		0,
 		video::SColor(255, 255, 255, 255), true); //Draw victory screen sprite

@@ -61,7 +61,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 	vector3df intersection;
 	triangle3df hitTriangle;
 
-	ray.start = cam->getPosition();
+	ray.start = turretPosition;
 	cam->setTarget(opponent->getPosition());
 	ray.end = opponent->getPosition();
 

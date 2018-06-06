@@ -4,6 +4,8 @@
 
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
+bool isDead = false;
+bool hasWon = false;
 
 TestLevelState::TestLevelState(){
 }
@@ -153,12 +155,31 @@ void TestLevelState::Update(CGameManager* pManager) {
 	pauseManager->Draw();
 	if (playerCore->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
+		if (!isDead) {
+			p_Timer->set(1000);
+			isDead = true;
+		}
+
 	}
+		if(p_Timer->alarm()&& isDead)
+		{
+			pManager->getDevice()->closeDevice();
+		}
+	
 	//Set the amount of waves needed	
-	if(waveCount == 1 + 1)
-	{
-		pVictory->Draw(pManager->getDriver());
-	}
+		if (waveCount == 1 + 1)
+		{
+			pVictory->Draw(pManager->getDriver());
+			if (!hasWon) {
+				p_Timer->set(1000);
+				hasWon = true;
+			}
+		}
+		if(p_Timer->alarm() && hasWon)
+		{
+			pManager->getDevice()->closeDevice();
+		}
+	
 
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
