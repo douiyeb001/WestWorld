@@ -51,7 +51,7 @@ using namespace std;
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class PlayerHealthBar {
+class PlayerCore {
 public:
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ public:
 	/// <param name="bar">   	The bar. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlayerHealthBar(IVideoDriver* driver, char const* bar);
+	PlayerCore(IVideoDriver* driver, char const* bar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Draws the given driver. </summary>
@@ -176,7 +176,7 @@ private:
 
 class BuildPhaseUI {
 public:
-	BuildPhaseUI(IVideoDriver* driver, char const* _pTurretImage, char const* _pBarricadeImage);
+	BuildPhaseUI(IVideoDriver* driver, char const* pTurretImage, char const* pBarricadeImage);
 	void Draw(IVideoDriver* driver);
 	bool isBuildPhase;
 	bool isBarricade;
@@ -188,6 +188,24 @@ public:
 private:
 };
 
+class Sign{
+public:
+	Sign(IVideoDriver* driver, char const* _pBuildSign);
+	void Draw(IVideoDriver* driver);
+	void ChangeImage(IVideoDriver* driver, int waveNumber);
+
+	ITexture * pSignImage;
+
+	//buildphase sign
+	ITexture* pBuildSign;
+
+	//wave sign
+	ITexture* pWaveSign;
+private:
+	
+	
+};
+
 
 class DrawUI {
 public:
@@ -195,12 +213,14 @@ public:
 	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
 
 	BuildPhaseUI* pBuildPhaseUI;
+	Sign* pSign;
 
 private:
-	PlayerHealthBar * pPlayerHealthBar;
+	PlayerCore * pPlayerHealthBar;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
+
 
 
 };

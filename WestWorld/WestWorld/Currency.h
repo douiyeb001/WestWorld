@@ -65,7 +65,7 @@ public:
 	/// <summary>	Determines If the player has enough currency to place a building. </summary>
 	///
 	///
-	/// <returns>	True if it succeeds, false if it fails. </returns>
+	/// <returns>	True if the player has enough currency, false if the player doesn't have enough currency. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool CheckCurrency();

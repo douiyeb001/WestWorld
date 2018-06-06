@@ -1,12 +1,12 @@
  #include "GUIBase.h"
 #include <stdio.h> 
 
-PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
+PlayerCore::PlayerCore(IVideoDriver* driver, char const* bar) {
 	hpBar = driver->getTexture(bar);
 	driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
 }
 
-void PlayerHealthBar::Draw(IVideoDriver* driver) {
+void PlayerCore::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(hpBar, core::position2d<int>(driver->getScreenSize().Width - hpBar->getSize().Width - 27, 10), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
@@ -129,15 +129,67 @@ void BuildPhaseUI::Draw(IVideoDriver* driver)
 		core::rect<int>(0, 0, pBuildImage->getSize().Width, pBuildImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
+Sign::Sign(IVideoDriver* driver, char const* _pBuildSign)
+{
+	pSignImage = driver->getTexture(_pBuildSign);
+
+}
+
+void Sign::Draw(IVideoDriver* driver)
+{
+	driver->draw2DImage(pSignImage, core::position2d<int>(0, 0),
+		core::rect<int>(0, 0, pSignImage->getSize().Width, pSignImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true);
+}
+
+void Sign::ChangeImage(IVideoDriver* driver, int waveNumber)
+{
+	switch (waveNumber)
+	{
+	case 1:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_1.png");
+		break;
+	case 2:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_2.png");
+		break;
+	case 3:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_3.png");
+		break;
+	case 4:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_4.png");
+		break;
+	case 5:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_5.png");
+		break;
+	case 6:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_6.png");
+		break;
+	case 7:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_7.png");
+		break;
+	case 8:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_8.png");
+		break;
+	case 9:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_9.png");
+		break;
+	case 10:
+		pWaveSign = driver->getTexture("media/UI/WaveSign/UI_WaveSign_10.png");
+		break;
+	}
+	pSignImage = pWaveSign;
+}
+
+
+
+
 DrawUI::DrawUI(IVideoDriver* driver)
 {
-	
-
-	pPlayerHealthBar = new PlayerHealthBar(driver, "media/UI/playerHealth (Custom).png");
+	pPlayerHealthBar = new PlayerCore(driver, "media/UI/UI_Core.png");
 	pCurrencyUI = new CurrencyUI(driver, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
-	pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
+	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
+	pSign = new Sign(driver, "media/UI/BuildPhaseSign.png");
 }
 
 void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
@@ -145,10 +197,12 @@ void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
 	if (pBuildPhaseUI->isBuildPhase)
 	{
 		pBuildPhaseUI->Draw(driver);
+		
 	}
 	pCurrencyUI->Draw(gui, driver);
 	pReticle->Draw(driver);
-	pWaveCounter->Draw(driver);
+	//pWaveCounter->Draw(driver);
+	pSign->Draw(driver);
 
 
 

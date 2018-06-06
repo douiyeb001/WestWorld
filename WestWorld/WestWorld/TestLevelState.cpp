@@ -19,7 +19,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
-	int waveCount = 1;
+	waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -29,7 +29,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	isBuildPhase = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
-	//healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
+	//healthbar = new PlayerCore(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 
 		for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
@@ -120,6 +120,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
+			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 			spawnPoint->NewWave(10);
@@ -137,6 +138,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);
 			waveCount++;
+			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
 		}
 	}
@@ -150,14 +152,14 @@ void TestLevelState::Update(CGameManager* pManager) {
 		pGameOver->Draw(pManager->getDriver());
 	}
 	//Set the amount of waves needed	
-	if(waveCount == 1 + 1)
+	if(waveCount == 3)
 	{
 		pVictory->Draw(pManager->getDriver());
 	}
 
 	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
-	pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount + 1);
+	//pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount);
 	pManager->getGUIEnvironment()->drawAll();
 
 	pManager->getDriver()->endScene();
@@ -208,7 +210,6 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
 		pDrawUI->pBuildPhaseUI->pBuildImage = pDrawUI->pBuildPhaseUI->pTurretImage;
 	}
-
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
