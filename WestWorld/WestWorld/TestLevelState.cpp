@@ -47,7 +47,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 		obstacles.push_back(false);
 	cManager = new Currency();
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
-	pDrawUI = new DrawUI(pManager->getDriver());
+	pDrawUI = new DrawUI(pManager->getDriver(), pManager->getGUIEnvironment());
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/UI_Currency.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
@@ -168,7 +168,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 	}
 	
-	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
+	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 

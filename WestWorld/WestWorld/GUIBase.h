@@ -163,11 +163,11 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(IVideoDriver* driver, char const* pCurrencyUI);
+	CurrencyUI(IVideoDriver* driver, IGUIEnvironment* gui, char const* pCurrencyUI);
 	/*void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
 	const wchar_t* pText;
 	const wchar_t* pScore;*/
-	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver, Currency* cManager);
 
 private:
 
@@ -175,9 +175,11 @@ private:
 	IGUIStaticText* pScoreText;
 	Currency * cManager;*/
 	ITexture* pCurrencyTexture;
+	IGUIFont* font;
 	//ITexture* pInfinityTexture;
 
 };
+
 class WaveCounterUI
 {
 	public:
@@ -234,8 +236,8 @@ private:
 
 class DrawUI {
 public:
-	DrawUI(IVideoDriver* driver);
-	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
+	DrawUI(IVideoDriver* driver, IGUIEnvironment* gui);
+	void Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager);
 
 	BuildPhaseUI* pBuildPhaseUI;
 	Sign* pSign;
