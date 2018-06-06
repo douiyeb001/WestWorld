@@ -35,8 +35,10 @@ void TestLevelState::Init(CGameManager* pManager) {
 	scene::IMesh* gun = pManager->getSceneManager()->getMesh("meshes/Nagant_Revolver.obj");
 	gunNode = 0;
 	gunNode = pManager->getSceneManager()->addMeshSceneNode(gun, pPLayer->getCamera(), 0);
+	gunNode->setMaterialFlag(video::EMF_LIGHTING, false);
 	gunNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/Nagant_Revolver.png"));
-	gunNode->setScale(core::vector3df(1));
+	gunNode->setPosition(core::vector3df(1.5, -1.5, 2.5));
+	gunNode->setScale(core::vector3df(0.3,0.3,0.3));
 
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 
