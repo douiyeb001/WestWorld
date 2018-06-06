@@ -55,7 +55,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	if (objectToPlace == 2) {
 		if (cManager->CheckCurrency())
 		{
-			scene::IMesh* turretMesh = smgr->getMesh("meshes/Barrel.obj");
+			scene::IMesh* turretMesh = smgr->getMesh("meshes/TurretMesh.obj");
 			scene::IMeshSceneNode* turretNode = 0;
 			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
