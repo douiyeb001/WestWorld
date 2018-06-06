@@ -61,7 +61,7 @@ void PauseManager::Draw() {
 //	menuScreen->draw();// this no work
 }
 
-bool PauseManager::isGamePaused() {
+bool PauseManager::IsGamePaused() {
 	return isPaused;
 }
 

@@ -84,7 +84,7 @@ public:
 	///
 	/// <returns>	True if paused. Else false. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool isGamePaused();
+	bool IsGamePaused();
 private:
 	Sprite* menuScreen;
 	int currentPauseId = 0;

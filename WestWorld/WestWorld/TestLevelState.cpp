@@ -103,7 +103,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 
 void TestLevelState::Update(CGameManager* pManager) {
 	pauseManager->Draw();
-	if (pauseManager->isGamePaused()) {
+	if (pauseManager->IsGamePaused()) {
 		enemyManager->p_Timer->deltaTime();
 		return;
 	}
@@ -166,7 +166,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 	if(pManager->GetKeyboard() == KEY_ESCAPE)
 		pauseManager->TogglePause();
 
-	if (pauseManager->isGamePaused()) {
+	if (pauseManager->IsGamePaused()) {
 		// every event that happens while in the pause state
 		pauseManager->KeyboardEvent(pManager);
 		//
@@ -206,7 +206,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
-	if (pauseManager->isGamePaused()) return;
+	if (pauseManager->IsGamePaused()) return;
 	// Remember the mouse statess
 
 	if (pManager->GetMouse() == EMIE_RMOUSE_PRESSED_DOWN && isBuildPhase)

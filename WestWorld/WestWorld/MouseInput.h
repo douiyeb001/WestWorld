@@ -30,8 +30,8 @@ public:
 	struct SMouseState
 	{
 		core::position2di Position;
-		bool isRightButtonDown;
-		SMouseState() : isRightButtonDown(false) { }
+		bool IsRightButtonDown;
+		SMouseState() : IsRightButtonDown(false) { }
 	} MouseState;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,11 +50,11 @@ public:
 			switch (event.MouseInput.Event)
 			{
 			case EMIE_RMOUSE_PRESSED_DOWN:
-				MouseState.isRightButtonDown = true;
+				MouseState.IsRightButtonDown = true;
 				break;
 
 			case EMIE_RMOUSE_LEFT_UP:
-				MouseState.isRightButtonDown = false;
+				MouseState.IsRightButtonDown = false;
 				break;
 
 			default:

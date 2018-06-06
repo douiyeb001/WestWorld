@@ -1,5 +1,4 @@
  #include "GUIBase.h"
-#include <stdio.h> 
 
 PlayerHealthBar::PlayerHealthBar(IVideoDriver* driver, char const* bar) {
 	hpBar = driver->getTexture(bar);
@@ -55,8 +54,6 @@ void WaveCounterUI::Draw(IGUIEnvironment* pGui, IVideoDriver* pDriver, int waveN
 			core::rect<s32>(1150, 180, 500, 500),
 			video::SColor(255, 0, 0, 0));
 }
-
-
 
 void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
 	

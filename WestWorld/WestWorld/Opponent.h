@@ -67,7 +67,7 @@ public:
 	/// <param name="pos">	The current position. </param>
 	/// <param name="_speed"> 	The speed of the opponent. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	core::vector3df NextPathPosition(irr::core::vector3df pos, float speed);
+	core::vector3df NextPathPosition(vector3df pos, float speed);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	The update function of the enemy. </summary>
@@ -84,17 +84,17 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell);
 	/// <summary>	The path for the enemy to follow. </summary>
-	std::vector<GridCell*> path;
+	std::vector<GridCell*> Path;
 	/// <summary>	The path that the enemy follows gets updated. </summary>
-	std::vector<GridCell*> updatedPath;
+	std::vector<GridCell*> UpdatedPath;
 	/// <summary>	How far along the path the enemy is. </summary>
-	int pathProgress;
+	int PathProgress;
 	/// <summary>	Checks if the enemy need to back track or not. </summary>
-	bool backTracePath;
+	bool BackTracePath;
 	/// <summary>	The start of the new path for the enemy to follow. </summary>
-	int startOfNewPath;
+	int StartOfNewPath;
 	/// <summary>	The target the enemy will want to move towards. In the case the player base. </summary>
-	PlayerBase* target;
+	PlayerBase* Target;
 
 	/* The following are implementations needed for the mesh scene node interface.
 	   They are copied from the Irrlicht example named "CMeshSceneNode". */
@@ -159,7 +159,7 @@ public:
 	///
 	/// <returns> A mesh   </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	virtual IMesh* getMesh(void) { return Mesh; }
+	virtual IMesh* getMesh(void) { return mesh; }
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,20 +206,20 @@ protected:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Copy materials. </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	void copyMaterials();
+	void CopyMaterials();
 
 	/// <summary>	Materials. </summary>
-	core::array<SMaterial> Materials;
+	core::array<SMaterial> materials;
 	/// <summary>	Box. </summary>
-	aabbox3d<f32> Box;
+	aabbox3d<f32> box;
 	/// <summary>	Read only material. </summary>
-	SMaterial ReadOnlyMaterial;
+	SMaterial readOnlyMaterial;
 	/// <summary>	Mesh. </summary>
-	IMesh* Mesh;
+	IMesh* mesh;
 	/// <summary>	Shadow. </summary>
-	IShadowVolumeSceneNode* Shadow;
+	IShadowVolumeSceneNode* shadow;
 	/// <summary>	Pass count. </summary>
-	s32 PassCount;
+	s32 passCount;
 	/// <summary>	Boolean for the read only materials. </summary>
-	bool ReadOnlyMaterials;
+	bool readOnlyMaterials;
 };
