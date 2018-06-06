@@ -43,7 +43,7 @@ void MenuState::Init(CGameManager* pManager) {
 	m_pCamera->addAnimator(anim);*/
 	
 	CGameState::FadeInOut(pManager);
-	engine->setSoundVolume(0.1);
+	engine->setSoundVolume(0.2);
 	engine->play2D("media/Sound/Music/WesternInside.wav",true);
 }
 

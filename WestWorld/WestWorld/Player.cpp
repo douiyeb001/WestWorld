@@ -84,7 +84,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	vector3df start = pPlayer->getPosition();
 	vector3df end = (pPlayer->getTarget() - start);
 	end.normalize();
-	start += end * 20.0f;
+	start += end * 40.0f;
 	end = start + (end * pPlayer->getFarValue());
 	line3d<f32> line(start, end);
 
