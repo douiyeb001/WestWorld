@@ -22,6 +22,9 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
+	soundEngine = pManager->GetSoundEngine();
+	soundEngine->setSoundVolume(.1f);
+	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
@@ -102,7 +105,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 
 void TestLevelState::Clear(CGameManager* pManager) {
 	pManager->getSceneManager()->clear();
-
+	soundEngine->stopAllSounds();
 	delete enemyManager;
 	delete pTurretAI;
 	delete waveManager;
@@ -273,6 +276,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
 		if (readyToShoot) {
+			soundEngine->play2D("media/Sound/gunshot.wav", false);
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
 			enemyManager->CheckCollision(node);
 			readyToShoot = false;

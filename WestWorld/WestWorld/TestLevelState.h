@@ -101,6 +101,7 @@ private:
 	PlayerHealth* pPlayerHealth;
 	PlaceObjects* PoManager;
 	VictoryScreen* pVictory;
+	ISoundEngine* soundEngine;
 	
 	/// <summary>	The player. </summary>
 	std::unique_ptr<Player> pPLayer;
