@@ -26,7 +26,7 @@ public:
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* meta);
 	bool enemySpotted = false;
 
-	const float radius = 10;
+	const float radius = 100;
 	~TurretAI();
 	std::vector <Opponent*> opList;
 	Opponent* target;
