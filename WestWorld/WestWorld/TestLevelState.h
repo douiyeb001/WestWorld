@@ -122,5 +122,6 @@ private:
 	/// <summary>	. </summary>
 	//std::vector<bool> obstacles;
 	Grid* grid;
+	vector<TurretAI*> turretList;
 };
 #endif

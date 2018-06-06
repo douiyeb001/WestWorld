@@ -1,4 +1,4 @@
-#pragma once
+
 #include <irrlicht.h>
 
 #include "IDFLAGS.h"
@@ -6,6 +6,9 @@
 #include "EnemySpawner.h"
 #include "Currency.h"
 #include "GUIBase.h"
+#include "WaveManager.h"
+#include  "EnemyManager.h"
+#include "TurretAI.h"
 #include "WaveManager.h"
 //#include "MouseInput.h"
 
@@ -76,8 +79,8 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager);
-	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
+	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Spawn turret. </summary>
@@ -87,7 +90,7 @@ public:
 	/// <param name="meta">	   	[in,out] If non-null, the meta. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim);
+	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a collision. </summary>
@@ -112,7 +115,7 @@ public:
 	
 
 	void Update(scene::ICameraSceneNode *camera, ITriangleSelector* selector, IMetaTriangleSelector* meta, ISceneNodeAnimator* anim);
-
+	vector<TurretAI*>  GiveList();
 	/// <summary>	The intersection. </summary>
 	vector3df intersection;
 	/// <summary>	The hit triangle. </summary>
@@ -136,6 +139,8 @@ public:
 private:
 	/// <summary>	The driver. </summary>
 	IVideoDriver * driver;
+	EnemyManager* IEnemyManager;
+	vector<TurretAI*> ITurretList;
 	/// <summary>	The smgr. </summary>
 	ISceneManager * smgr;
 	Currency * cManager;
