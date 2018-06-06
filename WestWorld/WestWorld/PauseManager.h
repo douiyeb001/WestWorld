@@ -27,11 +27,11 @@ public:
 	void ExitGame(CGameManager* pManager);
 	void Draw();
 	Sprite* MouseIndicator;
-	bool isGamePaused();
+	bool IsGamePaused();
+
 private:
 	Sprite* menuScreen;
 	int currentPauseId = 0;
 	bool isPaused;
-	
 };
 

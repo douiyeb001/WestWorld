@@ -6,98 +6,72 @@
 #include <thread>
 
 //! Default constructor
-CGameManager::CGameManager()
-{
+CGameManager::CGameManager(){
 	// Irrlicht device
 	CreateDevice();
 	// by default, we start with the introduction mode...
-//	m_pGameState = TestLevelState::Instance();
+//	gameState = TestLevelState::Instance();
 	ChangeState(MenuState::Instance());
 }
 
 //! Default destructor
 CGameManager::~CGameManager(){
-	
 }
 
-//! Changes the game state, calls the existing states Clear
-//! function before the next states Init function
-void CGameManager::ChangeState(CGameState * pState)
-{
-	if (m_pGameState)
-		m_pGameState->Clear(this);
-	if (pState != m_pGameState)
-	{
-		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
-		m_pGameState = pState;
-		meta->drop();
-		meta = m_pSceneManager->createMetaTriangleSelector();
-		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
-		m_pGameState->Init(this);
-		std::this_thread::sleep_until(chrono::system_clock::now() + .4s);
-	}
-	//selector = 0;
-
-	
+//! Cleans up the existing state,
+//! switches state and inititializes the new state
+void CGameManager::ChangeState(CGameState * pState){
+	if (gameState)
+		gameState->Clear(this);
+	if (pState != gameState){
+		gameState = pState;
+		gameState->Init(this);
+	}	
 }
 
-void CGameManager::ReinitializeState(CGameState * pState) {
-	m_pGameState->Clear(this);
-		//m_pGameState = pState;
-		m_pGameState->Init(this);
-
-	//pState.
+void CGameManager::ReinitializeState(CGameState * pState){
+	gameState->Clear(this);
+	gameState->Init(this);
 }
 
 //! Holds a pointer to the current states, (level) Update function
 //! The Update will be the game loop for the current state
-void CGameManager::Update()
-{
-	m_pGameState->Update(this);
+void CGameManager::Update(){
+	gameState->Update(this);
 }
 
 //! Creates the Irrlicht device and get pointers to the main subsytems
 //! for later use, the Game manager is the central interface point to
 //! the rendering engine
-void CGameManager::CreateDevice()
-{
+void CGameManager::CreateDevice(){
 	//Device parameters -> renderer|screen size|colour depth|full window|shadows|vsync|input device
-
-	m_pDevice = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
-	if (m_pDevice == NULL)
-		m_pDevice = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
-	m_pDriver = m_pDevice->getVideoDriver();
-	m_pSceneManager = m_pDevice->getSceneManager();
-	m_pGUIEnvironment = m_pDevice->getGUIEnvironment();
-	selector = 0;
-	meta = m_pSceneManager->createMetaTriangleSelector();
-	collManager = m_pSceneManager->getSceneCollisionManager();
-
-	
+	device = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
+	driver = device->getVideoDriver();
+	sceneManager = device->getSceneManager();
+	guiEnvironment = device->getGUIEnvironment();
+	selector = nullptr;
+	meta = sceneManager->createMetaTriangleSelector();
+	collisionManager = sceneManager->getSceneCollisionManager();
 }
 
 //! Returns a pointer to the Irrlicht Device subsystem
-IrrlichtDevice* CGameManager::getDevice()
-{
-	return m_pDevice;
+IrrlichtDevice* CGameManager::getDevice(){
+	return device;
 }
 
 //! Returns a pointer to the Irrlicht Driver subsystem
-IVideoDriver* CGameManager::getDriver()
-{
-	return m_pDriver;
+IVideoDriver* CGameManager::getDriver(){
+	return driver;
 }
 
 //! Returns a pointer to the Irrlicht SceneManager subsystem
-ISceneManager* CGameManager::getSceneManager()
-{
-	return m_pSceneManager;
+ISceneManager* CGameManager::getSceneManager(){
+	return sceneManager;
 }
 
 //! Returns a pointer to the Irrlicht GUI subsystem
-IGUIEnvironment* CGameManager::getGUIEnvironment()
-{
-	return m_pGUIEnvironment;
+IGUIEnvironment* CGameManager::getGUIEnvironment(){
+	return guiEnvironment;
 }
 
 ITriangleSelector* CGameManager::GetSelector()
@@ -107,7 +81,7 @@ ITriangleSelector* CGameManager::GetSelector()
 
 ISceneCollisionManager* CGameManager::GetCollManager()
 {
-	return collManager;
+	return collisionManager;
 }
 
 IMetaTriangleSelector* CGameManager::GetMeta()
@@ -123,13 +97,13 @@ ISceneNodeAnimator* CGameManager::GetAnim()
 
 void CGameManager::SetAnim(ICameraSceneNode* cam)
 {
-anim = m_pSceneManager->createCollisionResponseAnimator(meta, cam, vector3df(15,15,15), vector3df(0,-1,0));
+anim = sceneManager->createCollisionResponseAnimator(meta, cam, vector3df(15,15,15), vector3df(0,-1,0));
 }
 
 void CGameManager::SetCollision()
 {
 	core::array<scene::ISceneNode *> nodes;
-	m_pSceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
+	sceneManager->getSceneNodesFromType(scene::ESNT_ANY, nodes); // Find all nodes
 
 	for (u32 i = 0; i < nodes.size(); ++i)
 	{
@@ -143,20 +117,20 @@ void CGameManager::SetCollision()
 			// Because the selector won't animate with the mesh,
 			// and is only being used for camera collision, we'll just use an approximate
 			// bounding box instead of ((scene::IAnimatedMeshSceneNode*)node)->getMesh(0)
-			selector = m_pSceneManager->createTriangleSelectorFromBoundingBox(node);
+			selector = sceneManager->createTriangleSelectorFromBoundingBox(node);
 			break;
 
 		case scene::ESNT_MESH:
 		case scene::ESNT_SPHERE: // Derived from IMeshSceneNode
-			selector = m_pSceneManager->createTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
+			selector = sceneManager->createTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
 			break;
 
 		case scene::ESNT_TERRAIN:
-			selector = m_pSceneManager->createTerrainTriangleSelector((scene::ITerrainSceneNode*)node);
+			selector = sceneManager->createTerrainTriangleSelector((scene::ITerrainSceneNode*)node);
 			break;
 
 		case scene::ESNT_OCTREE:
-			selector = m_pSceneManager->createOctreeTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
+			selector = sceneManager->createOctreeTriangleSelector(((scene::IMeshSceneNode*)node)->getMesh(), node);
 			break;
 
 		default:
@@ -179,25 +153,25 @@ void CGameManager::SetCollision()
 //! The state controls its own keyboard and mouse events.
 bool CGameManager::OnEvent(const SEvent& event)
 {
-	if (!m_pDriver)
+	if (!driver)
 		return false;
 
 	//Recognize key when key is  released
 	if (event.EventType == EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
 	{
 		keyboard = event.KeyInput.Key;
-		m_pGameState->KeyboardEvent(this);
+		gameState->KeyboardEvent(this);
 	//	m_bKeys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
 		// Pass input down to the specific game state keyboard handler
-	//	m_pGameState->KeyboardEvent(this);
+	//	gameState->KeyboardEvent(this);
 	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT)
 	{
 		// Pass input down to the specific game state mouse handler
 		mouse = event.MouseInput.Event;
-		m_pGameState->MouseEvent(this);
+		gameState->MouseEvent(this);
 	}
 	return false;
 }

@@ -65,7 +65,7 @@ void CGameState::Update(CGameManager * pManager)
 }
 
 //! Implemented by subclass
-//! Clear, tidy up
+//! Clear, tidy up the state
 void CGameState::Clear(CGameManager* pManager)
 {
 

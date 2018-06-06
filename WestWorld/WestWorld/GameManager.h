@@ -77,7 +77,7 @@ public:
 	ITriangleSelector* GetSelector();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Gets collection manager. </summary>
+	/// <summary>	Gets Collision manager. </summary>
 	///
 	/// <returns>	Null if it fails, else the collection manager. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ public:
 	ISceneCollisionManager* GetCollManager();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Gets the meta. </summary>
+	/// <summary>	Gets the Meta Triangle Selector. </summary>
 	///
 	/// <returns>	Null if it fails, else the meta. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ public:
 	IMetaTriangleSelector* GetMeta();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Gets the animation. </summary>
+	/// <summary>	Gets the Iscene Node Animator. </summary>
 	///
 	/// <returns>	Null if it fails, else the animation. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,16 +145,20 @@ public:
 	///
 	/// <returns>	True if it succeeds, false if it fails. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	virtual bool OnEvent(const SEvent& event);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Change state. </summary>
-	///
-	/// <param name="pState">	[in,out] If non-null, the state. </param>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Changing the current GameState to another GameState 
+	/// Calls the cleanup method for the current state,
+	/// Sets the current GameState to a new State which is specified in the parameter,
+	/// Initializes the new state </summary>
+	///
+	/// <param name="pState"> The new GameState </param>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ChangeState(CGameState* pState);
+
+
 	void ReinitializeState(CGameState* pState);
 
 private:
@@ -179,23 +183,24 @@ private:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	friend class CGameState;
-	/// <summary>	State of the game. </summary>
-	CGameState* m_pGameState;
-	/// <summary>	The device. </summary>
-	IrrlichtDevice* m_pDevice;
-	/// <summary>	The driver. </summary>
-	IVideoDriver* m_pDriver;
-	/// <summary>	Manager for scene. </summary>
-	ISceneManager* m_pSceneManager;
-	/// <summary>	The graphical user interface environment. </summary>
-	IGUIEnvironment* m_pGUIEnvironment;
-	/// <summary>	The selector. </summary>
+	/// <summary>	The current state the game is in. </summary>
+	CGameState* gameState;
+	/// <summary>	This is the most important class of the Irrlicht Engine. You can access everything in the engine 
+	/// if you have a pointer to an instance of this class. There should be only one instance of this class at any time.</summary>
+	IrrlichtDevice* device;
+	/// <summary>	Interface to driver which is able to perform 2d and 3d graphics functions. </summary>
+	IVideoDriver* driver;
+	/// <summary>	The Scene Manager manages scene nodes, mesh recources, cameras and all the other stuff. </summary>
+	ISceneManager* sceneManager;
+	/// <summary>	GUI Environment. Used as factory and manager of all other GUI elements. </summary>
+	IGUIEnvironment* guiEnvironment;
+	/// <summary>	Interface to return triangles with specific properties. </summary>
 	ITriangleSelector* selector;
-	/// <summary>	Manager for collection. </summary>
-	ISceneCollisionManager* collManager;
-	/// <summary>	The meta. </summary>
+	/// <summary>	he Scene Collision Manager provides methods for performing collision tests and picking on scene nodes. </summary>
+	ISceneCollisionManager* collisionManager;
+	/// <summary>	Interface for making multiple triangle selectors work as one big selector </summary>
 	IMetaTriangleSelector* meta;
-	/// <summary>	The animation. </summary>
+	/// <summary>	Animates a scene node. Can animate position, rotation, material, and so on. </summary>
 	ISceneNodeAnimator* anim;
 
 	/// <summary>	The mouse. </summary>

@@ -1,6 +1,8 @@
 #include "Player.h"
 
 using namespace std;
+
+float shootingDistance = 1000.0f;
 	
 Player::Player(ISceneManager* smgr,IVideoDriver* driver, ISceneNodeAnimator* anim, IMetaTriangleSelector* meta) {
 	//pSmgr = smgr;
@@ -20,8 +22,9 @@ void Player::HandleMovement() {
 
 void Player::CreatePlayer(ISceneManager* smgr, IMetaTriangleSelector* meta) {
 
-	SKeyMap pKeyMap[9];
-	ITriangleSelector* selector = 0;
+	SKeyMap pKeyMap[5];
+	//! Sets the Keymap for the FPS camera node
+	//! keycodes for movement are set to the corresponding action
 	pKeyMap[0].Action = EKA_MOVE_FORWARD;
 	pKeyMap[0].KeyCode = KEY_KEY_W;
 
@@ -38,7 +41,7 @@ void Player::CreatePlayer(ISceneManager* smgr, IMetaTriangleSelector* meta) {
 	pKeyMap[4].KeyCode = KEY_SPACE;
 
 
-
+	//! 
 	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.2f, -1, pKeyMap, 8, true, .4);
 	cameraNode->setPosition(vector3df(20,20,450));
 	anim = smgr->createCollisionResponseAnimator(meta, cameraNode, vector3df(15, 15, 15), vector3df(0, -1, 0));
@@ -61,12 +64,12 @@ ICameraSceneNode* Player::getCamera() {
 ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
 {
 	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
-	// Add it to the meta selector, which will take a reference to it
+	//! Add it to the meta selector, which will take a reference to it
 	pMeta->addTriangleSelector(pSelector);
-	// And drop my reference to it, so that the meta selector owns it.
 
 	ray.start = pPlayer->getPosition();
-	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * 1000.0f;
+	//! end of the ray will be at the end of the direction the camera is facing
+	ray.end = ray.start + (pPlayer->getTarget() - ray.start).normalize() * shootingDistance;
 
 	ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
@@ -76,7 +79,7 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 			17,0);
 
 
-	//create line for shooting
+	// create line for shooting
 	vector3df start = pPlayer->getPosition();
 	vector3df end = (pPlayer->getTarget() - start);
 	end.normalize();
@@ -84,12 +87,16 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	end = start + (end * pPlayer->getFarValue());
 	line3d<f32> line(start, end);
 
-	ISceneNode* test;
-	if (collMan->getCollisionPoint(line, pMeta, end, hitTriangle, test)) {
+	//! local ISceneNode, needed for getCollisionPoint method
+	ISceneNode* testNode;
+	//! if the ray collides with an object it will return the normal of the triangle and it will set
+	//! the end of the line to the position it hit)
+	if (collMan->getCollisionPoint(line, pMeta, end, hitTriangle, testNode)) {
 		vector3df out = hitTriangle.getNormal();
 		OnShoot(end, smgr);
 		out.setLength(0.03f);
 	}
+	//! In case the ray doesn't hit anything the end of the line will be set to the far value of the player camera
 	else {
 		vector3df start = pPlayer->getPosition();
 
@@ -99,7 +106,8 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 		end = start + (end * pPlayer->getFarValue());
 	}
 
-
+	//! creates a new node that will alway face the player
+	//! The material of the node will be
 	ISceneNode* node = 0;
 	node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10), start);
 	node->setMaterialFlag(EMF_LIGHTING, false);
@@ -107,30 +115,24 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
-	f32 length = (f32)(end - start).getLength();
-	const f32 speed = 0.8f;
-	u32 time = (u32)(length / speed);
+	//! Length of flight
+	const auto length = (f32)(end - start).getLength();
+	const auto speed = 0.8f;
+	const auto time = (u32)(length / speed);
 
+	//! create a fly straight animator for the bullet
+	//! add a delete animator  that will delete the animated bullet
+	//! at the end of its lifecycle
 	ISceneNodeAnimator* anim = 0;
-
-	// set flight line
-
 	anim = smgr->createFlyStraightAnimator(start, end, time);
 	node->addAnimator(anim);
 	//anim->drop();
-	anim = smgr->createDeleteAnimator(100);
+	anim = smgr->createDeleteAnimator(time);
 	node->addAnimator(anim);
 	anim->drop();
 
+	//! returns a scene node if the raycasting collided with one
 	if (selectedSceneNode) {
-		//	//printf(selectedSceneNode->getDebugName());
-		//	//selectedSceneNode->setPosition(vector3df(10, 10, 10));
-		//	//pMeta->removeTriangleSelector(selectedSceneNode->getTriangleSelector());
-		//		//selectedSceneNode->remove();
-		//	return selectedSceneNode;
-		//}
-		//selectedSceneNode->setPosition(vector3d());
-	
 		return selectedSceneNode;
 	} else {
 		return NULL;

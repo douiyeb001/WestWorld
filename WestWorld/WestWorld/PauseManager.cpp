@@ -5,23 +5,21 @@
 float originalPosX;
 float originalPosY;
 
-PauseManager::PauseManager(IVideoDriver* driver, IGUIEnvironment* gui)
-{
+using namespace irr;
+using namespace video;
+using namespace gui;
+
+PauseManager::PauseManager(IVideoDriver* driver, IGUIEnvironment* gui){
 	const float screenWidth = driver->getScreenSize().Width;
 	const float screenHeight = driver->getScreenSize().Height;
 	menuScreen = new Sprite(driver);
 	menuScreen->texture = driver->getTexture("media/UI/StartMenu.png");
 	menuScreen->scale = vector2d<f32>(.1, .1);
-	//gui->addImage(menuScreen->texture,vector2d<s32>(0,0));
 	originalPosX = screenWidth / 2;
 	originalPosY = screenHeight / 2;
-	
 	menuScreen->position.X = originalPosX;
 	menuScreen->position.Y = originalPosY;
-	//test->setImage(menuScreen->texture);
 	isPaused = false;
-	//MouseIndicator = new Sprite(driver);
-	menuScreen->draw();
 }
 
 PauseManager::~PauseManager()
@@ -61,19 +59,25 @@ void PauseManager::Draw() {
 //	menuScreen->draw();// this no work
 }
 
-bool PauseManager::isGamePaused() {
+
+//! returns if the current state of the game is paused or not
+bool PauseManager::IsGamePaused() {
 	return isPaused;
 }
 
+//! changes the state back to the TestLevelState
+//! this is a restart of the level
 void PauseManager::RestartLevel(CGameManager* pManager) {
-	
 	pManager->ChangeState(TestLevelState::Instance());
 }
 
+//! changes the state back to the MenuState
+//! ChangeState will clean up the level
 void PauseManager::GoToStartMenu(CGameManager* pManager) {
 	pManager->ChangeState(MenuState::Instance());
 }
 
+//! closes the Irrlicht device which in turn closes the application
  void PauseManager::ExitGame(CGameManager* pManager) {
 	pManager->getDevice()->closeDevice();
 }
