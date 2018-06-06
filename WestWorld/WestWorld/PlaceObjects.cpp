@@ -74,7 +74,9 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 					spawner->_pEnemyManager->UpdatePath(spawner->path->currentPath, spawner->path->GetCell(position));
 				CreateCollision(anim, camera, meta);
 				cManager->BuildingCost(turretNode);
+				turretList.push_back(turretNode);
 			}
+
 			turretNode = 0;
 		}
 	}
@@ -172,4 +174,9 @@ bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* pl
 	}
 	else if (!spawner->path->RecalculatePath(intersection)) return false;
 	return true;
+}
+
+vector<ISceneNode*> PlaceObjects::GiveTurretArray()
+{
+	return turretList;
 }

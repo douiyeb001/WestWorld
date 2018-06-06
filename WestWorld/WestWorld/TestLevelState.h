@@ -110,7 +110,7 @@ private:
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	EnemySpawner* spawnPoint;
-
+	IMeshSceneNode* gunNode;
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
 	GameOverScreen* pGameOver;

@@ -16,6 +16,8 @@ Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager*
 	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false), target(_target),isExploding(false),scale(1.0f), enemyManager(_enemyManager)
 {
 	setMesh(mesh);
+	setMaterialFlag(video::EMF_LIGHTING, false);
+	setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/Enemy_Diff.PNG"));
 }
 
 Opponent::~Opponent()

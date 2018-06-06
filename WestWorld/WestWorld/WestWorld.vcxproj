@@ -176,6 +176,7 @@
     <ClInclude Include="TestLevelState.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TurretAI.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
