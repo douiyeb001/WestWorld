@@ -445,17 +445,5 @@ namespace irr
 			
 		}
 
-		void EnemySpawner::Update() {
-				if (enemiesInWave > 0) {
-					SpawnOpponent();
-					p_Timer->set(1000);
-					enemiesInWave--;
-				}
-		}
-
-		void EnemySpawner::NewWave(int enemies) {
-			enemiesInWave = enemies;
-			p_Timer->set(1000);
-		}
 	} // end namespace scene
 } // end namespace irr

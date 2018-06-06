@@ -178,6 +178,7 @@
     <ClInclude Include="TestLevelState.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TurretAI.h" />
+    <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
@@ -210,6 +211,7 @@
     <ClCompile Include="TestLevelState.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TurretAI.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

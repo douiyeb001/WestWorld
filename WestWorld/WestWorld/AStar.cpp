@@ -192,20 +192,25 @@ void AStar::FindPath() {
 
 
 bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
-	(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
+	SetObstacle(true, spawnedPosition);
+	//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
 	if (std::find(std::begin(currentPath), std::end(currentPath), (&((*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)]))) != std::end(currentPath)) {
 
 		possibleNextCells.clear();
 		possibleNextCells.push_back(pStartCell);
 		FindPath();
 		if (possibleNextCells.empty()) {
-			(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
+			SetObstacle(false, spawnedPosition);
+			//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
 			return false;
 		}
 	}
 	return true;
 }
 
+void AStar::SetObstacle(bool filled, core::vector3df position) {
+	(*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)].obstacle = filled;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// <summary>	Reverse path. </summary>
 ///

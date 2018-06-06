@@ -10,7 +10,7 @@
 #include "AStar.h" 
 #include "Opponent.h"
 #include "EnemyManager.h"
-#include "timer.h"
+#include "Timer.h"
 
 namespace irr
 {
@@ -99,9 +99,6 @@ namespace irr
 			//std::vector<Opponent*> enemies;  // remove this
 			ISceneManager* smgr;
 			IMetaTriangleSelector* meta;
-			void Update();
-			void NewWave(int enemies);
-			int enemiesInWave;
 			Grid* grid;
 		protected:
 
