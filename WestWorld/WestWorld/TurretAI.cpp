@@ -16,7 +16,7 @@ TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneM
 	cam->setPosition(turretRayPos);
 }
 
-void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMetaTriangleSelector* meta) 
+void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITriangleSelector* selector) 
 {
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
@@ -29,7 +29,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMe
 			pSmgr->getVideoDriver()->setTransform(video::ETS_WORLD, core::matrix4());
 
 			if ((p->getPosition().X >= turret.X - radius && p->getPosition().X <= turret.X + radius) &&
-				(p->getPosition().Z >= turret.Z - radius && turret.Z - radius) && enemySpotted == false) {
+				(p->getPosition().Z >= turret.Z - radius && p->getPosition().Z <= turret.Z + radius) && enemySpotted == false) {
 				enemySpotted = true;
 
 				//if (selectedSceneNode != NULL && selectedSceneNode->getID() != 10) {
@@ -41,13 +41,13 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMe
 				if (enemySpotted) {
 				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
-					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition(),  meta);
+					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition(), selector);
 				}
 			}
 		}
 	}
 
-void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition, IMetaTriangleSelector* meta) {
+void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* selector) {
 
 	if(target == NULL || target != opponent) {
 		target = opponent;
@@ -57,13 +57,18 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		return;
 	}
 
+
+
 	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	vector3df intersection;
 	triangle3df hitTriangle;
 
 	ray.start = turretPosition;
 	cam->setTarget(opponent->getPosition());
-	ray.end = opponent->getPosition();
+//	ray.end = opponent->getPosition();
+	ray.end = cam->getTarget();
+	vector3df end = vector3df(ray.end.X, ray.end.Y + 5, ray.end.Z);
+	ray.end = end;
 
 	ISceneNode * selectedSceneNode =
 		collMan->getSceneNodeAndCollisionPointFromRay(
@@ -72,32 +77,30 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 			hitTriangle,
 			0, 0);
 
-	if (selectedSceneNode) {
-		if ( selectedSceneNode->getID() == 17)
-		printf("coole kicks");
-	}
-
-	//vector3df end = (opponent->getPosition());
 //	end.normalize();
 //	end = startPos + (end);
-	line3d<f32> line(ray.start, ray.end);
+	line3d<f32> line(ray.start, end);
 	ISceneNode* test;
 
-	if (collMan->getCollisionPoint(line, meta, ray.end, hitTriangle, test)) {
+	if (collMan->getCollisionPoint(line, selector, end, hitTriangle, test)) {
 		vector3df out = hitTriangle.getNormal();
 		//OnShoot(end, smgr);
 		//out.setLength(0.03f);
-		if (test->getID() == 17)
-			printf("coole kicks");
-		// pleur dit in de volgende methode
+		line.end = end;
 	}
 
-	smgr->getVideoDriver()->draw3DLine(ray.start, ray.end, SColor(255));
+	smgr->getVideoDriver()->draw3DLine(ray.start, line.end, SColor(255));
 
+	line3d<f32>bbLine (ray.start, line.end);
 
+	ISceneNode* bbNode = collMan->getSceneNodeFromRayBB(bbLine, 17);
+	if ( bbNode) {
+		if ( bbNode->getID() == 17) {
+			printf("coolio");
+		}
+	}
 
-/*
-	if (timer->getTime() >= (start + 1000)) {
+	/*if (timer->getTime() >= (start + 1000)) {
 		pEnemyManager->RemoveFromArray(opponent);
 		start =  pDevice->getTimer()->getTime();
 		targeted = false;
