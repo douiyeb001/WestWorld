@@ -20,7 +20,6 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMe
 {
 	enemySpotted = false;
 	ISceneNode* enemyTarget = pSmgr->getSceneNodeFromId(17);
-	float radius = 300;
 	
 		for (Opponent* p : opList) {
 			
@@ -31,44 +30,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMe
 
 			if ((p->getPosition().X >= turret.X - radius && p->getPosition().X <= turret.X + radius) &&
 				(p->getPosition().Z >= turret.Z - radius && turret.Z - radius) && enemySpotted == false) {
-		//		enemySpotted = true;
-
-				ISceneCollisionManager* collMan = pSmgr->getSceneCollisionManager();
-				vector3df intersection;
-				triangle3df hitTriangle;
-	
-
-				ray.start = cam->getPosition();
-				cam->setTarget(p->getPosition());
-				ray.end = p->getPosition();
-
-				ISceneNode * selectedSceneNode =
-					collMan->getSceneNodeAndCollisionPointFromRay(
-						ray,
-						intersection, // This will be the position of the collision
-						hitTriangle,
-						0, 0);
-
-				vector3df start = cam->getPosition();
-				vector3df end = (cam->getTarget() - start);
-				end.Y += 5;
-				end.normalize();
-				start += end * 20.0f;
-			//	end = start + (end * cam->getFarValue());
-				end = start + (end * radius);
-				line3d<f32> line(start, end);
-				ISceneNode* test;
-
-				if (collMan->getCollisionPoint(line, meta, ray.end, hitTriangle, test)) {
-					vector3df out = hitTriangle.getNormal();
-					//OnShoot(end, smgr);
-					//out.setLength(0.03f);
-					if (test->getID() == 17)
-						enemySpotted = true;
-					// pleur dit in de volgende methode
-				}
-
-				pSmgr->getVideoDriver()->draw3DLine(ray.start, ray.end, SColor(255));
+				enemySpotted = true;
 
 				//if (selectedSceneNode != NULL && selectedSceneNode->getID() != 10) {
 				//	// alleen maar als not collide mit wall
@@ -79,23 +41,62 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, IMe
 				if (enemySpotted) {
 				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
-					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition());
+					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition(),  meta);
 				}
 			}
 		}
 	}
 
-bool koekje = false;
+void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition, IMetaTriangleSelector* meta) {
 
-void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition) {
 	if(target == NULL || target != opponent) {
 		target = opponent;
 		timer = pDevice->getTimer();
 		start = timer->getTime();
 		targeted = true;
 		return;
-	}	
+	}
 
+	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
+	vector3df intersection;
+	triangle3df hitTriangle;
+
+	ray.start = cam->getPosition();
+	cam->setTarget(opponent->getPosition());
+	ray.end = opponent->getPosition();
+
+	ISceneNode * selectedSceneNode =
+		collMan->getSceneNodeAndCollisionPointFromRay(
+			ray,
+			intersection, // This will be the position of the collision
+			hitTriangle,
+			0, 0);
+
+	if (selectedSceneNode) {
+		if ( selectedSceneNode->getID() == 17)
+		printf("coole kicks");
+	}
+
+	//vector3df end = (opponent->getPosition());
+//	end.normalize();
+//	end = startPos + (end);
+	line3d<f32> line(ray.start, ray.end);
+	ISceneNode* test;
+
+	if (collMan->getCollisionPoint(line, meta, ray.end, hitTriangle, test)) {
+		vector3df out = hitTriangle.getNormal();
+		//OnShoot(end, smgr);
+		//out.setLength(0.03f);
+		if (test->getID() == 17)
+			printf("coole kicks");
+		// pleur dit in de volgende methode
+	}
+
+	smgr->getVideoDriver()->draw3DLine(ray.start, ray.end, SColor(255));
+
+
+
+/*
 	if (timer->getTime() >= (start + 1000)) {
 		pEnemyManager->RemoveFromArray(opponent);
 		start =  pDevice->getTimer()->getTime();
@@ -115,7 +116,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		anim = smgr->createDeleteAnimator(50);
 		node->addAnimator(anim);
 		anim->drop();
-		}
+		}*/
 	}
 
 void TurretAI::GetList(std::vector <Opponent*> opArray){
