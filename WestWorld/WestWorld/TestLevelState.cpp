@@ -164,7 +164,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			waveManager->Update();
 		}
 		if (enemyManager->GiveArray().empty() && waveManager->enemiesInWave == 0) {
-			enemyManager->p_Timer->set(5000);
+			enemyManager->p_Timer->set(10000);
 			(*waveManager).waveCount++;
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
@@ -193,7 +193,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 	
 	//Set the amount of waves needed	
-	if((*waveManager).waveCount == 3)
+	if((*waveManager).waveCount == 10)
 		{
 			pVictory->Draw(pManager->getDriver());
 			if (!hasWon) {
