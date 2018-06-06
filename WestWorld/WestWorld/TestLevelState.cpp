@@ -6,6 +6,7 @@ TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
 
 TestLevelState::TestLevelState(){
+
 }
 
 
@@ -19,6 +20,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
+
 	int waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
@@ -28,6 +30,13 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->SetCollision();
 	isBuildPhase = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
+
+	//gun
+	scene::IMesh* gun = pManager->getSceneManager()->getMesh("meshes/Nagant_Revolver.obj");
+	gunNode = 0;
+	gunNode = pManager->getSceneManager()->addMeshSceneNode(gun, pPLayer->getCamera(), 0);
+	gunNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/Nagant_Revolver.png"));
+	gunNode->setScale(core::vector3df(1));
 
 	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 
