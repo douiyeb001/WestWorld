@@ -51,7 +51,7 @@ using namespace std;
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class PlayerHealthBar {
+class PlayerCore {
 public:
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ public:
 	/// <param name="bar">   	The bar. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlayerHealthBar(IVideoDriver* driver, char const* bar);
+	PlayerCore(IVideoDriver* driver, char const* bar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Draws the given driver. </summary>
@@ -74,6 +74,31 @@ public:
 private:
 	/// <summary>	The hp bar. </summary>
 	ITexture* hpBar;
+};
+
+class PlayerHealth {
+public:
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Constructor. </summary>
+	///
+	/// <param name="driver">	[in,out] If non-null, the driver. </param>
+	/// <param name="bar">   	The bar. </param>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	PlayerHealth(IVideoDriver* driver, char const* hearts);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Draws the given driver. </summary>
+	///
+	/// <param name="driver">	[in,out] If non-null, the driver. </param>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void Draw(IVideoDriver* driver, int playerHealth);
+
+private:
+	/// <summary>	The hp bar. </summary>
+	ITexture * hpBar;
 };
 
 class Placeable {
@@ -109,6 +134,7 @@ public:
 private:
 	ITexture * reticleSprite;
 };
+
 class GameOverScreen {
 
 public:
@@ -137,17 +163,19 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(IVideoDriver* driver, char const* pDollar, char const* pInfinity);
-	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	CurrencyUI(IVideoDriver* driver, char const* pCurrencyUI);
+	/*void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
 	const wchar_t* pText;
-	const wchar_t* pScore;
+	const wchar_t* pScore;*/
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+
 private:
 
-	IGUIStaticText * pStaticText;
+	/*IGUIStaticText * pStaticText;
 	IGUIStaticText* pScoreText;
-	Currency * cManager;
-	ITexture* pDollarTexture;
-	ITexture* pInfinityTexture;
+	Currency * cManager;*/
+	ITexture* pCurrencyTexture;
+	//ITexture* pInfinityTexture;
 
 };
 class WaveCounterUI
@@ -171,16 +199,53 @@ private:
 
 };
 
+class BuildPhaseUI {
+public:
+	BuildPhaseUI(IVideoDriver* driver, char const* pTurretImage, char const* pBarricadeImage);
+	void Draw(IVideoDriver* driver);
+	bool isBuildPhase;
+	bool isBarricade;
+
+
+	ITexture * pBuildImage;
+	ITexture * pTurretImage;
+	ITexture * pBarricadeImage;
+private:
+};
+
+class Sign{
+public:
+	Sign(IVideoDriver* driver, char const* _pBuildSign);
+	void Draw(IVideoDriver* driver);
+	void ChangeImage(IVideoDriver* driver, int waveNumber);
+
+	ITexture * pSignImage;
+
+	//buildphase sign
+	ITexture* pBuildSign;
+
+	//wave sign
+	ITexture* pWaveSign;
+private:
+	
+	
+};
+
+
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver);
 	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
 
+	BuildPhaseUI* pBuildPhaseUI;
+	Sign* pSign;
+
 private:
-	PlayerHealthBar * pPlayerHealthBar;
+	PlayerCore * pPlayerHealthBar;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
+
 
 
 };

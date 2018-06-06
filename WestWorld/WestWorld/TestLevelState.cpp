@@ -20,8 +20,7 @@ TestLevelState* TestLevelState::Instance(){
 
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
-
-	int waveCount = 1;
+	waveCount = 1;
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -31,6 +30,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	isBuildPhase = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
+	//healthbar = new PlayerCore(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 	//gun
 	scene::IMesh* gun = pManager->getSceneManager()->getMesh("meshes/Nagant_Revolver.obj");
 	gunNode = 0;
@@ -40,14 +40,13 @@ void TestLevelState::Init(CGameManager* pManager) {
 	gunNode->setPosition(core::vector3df(1.5, -1.5, 2.5));
 	gunNode->setScale(core::vector3df(0.3,0.3,0.3));
 
-	healthbar = new PlayerHealthBar(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
 
 		for (int i = 0; i < ((World_Size / Cell_Size) * (World_Size / Cell_Size)); i++)
 		obstacles.push_back(false);
 	cManager = new Currency();
-	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
 	pDrawUI = new DrawUI(pManager->getDriver());
-	currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
+	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/UI_Currency.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
 	pVictory = new VictoryScreen(pManager->getDriver(), "media/UI/VictoryScreen.png");
@@ -87,6 +86,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//spawnPoint->drop();
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), spawnPoint, cManager);
+	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -131,6 +131,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
+			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveCount);
+			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 			spawnPoint->NewWave(10);
 		}
@@ -147,27 +149,30 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->GiveArray().empty() && spawnPoint->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(5000);
 			waveCount++;
+			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
 		}
 	}
 	
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
-	currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
+	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
-	//
+
+	playerReticle->Draw(pManager->getDriver());
+	pPlayerHealth->Draw(pManager->getDriver(), playerCore->health);
+
 	pauseManager->Draw();
 	if (playerCore->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
 	}
 	//Set the amount of waves needed	
-	if(waveCount == 1 + 1)
+	if(waveCount == 3)
 	{
 		pVictory->Draw(pManager->getDriver());
 	}
 
-	playerReticle->Draw(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
-	pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount + 1);
+	//pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount);
 	pManager->getGUIEnvironment()->drawAll();
 
 	pManager->getDriver()->endScene();
@@ -186,14 +191,17 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 
 	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
 	{
+		
 		//trigger Placement indicator
 		if (!PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = true;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
 		}
 		else if(PoManager->isInBuildMode)
 		{
 			PoManager->isInBuildMode = false;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 		}
 	}
@@ -204,6 +212,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
+		pDrawUI->pBuildPhaseUI->pBuildImage = pDrawUI->pBuildPhaseUI->pBarricadeImage;
 	}
 	if (pManager->GetKeyboard() == KEY_KEY_2)
 	{
@@ -212,8 +221,8 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
+		pDrawUI->pBuildPhaseUI->pBuildImage = pDrawUI->pBuildPhaseUI->pTurretImage;
 	}
-
 }
 
 void TestLevelState::MouseEvent(CGameManager* pManager) {
@@ -230,7 +239,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 	}
 	
-	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN) {
+	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
 		if (readyToShoot) {
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
 			enemyManager->CheckCollision(node);

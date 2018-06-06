@@ -93,11 +93,12 @@ private:
 	/// <summary>	The camera node. </summary>
 	//ICameraSceneNode* cameraNode;
 	/// <summary>	The healthbar. </summary>
-	//std::unique_ptr<PlayerHealthBar> healthbar;
-	PlayerHealthBar* healthbar;
+	//std::unique_ptr<PlayerCore> healthbar;
+	PlayerCore* healthbar;
 	/// <summary>	Manager for po. </summary>
 	CurrencyUI* currencyUI;
 	Reticle* playerReticle;
+	PlayerHealth* pPlayerHealth;
 	PlaceObjects* PoManager;
 	VictoryScreen* pVictory;
 	
