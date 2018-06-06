@@ -138,7 +138,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//}
 	//enemy->Update();
 	if (isBuildPhase) {
-
+		if (enemyManager->p_Timer->check() < 500)
+			int x = enemyManager->p_Timer->check() / 100;
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
