@@ -3,9 +3,11 @@
 
 #include "TurretAI.h"
 #include "Opponent.h"
+#include "Timer.h"
 
 line3df ray;
 ICameraSceneNode* cam;
+Timer* timer;
 
 TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr)
 {
@@ -48,11 +50,12 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITr
 	}
 
 void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager* smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* selector) {
+	if (timer == nullptr)
+		timer = new Timer(pDevice);
 
 	if(target == NULL || target != opponent) {
+		timer->set(3000);
 		target = opponent;
-		timer = pDevice->getTimer();
-		start = timer->getTime();
 		targeted = true;
 		return;
 	}
@@ -60,7 +63,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 
 		
 
-	if (timer->getTime() >= (start + 1500)) {
+	if (timer->alarm()) {
 		start =  pDevice->getTimer()->getTime();
 		targeted = false;
 		ISceneNode* node = 0;

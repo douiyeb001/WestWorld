@@ -1,7 +1,8 @@
 #include "MenuState.h"
 #include  "TestLevelState.h"
+#include <irrKlang-64bit-1.6.0/include/irrKlang.h>
 
-
+irrklang::ISoundEngine* engine;
 MenuState MenuState::m_MenuState;
 
 MenuState::MenuState(){}
@@ -13,7 +14,7 @@ MenuState* MenuState::Instance() {
 }
 
 void MenuState::Init(CGameManager* pManager) {
-	onControlScreen = false;
+	engine = pManager->GetSoundEngine();
 	CGameState::Init(pManager);
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
@@ -34,7 +35,6 @@ void MenuState::Init(CGameManager* pManager) {
 	revolverSprite->scale.Y = .3;
 	revolverSprite->position.X = 350;
 	revolverSprite->position.Y = 150;
-	
 
 	/*m_pCamera = pManager->getSceneManager()->addCameraSceneNode(0, core::vector3df(0, 0, 10));
 
@@ -43,6 +43,8 @@ void MenuState::Init(CGameManager* pManager) {
 	m_pCamera->addAnimator(anim);*/
 	
 	CGameState::FadeInOut(pManager);
+	engine->setSoundVolume(0.2);
+	engine->play2D("media/Sound/Music/WesternInside.wav",true);
 }
 
 void MenuState::Update(CGameManager* pManager) {
@@ -61,6 +63,7 @@ void MenuState::Update(CGameManager* pManager) {
 }
 
 void MenuState::Clear(CGameManager* pManager) {
+	engine->stopAllSounds();
 	pManager->getSceneManager()->clear();
 	delete backgroundSprite;
 	backgroundSprite = 0;
@@ -87,6 +90,7 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 	if (pManager->GetKeyboard() == KEY_RETURN) switch (menuStateID(currentMenuId)) {
 	case START:
 			ChangeState(pManager, TestLevelState::Instance());
+		
 		break;
 	case CONTROLS:
 		onControlScreen = true;

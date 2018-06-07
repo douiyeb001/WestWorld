@@ -3,6 +3,7 @@
 #define AFX_GAMEMANAGER_H_INCLUDED_
 
 #include <irrlicht.h>
+#include <irrKlang-64bit-1.6.0/include/irrKlang.h>
 
 
 using namespace irr;
@@ -11,6 +12,7 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
+using namespace irrklang;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// <summary>	A game state. </summary>
@@ -91,6 +93,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	IMetaTriangleSelector* GetMeta();
+
+	ISoundEngine* GetSoundEngine();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Gets the Iscene Node Animator. </summary>
@@ -202,6 +206,7 @@ private:
 	IMetaTriangleSelector* meta;
 	/// <summary>	Animates a scene node. Can animate position, rotation, material, and so on. </summary>
 	ISceneNodeAnimator* anim;
+	ISoundEngine* engine = createIrrKlangDevice();
 
 	/// <summary>	The mouse. </summary>
 	char mouse;

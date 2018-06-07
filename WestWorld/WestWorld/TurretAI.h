@@ -18,7 +18,7 @@ class TurretAI
 public:
 	IVideoDriver * pDriver;
 	EnemyManager * pEnemyManager;
-	ITimer* timer;
+	//ITimer* timer;
 	IMetaTriangleSelector* pMeta;
 	TurretAI(EnemyManager* _pEnemyManager, vector3df newTurret, ISceneManager* smgr);
 	void GetList(vector <Opponent*> opArray);
@@ -26,7 +26,7 @@ public:
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* meta);
 	bool enemySpotted = false;
 
-	const float radius = 100;
+	const float radius = 170;
 	~TurretAI();
 	std::vector <Opponent*> opList;
 	Opponent* target;

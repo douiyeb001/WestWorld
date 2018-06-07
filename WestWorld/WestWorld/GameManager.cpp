@@ -4,6 +4,12 @@
 #include  "MenuState.h"
 #include <chrono>
 #include <thread>
+#include <stdio.h>
+//#include <irrKlang-64bit-1.6.0/include/irrKlang.h>
+
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+
+
 
 //! Default constructor
 CGameManager::CGameManager(){
@@ -52,6 +58,7 @@ void CGameManager::CreateDevice(){
 	selector = nullptr;
 	meta = sceneManager->createMetaTriangleSelector();
 	collisionManager = sceneManager->getSceneCollisionManager();
+
 }
 
 //! Returns a pointer to the Irrlicht Device subsystem
@@ -63,6 +70,11 @@ IrrlichtDevice* CGameManager::getDevice(){
 IVideoDriver* CGameManager::getDriver(){
 	return driver;
 }
+
+ISoundEngine* CGameManager::GetSoundEngine() {
+	return engine;
+}
+
 
 //! Returns a pointer to the Irrlicht SceneManager subsystem
 ISceneManager* CGameManager::getSceneManager(){
