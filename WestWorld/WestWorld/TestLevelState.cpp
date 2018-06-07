@@ -253,7 +253,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 	if (pManager->GetKeyboard() == KEY_KEY_2)
 	{
 		PoManager->objectToPlace = 2;
-		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"));
+		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/TurretMesh.obj"));
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));

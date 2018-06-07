@@ -58,7 +58,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	if (objectToPlace == 2) {
 		if (cManager->CheckCurrency())
 		{
-			scene::IMesh* turretMesh = smgr->getMesh("meshes/Barrel.obj");
+			scene::IMesh* turretMesh = smgr->getMesh("meshes/TurretMesh.obj");
 			scene::IMeshSceneNode* turretNode = 0;
 			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
@@ -128,7 +128,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 		 placementIndicatorMesh = smgr->getMesh("meshes/tempBarricade.obj");
 	 }
 	 if (objectToPlace == 2) {
-		 placementIndicatorMesh = smgr->getMesh("meshes/Barrel.obj");
+		 placementIndicatorMesh = smgr->getMesh("meshes/TurretMesh.obj");
 	 }
 	
 	 placementIndicatorNode = 0;
