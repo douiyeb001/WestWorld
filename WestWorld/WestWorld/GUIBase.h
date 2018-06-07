@@ -234,6 +234,16 @@ private:
 	
 };
 
+class PlaceControl {
+public:
+	PlaceControl(IVideoDriver* driver, char const* _pPlace);
+	void Draw(IVideoDriver* driver);
+
+
+private:
+	ITexture * pPlaceImage;
+};
+
 
 class DrawUI {
 public:
@@ -248,6 +258,7 @@ private:
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
+	PlaceControl* pPlace;
 
 
 

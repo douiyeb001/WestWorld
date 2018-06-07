@@ -134,6 +134,20 @@ void BuildPhaseUI::Draw(IVideoDriver* driver)
 		core::rect<int>(0, 0, pBuildImage->getSize().Width, pBuildImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
 
+PlaceControl::PlaceControl(IVideoDriver* driver, char const* _pPlace)
+{
+	pPlaceImage = driver->getTexture(_pPlace);
+}
+
+void PlaceControl::Draw(IVideoDriver* driver)
+{
+	driver->draw2DImage(pPlaceImage, core::position2d<int>(driver->getScreenSize().Width / 2 + 10, driver->getScreenSize().Height / 2 + 5),
+		core::rect<int>(0, 0, pPlaceImage->getSize().Width, pPlaceImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true);
+}
+
+
+
+
 Sign::Sign(IVideoDriver* driver, char const* _pBuildSign)
 {
 	pSignImage = driver->getTexture(_pBuildSign);
@@ -194,12 +208,14 @@ DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
 	pSign = new Sign(driver, "media/UI/BuildPhaseSign.png");
+	pPlace = new PlaceControl(driver, "media/UI/UI_RMB.png");
 }
 
 void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager) {
 	if (pBuildPhaseUI->isBuildPhase)
 	{
 		pBuildPhaseUI->Draw(driver);
+		pPlace->Draw(driver);
 		
 	}
 	pCurrencyUI->Draw(gui, driver, cManager);
