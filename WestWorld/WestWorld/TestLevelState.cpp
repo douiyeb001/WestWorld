@@ -84,7 +84,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
-	(*enemyTimer).set(10000);
+	(*enemyTimer).set(35000);
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	//pTurretAI = new TurretAI(enemyManager);
@@ -141,7 +141,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//}
 	//enemy->Update();
 	if (isBuildPhase) {
-
+		if (enemyManager->p_Timer->check() < 500)
+			int x = enemyManager->p_Timer->check() / 100;
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
@@ -149,7 +150,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveManager->waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
-			waveManager->NewWave(5);
+			waveManager->NewWave();
 		}
 	} else {
 		/*float z = (*pPLayer).getCamera()->getPosition().Z;
@@ -164,7 +165,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			waveManager->Update();
 		}
 		if (enemyManager->GiveArray().empty() && waveManager->enemiesInWave == 0) {
-			enemyManager->p_Timer->set(10000);
+			enemyManager->p_Timer->set(17500);
 			(*waveManager).waveCount++;
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
@@ -193,7 +194,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 	
 	//Set the amount of waves needed	
-	if((*waveManager).waveCount == 10)
+	if((*waveManager).waveCount == 6)
 		{
 			pVictory->Draw(pManager->getDriver());
 			if (!hasWon) {

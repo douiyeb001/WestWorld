@@ -39,8 +39,8 @@ int Timer::stop() {
 }
 int Timer::check() {
 	int now = irrTimer->getTime();
-	interval = (now - beginTime);
-	return interval;
+	int timeLeft = (interval - beginTime - now);
+	return timeLeft;
 }
 
 void Timer::reset() {
