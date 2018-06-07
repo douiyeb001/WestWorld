@@ -69,7 +69,7 @@ public:
 	/// <param name="driver">	[in,out] If non-null, the driver. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Draw(IVideoDriver* driver);
+	void Draw(IVideoDriver* driver, int coreHealth);
 
 private:
 	/// <summary>	The hp bar. </summary>
@@ -244,7 +244,7 @@ public:
 	Sign* pSign;
 
 private:
-	PlayerCore * pPlayerHealthBar;
+	PlayerCore * pCoreHealth;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;

@@ -3,11 +3,17 @@
 
 PlayerCore::PlayerCore(IVideoDriver* driver, IGUIEnvironment* gui, char const* bar) {
 	hpBar = driver->getTexture(bar);
-	//driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
+	font = gui->getFont("media/bigfont.png");
 }
 
-void PlayerCore::Draw(IVideoDriver* driver) {
+void PlayerCore::Draw(IVideoDriver* driver, int coreHealth) {
 	driver->draw2DImage(hpBar, core::position2d<int>(0,0), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+	if (font)
+	{
+		font->draw((L"%d", (stringc)coreHealth),
+			core::rect<s32>(1179, 65, 270, 50),
+			video::SColor(255, 255, 255, 255));
+	}
 }
 
 PlayerHealth::PlayerHealth(IVideoDriver* driver, char const* bar) {
@@ -60,8 +66,8 @@ void WaveCounterUI::Draw(IGUIEnvironment* pGui, IVideoDriver* pDriver, int waveN
 {
 	
 	pFont->draw((L"%d", (stringc)waveNumber),
-			core::rect<s32>(1150, 180, 500, 500),
-			video::SColor(255, 0, 0, 0));
+		core::rect<s32>(1150, 180, 500, 500),
+		video::SColor(255, 255, 255, 255));
 }
 
 CurrencyUI::CurrencyUI(IVideoDriver* driver, IGUIEnvironment* gui, char const* pCurrency) {
@@ -77,7 +83,7 @@ void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver, Currency* cMan
 	{
 		font->draw((L"%d", (stringc)cManager->playerCurrency),
 			core::rect<s32>(200, 640, 270, 50),
-			video::SColor(255, 0, 0, 0));
+			video::SColor(255, 255, 255, 255));
 	}
 	driver->draw2DImage(pCurrencyTexture, 
 		core::position2d<int>(0, 0), 
@@ -183,7 +189,6 @@ void Sign::ChangeImage(IVideoDriver* driver, int waveNumber)
 
 DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
-	pPlayerHealthBar = new PlayerCore(driver, gui, "media/UI/UI_Core.png");
 	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
 	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
@@ -192,7 +197,6 @@ DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 }
 
 void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager) {
-	pPlayerHealthBar->Draw(driver);
 	if (pBuildPhaseUI->isBuildPhase)
 	{
 		pBuildPhaseUI->Draw(driver);

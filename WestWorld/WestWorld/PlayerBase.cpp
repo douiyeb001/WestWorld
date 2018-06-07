@@ -8,7 +8,7 @@
 PlayerBase::PlayerBase(scene::ISceneNode* _node, ISceneManager* mgr,IrrlichtDevice* pDevice)
 {
 	node = _node;
-	health = 5;
+	health = 9;
 	_pDevice = pDevice;
 	//healthBar = new HealthBar(node, mgr, 666);
 	//HealthBar->setPosition(irr::core::vector3df(50, 1100, 0));
