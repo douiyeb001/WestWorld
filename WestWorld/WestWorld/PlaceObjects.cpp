@@ -120,7 +120,7 @@ void PlaceObjects::CreateCollision(scene::ISceneNodeAnimator *anim, scene::ICame
 		 placementIndicatorMesh = smgr->getMesh("meshes/tempBarricade.obj");
 	 }
 	 if (objectToPlace == 2) {
-		 placementIndicatorMesh = smgr->getMesh("meshes/Barrel.obj");
+		 placementIndicatorMesh = smgr->getMesh("meshes/TurretMesh.obj");
 	 }
 	
 	 placementIndicatorNode = 0;
