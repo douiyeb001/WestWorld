@@ -50,7 +50,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 		obstacles.push_back(false);
 	cManager = new Currency();
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
-	pDrawUI = new DrawUI(pManager->getDriver());
+	pDrawUI = new DrawUI(pManager->getDriver(), pManager->getGUIEnvironment());
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/UI_Currency.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
@@ -96,6 +96,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
+	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -111,7 +112,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 	delete waveManager;
 
 	delete p_Timer;
-	delete healthbar;
+	delete pCore;
 	delete currencyUI;
 	delete playerReticle;
 	delete playerCore;
@@ -172,12 +173,13 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 	}
 	
-	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
+	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
 	playerReticle->Draw(pManager->getDriver());
 	pPlayerHealth->Draw(pManager->getDriver(), pPLayer->health);
+	pCore->Draw(pManager->getDriver(), playerCore->health);
 
 	pauseManager->Draw();
 	if (playerCore->health <= 0 || pPLayer->health <= 0) {

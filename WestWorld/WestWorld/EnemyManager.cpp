@@ -81,7 +81,7 @@ void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 			opponentList[i]->remove();
 			opponentList.erase(opponentList.begin() + i);
-			cManager->EnemyCurrency();
+			//cManager->EnemyCurrency();
 			
 		}
 		

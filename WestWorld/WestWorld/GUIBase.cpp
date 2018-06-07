@@ -1,13 +1,19 @@
  #include "GUIBase.h"
 #include <stdio.h> 
 
-PlayerCore::PlayerCore(IVideoDriver* driver, char const* bar) {
+PlayerCore::PlayerCore(IVideoDriver* driver, IGUIEnvironment* gui, char const* bar) {
 	hpBar = driver->getTexture(bar);
-	//driver->makeColorKeyTexture(hpBar, core::position2d<s32>(0, 0));
+	font = gui->getFont("media/bigfont.png");
 }
 
-void PlayerCore::Draw(IVideoDriver* driver) {
+void PlayerCore::Draw(IVideoDriver* driver, int coreHealth) {
 	driver->draw2DImage(hpBar, core::position2d<int>(0,0), core::rect<int>(0, 0, hpBar->getSize().Width, hpBar->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
+	if (font)
+	{
+		font->draw((L"%d", (stringc)coreHealth),
+			core::rect<s32>(1179, 65, 270, 50),
+			video::SColor(255, 255, 255, 255));
+	}
 }
 
 PlayerHealth::PlayerHealth(IVideoDriver* driver, char const* bar) {
@@ -24,11 +30,6 @@ void PlayerHealth::Draw(IVideoDriver* driver, int playerHealth) {
 	}
 
 }
-
-
-
-
-
 
 Placeable::Placeable(IVideoDriver* driver, char const* icon1) {
 	placeableIcon = driver->getTexture(icon1);
@@ -47,13 +48,6 @@ void Reticle::Draw(IVideoDriver* driver) {
 	driver->draw2DImage(reticleSprite, core::position2d<int>((driver->getScreenSize().Width - reticleSprite->getSize().Width )/2, (driver->getScreenSize().Height - reticleSprite->getSize().Height)/2), core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
 }
 
-CurrencyUI::CurrencyUI(IVideoDriver* driver, char const* pCurrency) {
-	//font = device->getGUIEnvironment()->getFont("medi.bmp");
-	//pScore = (const wchar_t*)cager->playerCurrency;
-	pCurrencyTexture = driver->getTexture(pCurrency);
-	//pInfinityTexture = driver->getTexture(pInfinity);
-
-}
 GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
 	GameOverSprite = driver->getTexture(deadLogo);
 
@@ -72,20 +66,25 @@ void WaveCounterUI::Draw(IGUIEnvironment* pGui, IVideoDriver* pDriver, int waveN
 {
 	
 	pFont->draw((L"%d", (stringc)waveNumber),
-			core::rect<s32>(1150, 180, 500, 500),
-			video::SColor(255, 0, 0, 0));
+		core::rect<s32>(1150, 180, 500, 500),
+		video::SColor(255, 255, 255, 255));
 }
 
+CurrencyUI::CurrencyUI(IVideoDriver* driver, IGUIEnvironment* gui, char const* pCurrency) {
+	font = gui->getFont("media/bigfont.png");
+	//pScore = (const wchar_t*)cager->playerCurrency;
+	pCurrencyTexture = driver->getTexture(pCurrency);
+	//pInfinityTexture = driver->getTexture(pInfinity);
+}
 
-
-void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver) {
+void CurrencyUI::Draw(IGUIEnvironment* gui, IVideoDriver* driver, Currency* cManager) {
 	
-	//if (font)
-	//{
-	//	font->draw((L"%d", (stringc)cManager->playerCurrency),
-	//		core::rect<s32>(70, 30, 270, 50),
-	//		video::SColor(255, 0, 0, 0));
-	//}
+	if (font)
+	{
+		font->draw((L"%d", (stringc)cManager->playerCurrency),
+			core::rect<s32>(200, 640, 270, 50),
+			video::SColor(255, 255, 255, 255));
+	}
 	driver->draw2DImage(pCurrencyTexture, 
 		core::position2d<int>(0, 0), 
 		core::rect<int>(0, 0, pCurrencyTexture->getSize().Width, pCurrencyTexture->getSize().Height), 
@@ -134,6 +133,20 @@ void BuildPhaseUI::Draw(IVideoDriver* driver)
 	driver->draw2DImage(pBuildImage, core::position2d<int>(0,0),
 		core::rect<int>(0, 0, pBuildImage->getSize().Width, pBuildImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true); //Draw bar
 }
+
+PlaceControl::PlaceControl(IVideoDriver* driver, char const* _pPlace)
+{
+	pPlaceImage = driver->getTexture(_pPlace);
+}
+
+void PlaceControl::Draw(IVideoDriver* driver)
+{
+	driver->draw2DImage(pPlaceImage, core::position2d<int>(driver->getScreenSize().Width / 2 + 10, driver->getScreenSize().Height / 2 + 5),
+		core::rect<int>(0, 0, pPlaceImage->getSize().Width, pPlaceImage->getSize().Height), 0, video::SColor(255, 255, 255, 255), true);
+}
+
+
+
 
 Sign::Sign(IVideoDriver* driver, char const* _pBuildSign)
 {
@@ -188,24 +201,24 @@ void Sign::ChangeImage(IVideoDriver* driver, int waveNumber)
 
 
 
-DrawUI::DrawUI(IVideoDriver* driver)
+DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
-	pPlayerHealthBar = new PlayerCore(driver, "media/UI/UI_Core.png");
-	pCurrencyUI = new CurrencyUI(driver, "media/UI/UI_Currency.png");
+	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
 	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
 	pSign = new Sign(driver, "media/UI/BuildPhaseSign.png");
+	pPlace = new PlaceControl(driver, "media/UI/UI_RMB.png");
 }
 
-void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui) {
-	pPlayerHealthBar->Draw(driver);
+void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager) {
 	if (pBuildPhaseUI->isBuildPhase)
 	{
 		pBuildPhaseUI->Draw(driver);
+		pPlace->Draw(driver);
 		
 	}
-	pCurrencyUI->Draw(gui, driver);
+	pCurrencyUI->Draw(gui, driver, cManager);
 	pReticle->Draw(driver);
 	//pWaveCounter->Draw(driver);
 	pSign->Draw(driver);
