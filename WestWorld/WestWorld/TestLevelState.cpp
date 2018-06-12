@@ -21,12 +21,12 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
-	CGamePlayState::Init(pManager);
+	//CGamePlayState::Init(pManager);
 	soundEngine = pManager->GetSoundEngine();
 	soundEngine->setSoundVolume(.2f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
-	readyToShoot = true;
+	isReadyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
 	pManager->getDevice()->getCursorControl()->setVisible(false);
@@ -128,7 +128,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		return;
 	}
 
-	if (p_Timer->alarm())  readyToShoot = true;
+	if (p_Timer->alarm())  isReadyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 	for (int i = 0; i < turretList.size(); i++){
@@ -273,14 +273,19 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
 	}
-	
+
+	//! When the player is not in the building phase and pressed the left mouse button
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
-		if (readyToShoot) {
+		if (isReadyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
+			//! returns the node the player will hit on shooting
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
+			//! passes the node into the enemyManager which holds all the enemies
 			enemyManager->CheckCollision(node);
-			readyToShoot = false;
-			p_Timer->set(500);
+			isReadyToShoot = false;
+			//! timer that is called in the update loop which resets the isReadyToShoot boolean
+			//! timer updates in miliseconds : 500 = 0.5 seconds
+			p_Timer->set(delayBetweenShots);
 		}
 	}
 }

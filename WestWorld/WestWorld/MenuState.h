@@ -4,6 +4,7 @@
 
 #include "GameStates.h"
 #include "Sprite.h"
+#include <gtest/gtest.h>
 
 using namespace irr;
 using namespace video;
@@ -15,8 +16,7 @@ enum menuStateID {
 	QUIT = 2
 };
 
-class MenuState : public CGameState
-{
+class MenuState : public CGameState{
 public:
 	virtual void Init(CGameManager* pManager);
 	virtual void Clear(CGameManager* pManager);
@@ -25,7 +25,7 @@ public:
 	virtual void MouseEvent(CGameManager* pManager);
 
 	static MenuState* Instance();
-
+	int currentMenuId = 0;
 	virtual ~MenuState();
 
 protected:
@@ -41,7 +41,7 @@ protected:
 	bool m_bMouseMode;
 private:
 	static MenuState m_MenuState; // singleton...
-	int currentMenuId = 0;										// local game variables
+									// local game variables
 	void MouseClicked(CGameManager* pManager);
 	ISceneManager* ismgr;
 };

@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Gebruiker\source\repos\Sample-Test1\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include;..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
     <LibraryPath>lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -108,11 +108,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\Gebruiker\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\Gebruiker\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;C:\Users\Gebruiker\source\repos\Sample-Test1\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\lib\native\v140\windesktop\msvcstl\static\rt-dyn\x64\Debug\gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

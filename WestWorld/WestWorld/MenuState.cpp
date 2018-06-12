@@ -2,6 +2,7 @@
 #include  "TestLevelState.h"
 #include <irrKlang-64bit-1.6.0/include/irrKlang.h>
 
+
 irrklang::ISoundEngine* engine;
 MenuState MenuState::m_MenuState;
 
@@ -9,12 +10,22 @@ MenuState::MenuState(){}
 
 MenuState::~MenuState(){}
 
+TEST(MenuStateInitTest, StateTest) {
+	CGameManager* pManager = new CGameManager;
+	MenuState* menuState;
+	menuState = MenuState::Instance();
+	menuState->Init(pManager);
+	EXPECT_EQ(menuState->currentMenuId, 0);
+}
+
+
 MenuState* MenuState::Instance() {
 	return (&m_MenuState);
 }
 
 void MenuState::Init(CGameManager* pManager) {
 	engine = pManager->GetSoundEngine();
+	currentMenuId = 0;
 	CGameState::Init(pManager);
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
