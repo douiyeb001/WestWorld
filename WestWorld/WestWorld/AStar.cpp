@@ -16,12 +16,12 @@ AStar::AStar(scene::ISceneNode* startNode_, scene::ISceneNode* goalNode_, Grid* 
 	//int test2 = CoordinatesToID(25*Cell_Size, -100*Cell_Size);
 	//CellDictionary = std::map<int, GridCell> (rint(World_Size / Cell_Size)*rint(World_Size / Cell_Size));
 	//CellDictionary[CoordinatesToID(x,z)] = GridCell(x,z,NULL);
-
+	cellsPassed = 0;
 
 	int xcoord = startNode_->getAbsolutePosition().X;
 	int zcoord = startNode_->getAbsolutePosition().Z;
 
-	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)));
+	possibleNextCells.reserve((rint(World_Size / Cell_Size) * rint(World_Size / Cell_Size)) * 100);
 	pStartCell = &((*grid).cellDictionary[(*grid).CoordinatesToID(xcoord, zcoord)]);
 	possibleNextCells.push_back(pStartCell);
 
@@ -88,8 +88,7 @@ GridCell* AStar::NextCell() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AStar::FindPath() {
-	if (possibleNextCells.empty()) {
-
+	if (possibleNextCells.empty() || cellsPassed > maxCells) {
 		for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++)
 			for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++)
 				(*grid).cellDictionary[(*grid).CoordinatesToID(x*Cell_Size, z*Cell_Size)].Clear();
@@ -186,12 +185,13 @@ void AStar::FindPath() {
 			}
 		}
 	}
-
+	cellsPassed++;
 	FindPath();
 }
 
 
 bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
+	cellsPassed = 0;
 	SetObstacle(true, spawnedPosition);
 	//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
 	if (std::find(std::begin(currentPath), std::end(currentPath), (&((*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)]))) != std::end(currentPath)) {
@@ -199,7 +199,7 @@ bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
 		possibleNextCells.clear();
 		possibleNextCells.push_back(pStartCell);
 		FindPath();
-		if (possibleNextCells.empty()) {
+		if (possibleNextCells.empty() || cellsPassed > maxCells) {
 			SetObstacle(false, spawnedPosition);
 			//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
 			return false;
