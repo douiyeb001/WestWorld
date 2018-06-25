@@ -280,7 +280,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
 		if (readyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
-			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
+			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(),gunNode);
 			enemyManager->CheckCollision(node);
 			readyToShoot = false;
 			p_Timer->set(500);

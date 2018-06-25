@@ -58,7 +58,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	~Player();
-	ISceneNode* RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr);
+	ISceneNode* RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode*  pPlayer, ISceneManager *smgr, ISceneNode* gun);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Ray create. </summary>

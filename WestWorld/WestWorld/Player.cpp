@@ -62,7 +62,7 @@ ICameraSceneNode* Player::getCamera() {
 	return cameraNode;
 }
 
-ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr)
+ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelector* pMeta, ICameraSceneNode* pPlayer, ISceneManager* smgr,ISceneNode* gun)
 {
 	ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	//! Add it to the meta selector, which will take a reference to it
@@ -88,6 +88,8 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	end = start + (end * pPlayer->getFarValue());
 	line3d<f32> line(start, end);
 
+
+	vector3df FlareStart = vector3df(pPlayer->getPosition().X-20, pPlayer->getPosition().Y, pPlayer->getPosition().Z);
 	//! local ISceneNode, needed for getCollisionPoint method
 	ISceneNode* testNode;
 	//! if the ray collides with an object it will return the normal of the triangle and it will set
@@ -110,27 +112,49 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	//! creates a new node that will alway face the player
 	//! The material of the node will be
 	ISceneNode* node = 0;
+	ISceneNode* flareNode = 0;
 	node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10), start);
 	node->setMaterialFlag(EMF_LIGHTING, false);
 	node->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
 	node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
-
+	//For Gun flare	
+	flareNode = smgr->addBillboardSceneNode(gun,dimension2d<f32>(10, 10), vector3df( gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z+100));
+	flareNode->setMaterialFlag(EMF_LIGHTING, false);
+	flareNode->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/muzzleFlash.png"));
+	flareNode->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	flareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+	
 	//! Length of flight
 	const auto length = (f32)(end - start).getLength();
 	const auto speed = 0.8f;
 	const auto time = (u32)(length / speed);
 
+
 	//! create a fly straight animator for the bullet
 	//! add a delete animator  that will delete the animated bullet
 	//! at the end of its lifecycle
+	//animator for bullet
 	ISceneNodeAnimator* anim = 0;
+	ISceneNodeAnimator* flareAnim = 0;
 	anim = smgr->createFlyStraightAnimator(start, end, time);
+
+	flareAnim = smgr->createFlyStraightAnimator(vector3df(gun->getPosition().X, gun->getPosition().Y+5, gun->getPosition().Z + 5), vector3df(gun->getPosition().X, gun->getPosition().Y +5, gun->getPosition().Z + 5), 200);
+
 	node->addAnimator(anim);
-	//anim->drop();
+	flareNode->addAnimator(flareAnim);
+
 	anim = smgr->createDeleteAnimator(time);
+
+	flareAnim = smgr->createDeleteAnimator(200);
+	flareNode->addAnimator(flareAnim);
 	node->addAnimator(anim);
+
+	
 	anim->drop();
+	//flare anim
+	
+
 
 	//! returns a scene node if the raycasting collided with one
 	if (selectedSceneNode) {
