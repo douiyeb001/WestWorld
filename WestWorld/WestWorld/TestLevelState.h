@@ -112,6 +112,8 @@ private:
 	PlayerBase* playerCore;
 	/// <summary>	State of the test level. </summary>
 	IMeshSceneNode* gunNode;
+
+	ParticleFX* particleManager;
 	WaveManager* waveManager;
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
