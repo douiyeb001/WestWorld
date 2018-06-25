@@ -11,7 +11,7 @@
 #include "TurretAI.h"
 #include "WaveManager.h"
 //#include "MouseInput.h"
-
+#include "ParticleFX.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // namespace: irr
@@ -79,7 +79,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
+	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager, ParticleFX particleManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +151,7 @@ private:
 	bool isPlacementValid(vector3df intersection, ICameraSceneNode* player);
 	///
 	
-
+	ParticleFX ParticleManager;
 	scene::IMesh* placementIndicatorMesh;
 };
 

@@ -6,12 +6,13 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager, ParticleFX particleManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
+	ParticleManager = particleManager;
 }
 
 bool hasSpawnedTurret;
@@ -63,6 +64,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
+				ParticleManager.CreateExplosion((*waveManager).spawnPoints[0]->path->GetCentre(position), driver, smgr);
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
