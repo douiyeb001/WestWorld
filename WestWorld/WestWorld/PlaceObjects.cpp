@@ -12,6 +12,7 @@ PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveMana
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
+	isInBuildMode = true;
 }
 
 bool hasSpawnedTurret;

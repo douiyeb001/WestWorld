@@ -2,10 +2,13 @@
 #include "MenuState.h"
 #include <memory>
 
+
+
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
 bool isDead = false;
 bool hasWon = false;
+int buildTimer;
 
 TestLevelState::TestLevelState(){
 
@@ -33,6 +36,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
 	isBuildPhase = true;
+	//pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+	//PoManager->isInBuildMode = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
 	//healthbar = new PlayerCore(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -142,14 +147,16 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//}
 	//enemy->Update();
 	if (isBuildPhase) {
-		if (enemyManager->p_Timer->check() < 500)
-			int x = enemyManager->p_Timer->check() / 100;
+		
+ 		buildTimer = enemyManager->p_Timer->check() / 1000;
+
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
 			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveManager->waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
+			PoManager->isInBuildMode = false;
 			PoManager->ResetPlacementIndicator();
 			waveManager->NewWave();
 		}
@@ -170,10 +177,12 @@ void TestLevelState::Update(CGameManager* pManager) {
 			(*waveManager).waveCount++;
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+			PoManager->isInBuildMode = true;
 		}
 	}
 	
-	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
+	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager, buildTimer);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
@@ -227,22 +236,6 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		return;
 	}
 
-	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
-	{
-		
-		//trigger Placement indicator
-		if (!PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = true;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
-		}
-		else if(PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = false;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
-			PoManager->ResetPlacementIndicator();
-		}
-	}
 	if(pManager->GetKeyboard() == KEY_KEY_1)
 	{
 		PoManager->objectToPlace = 1;
