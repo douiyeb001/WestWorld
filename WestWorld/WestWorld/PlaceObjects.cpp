@@ -185,9 +185,6 @@ bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* pl
 	}
 	for (int i = 0; i < (*waveManager).spawnPoints.size(); i++)
 		if (!(*waveManager).spawnPoints[i]->path->RecalculatePath(intersection)) {
-			for (int j = i; i >= 0; i--) {
-				(*waveManager).spawnPoints[i]->path->SetObstacle(false, intersection);//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
-			}
 			return false;
 		}
 	return true;

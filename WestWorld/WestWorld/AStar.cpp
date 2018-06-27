@@ -191,6 +191,10 @@ void AStar::FindPath() {
 
 
 bool AStar::RecalculatePath(core::vector3df spawnedPosition) {
+	if (spawnedPosition.Z < 0)
+		spawnedPosition.Z -= Cell_Size;//centre.Z / 20;
+	if (spawnedPosition.X < 0)
+		spawnedPosition.X -= Cell_Size;// centre.X / 20;
 	cellsPassed = 0;
 	SetObstacle(true, spawnedPosition);
 	//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = true;
@@ -243,12 +247,20 @@ std::vector<GridCell*> AStar::ReversePath(std::vector<GridCell*> path) {
 
 core::vector3df AStar::GetCentre(core::vector3df position) {
 	core::vector3df centre = position;
-	centre.X = (*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)].x;
-	centre.Z = (*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)].y;
+	if (centre.Z < 0)
+		centre.Z -= Cell_Size;//centre.Z / 20;
+	if (centre.X < 0)
+		centre.X -= Cell_Size;// centre.X / 20;
+	centre.X = (*grid).cellDictionary[(*grid).CoordinatesToID(centre.X, centre.Z)].x;
+	centre.Z = (*grid).cellDictionary[(*grid).CoordinatesToID(centre.X, centre.Z)].y;
 	return centre;
 }
 
 GridCell* AStar::GetCell(core::vector3df position) {
+	if (position.Z < 0)
+		position.Z -= Cell_Size;//centre.Z / 20;
+	if (position.X < 0)
+		position.X -= Cell_Size;// centre.X / 20;
 	return &(*grid).cellDictionary[(*grid).CoordinatesToID(position.X, position.Z)];
 }
 

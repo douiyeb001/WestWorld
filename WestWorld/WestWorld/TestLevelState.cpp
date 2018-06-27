@@ -67,8 +67,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 			s32 id = (*it)->getID();
 			if (id == 10)
 
-				for (int x = -((World_Size / Cell_Size) / 2); x < (World_Size / Cell_Size) / 2; x++) {
-					for (int z = -((World_Size / Cell_Size) / 2); z < (World_Size / Cell_Size) / 2; z++) {
+				for (int x = -((World_Size / Cell_Size) / 2) + 1; x < (World_Size / Cell_Size) / 2; x++) {
+					for (int z = -((World_Size / Cell_Size) / 2) + 1; z < (World_Size / Cell_Size) / 2; z++) {
 						// Do something with the node here.
 						irr::core::aabbox3df box = irr::core::aabbox3df(x *Cell_Size - Cell_Size / 2, 0, z *Cell_Size - Cell_Size / 2, (x + 1)*Cell_Size + Cell_Size / 2, 0, (z + 1)*Cell_Size + Cell_Size / 2);
 
