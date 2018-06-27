@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include <string>
 #include "MenuState.h"
+#include "GUIBase.h"
+
+
 
 Observer::Observer()
 {

@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\Gebruiker\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;C:\Users\Gebruiker\source\repos\Sample-Test1\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\lib\native\v140\windesktop\msvcstl\static\rt-dyn\x64\Debug\gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\Peter Marcelis\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,6 +167,7 @@
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="IDamagable.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SearchGrid.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="TestLevelState.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TurretAI.h" />
+    <ClInclude Include="TutorialState.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WaveManager.h" />
   </ItemGroup>
@@ -197,6 +199,7 @@
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PauseManager.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
@@ -215,6 +218,7 @@
     <ClCompile Include="TestLevelState.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TurretAI.cpp" />
+    <ClCompile Include="TutorialState.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>

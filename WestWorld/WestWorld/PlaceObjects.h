@@ -1,3 +1,6 @@
+#ifndef PLACEOBJECTS_H
+#define  PLACEOBJECTS_H
+
 
 #include <irrlicht.h>
 
@@ -154,4 +157,4 @@ private:
 
 	scene::IMesh* placementIndicatorMesh;
 };
-
+#endif
