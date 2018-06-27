@@ -136,6 +136,15 @@ private:
 	ITexture * reticleSprite;
 };
 
+class HitMarker {
+public:
+	bool isHit;
+	HitMarker(IVideoDriver* driver, char const* icon);
+	void Draw(IVideoDriver* driver);
+private:
+	ITexture * hitMarkerSprite;
+};
+
 class GameOverScreen {
 
 public:
@@ -259,6 +268,7 @@ private:
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
 	PlaceControl* pPlace;
+	HitMarker* pHitMarker;
 
 
 

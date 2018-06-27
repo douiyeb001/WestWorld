@@ -26,6 +26,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	soundEngine->setSoundVolume(.2f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
+	bool isHit = false;
+
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -58,7 +60,6 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pWaveCounterUI = new WaveCounterUI(pManager->getDriver(),pManager->getGUIEnvironment());
 	//pObjective = new Objective(pManager->getDriver(), "media/UI/ObjectiveNotDone.png", pManager->getDevice());
 
-
 	irr::core::list<scene::ISceneNode*> children = pManager->getSceneManager()->getRootSceneNode()->getChildren();
 	core::list<scene::ISceneNode*>::Iterator it = children.begin();
 	for (; it != children.end(); ++it)
@@ -84,7 +85,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
-	(*enemyTimer).set(35000);
+	(*enemyTimer).set(350);
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	//pTurretAI = new TurretAI(enemyManager);
@@ -93,7 +94,9 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//spawnPoint2 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
 	//spawnPoint3 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
 	//spawnPoint->drop();
+
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
+	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
@@ -124,6 +127,8 @@ void TestLevelState::Clear(CGameManager* pManager) {
 // :)
 void TestLevelState::Update(CGameManager* pManager) {
 	pauseManager->Draw();
+	
+
 	if (pauseManager->IsGamePaused()) {
 		enemyManager->p_Timer->deltaTime();
 		return;
@@ -152,6 +157,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
 			PoManager->ResetPlacementIndicator();
 			waveManager->NewWave();
+
 		}
 	} else {
 		/*float z = (*pPLayer).getCamera()->getPosition().Z;
@@ -161,6 +167,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			irr::core::aabbox3df box = irr::core::aabbox3df(g->x - Cell_Size / 2, x, g->y - Cell_Size / 2, g->x + Cell_Size / 2, x, g->y + Cell_Size / 2);
 			pManager->getSceneManager()->addCubeSceneNode(5,NULL,10,vector3df(g->x, x, g->y));
 		}*/
+
 		enemyManager->Update((*waveManager).spawnPoints[0]->path->GetSurroundingCells((*pPLayer).getCamera()->getAbsolutePosition()), pPLayer.get());
 		if (enemyManager->p_Timer->alarm()){
 			waveManager->Update();
@@ -180,7 +187,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 	playerReticle->Draw(pManager->getDriver());
 	pPlayerHealth->Draw(pManager->getDriver(), pPLayer->health);
 	pCore->Draw(pManager->getDriver(), playerCore->health);
-
+	
 	pauseManager->Draw();
 	if (playerCore->health <= 0 || pPLayer->health <= 0) {
 		pGameOver->Draw(pManager->getDriver());
@@ -278,11 +285,16 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 	}
 	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
+
 		if (readyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(),gunNode);
-			enemyManager->CheckCollision(node);
+			enemyManager->CheckCollision(node, isHit);
+
+
+		
 			readyToShoot = false;
+
 			p_Timer->set(500);
 		}
 	}

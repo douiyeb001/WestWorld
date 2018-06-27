@@ -112,18 +112,18 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	//! creates a new node that will alway face the player
 	//! The material of the node will be
 	ISceneNode* node = 0;
-	ISceneNode* flareNode = 0;
+	ISceneNode* flashNode = 0;
 	node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10), start);
 	node->setMaterialFlag(EMF_LIGHTING, false);
 	node->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/redparticle.bmp"));
 	node->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	//For Gun flare	
-	flareNode = smgr->addBillboardSceneNode(gun,dimension2d<f32>(10, 10), vector3df( gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z+100));
-	flareNode->setMaterialFlag(EMF_LIGHTING, false);
-	flareNode->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/muzzleFlash.png"));
-	flareNode->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-	flareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+	flashNode = smgr->addBillboardSceneNode(gun,dimension2d<f32>(10, 10), vector3df( gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z+100));
+	flashNode->setMaterialFlag(EMF_LIGHTING, false);
+	flashNode->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("textures/fx/sprites/muzzleFlash.png"));
+	flashNode->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	flashNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	
 	//! Length of flight
 	const auto length = (f32)(end - start).getLength();
@@ -136,18 +136,18 @@ ISceneNode* Player::RayCreate(ITriangleSelector* pSelector, IMetaTriangleSelecto
 	//! at the end of its lifecycle
 	//animator for bullet
 	ISceneNodeAnimator* anim = 0;
-	ISceneNodeAnimator* flareAnim = 0;
+	ISceneNodeAnimator* flashAnim = 0;
 	anim = smgr->createFlyStraightAnimator(start, end, time);
 
-	flareAnim = smgr->createFlyStraightAnimator(vector3df(gun->getPosition().X, gun->getPosition().Y+5, gun->getPosition().Z + 5), vector3df(gun->getPosition().X, gun->getPosition().Y +5, gun->getPosition().Z + 5), 200);
+	flashAnim = smgr->createFlyStraightAnimator(vector3df(gun->getPosition().X, gun->getPosition().Y+5, gun->getPosition().Z + 5), vector3df(gun->getPosition().X, gun->getPosition().Y +5, gun->getPosition().Z + 5), 200);
 
 	node->addAnimator(anim);
-	flareNode->addAnimator(flareAnim);
+	flashNode->addAnimator(flashAnim);
 
 	anim = smgr->createDeleteAnimator(time);
 
-	flareAnim = smgr->createDeleteAnimator(200);
-	flareNode->addAnimator(flareAnim);
+	flashAnim = smgr->createDeleteAnimator(200);
+	flashNode->addAnimator(flashAnim);
 	node->addAnimator(anim);
 
 	
