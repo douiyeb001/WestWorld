@@ -1,5 +1,3 @@
-#include "Game.h"
-#include "GamePlayState.h"
 //#include "TestLevelState.h"
 #include "GameStates.h"
 

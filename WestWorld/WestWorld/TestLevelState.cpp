@@ -2,10 +2,13 @@
 #include "MenuState.h"
 #include <memory>
 
+
+
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
 bool isDead = false;
 bool hasWon = false;
+int buildTimer;
 
 TestLevelState::TestLevelState(){
 
@@ -21,18 +24,20 @@ TestLevelState* TestLevelState::Instance(){
 }
 
 void TestLevelState::Init(CGameManager* pManager) {
-	CGamePlayState::Init(pManager);
+	//CGamePlayState::Init(pManager);
 	soundEngine = pManager->GetSoundEngine();
 	soundEngine->setSoundVolume(.2f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
-	readyToShoot = true;
+	isReadyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
 	pManager->getDevice()->getCursorControl()->setVisible(false);
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
 	isBuildPhase = true;
+	//pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+	//PoManager->isInBuildMode = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
 	//healthbar = new PlayerCore(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -129,7 +134,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		return;
 	}
 
-	if (p_Timer->alarm())  readyToShoot = true;
+	if (p_Timer->alarm())  isReadyToShoot = true;
 	pManager->getDriver()->beginScene(true, true, video::SColor(0, 0, 0, 0));
 	pManager->getSceneManager()->drawAll();
 	for (int i = 0; i < turretList.size(); i++){
@@ -142,14 +147,16 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//}
 	//enemy->Update();
 	if (isBuildPhase) {
-		if (enemyManager->p_Timer->check() < 500)
-			int x = enemyManager->p_Timer->check() / 100;
+		
+ 		buildTimer = enemyManager->p_Timer->check() / 1000;
+
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
 			isBuildPhase = false;
 			PoManager->isInBuildMode = false;
 			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveManager->waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
+			PoManager->isInBuildMode = false;
 			PoManager->ResetPlacementIndicator();
 			waveManager->NewWave();
 		}
@@ -171,9 +178,11 @@ void TestLevelState::Update(CGameManager* pManager) {
 			(*waveManager).ShowActiveSpawnsNextWave();
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+			PoManager->isInBuildMode = true;
 		}
 	}
-	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
+	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager, buildTimer);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
@@ -227,22 +236,6 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		return;
 	}
 
-	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
-	{
-		
-		//trigger Placement indicator
-		if (!PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = true;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
-		}
-		else if(PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = false;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
-			PoManager->ResetPlacementIndicator();
-		}
-	}
 	if(pManager->GetKeyboard() == KEY_KEY_1)
 	{
 		PoManager->objectToPlace = 1;
@@ -276,14 +269,19 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
 	}
-	
+
+	//! When the player is not in the building phase and pressed the left mouse button
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
-		if (readyToShoot) {
+		if (isReadyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
+			//! returns the node the player will hit on shooting
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager());
+			//! passes the node into the enemyManager which holds all the enemies
 			enemyManager->CheckCollision(node);
-			readyToShoot = false;
-			p_Timer->set(500);
+			isReadyToShoot = false;
+			//! timer that is called in the update loop which resets the isReadyToShoot boolean
+			//! timer updates in miliseconds : 500 = 0.5 seconds
+			p_Timer->set(delayBetweenShots);
 		}
 	}
 }

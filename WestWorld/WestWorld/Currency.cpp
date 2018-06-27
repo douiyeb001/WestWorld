@@ -50,7 +50,7 @@ bool Currency::CheckCurrency()
 	{
 		return true;
 	}
-	else if (playerCurrency >= TURRETCOST)//turret
+	if (playerCurrency >= TURRETCOST)//turret
 	{
 		return false;
 	}
