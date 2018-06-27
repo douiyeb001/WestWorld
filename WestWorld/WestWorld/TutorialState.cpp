@@ -74,7 +74,8 @@ void TutorialState::Init(CGameManager* pManager) {
 	grid = new Grid(obstacles);
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	playerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
-	drawUI = new DrawUI(pManager->getDriver());
+	drawUI = new DrawUI(pManager->getDriver(), pManager->getGUIEnvironment());
+	tutorial = new Tutorial(pManager->getDriver(), pManager->getGUIEnvironment());
 
 
 	// enemyManager
@@ -113,8 +114,9 @@ void TutorialState::Update(CGameManager* pManager) {
 		drawUI->pBuildPhaseUI->isBuildPhase = false;
 		PoManager->ResetPlacementIndicator();
 		}
-
-	drawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
+	int i = NULL;
+	drawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager, i);
+	tutorial->Draw(pManager->getDriver(), observer->tutText);
 	playerReticle->Draw(pManager->getDriver());
 	playerHealth->Draw(pManager->getDriver(), player->health);
 

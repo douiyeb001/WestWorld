@@ -8,29 +8,30 @@
 
 Observer::Observer()
 {
+
 }
 
 void Observer::SwitchState(currentEvent e) {
 	now = e;
 	switch (currentEvent(now)) {
 	case WALK:
-		printf("");
+		tutText = "Press WASD to move around";
 		break;
 	case SHOOT:
-		printf("");
+		tutText = "Press LMB to shoot your gun";
 		break;
 	case KILLENEMY:
-		printf("");
+		tutText = "Shoot at an enemy to kill it";
 		// spawned enemy to position
 		break;
 	case SPAWNOBSTACLE:
-		printf("");
+		tutText = "Press 1 to select a barricade and press RMB to place it";
 		break;
 	case SPAWNTURRET:
-		printf("");
+		tutText = "Press 2 to select a turret and press RMB to place it";
 		break;
 	case ENDTUTORIAL:
-		printf("");
+		tutText = "You have finished the tutorial, the game will begin shortly";
 		// end tutorial text..
 		break;
 	}

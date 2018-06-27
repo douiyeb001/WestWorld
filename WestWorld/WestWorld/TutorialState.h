@@ -53,6 +53,7 @@ private:
 	Reticle* playerReticle;
 	PlayerHealth* playerHealth;
 	DrawUI * drawUI;
+	Tutorial* tutorial;
 
 	//necessary managers
 	EnemyManager* enemyManager;

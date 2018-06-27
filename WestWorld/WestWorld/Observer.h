@@ -14,8 +14,8 @@ public:
 	void SwitchState(currentEvent e);
 	currentEvent now;
 	void Update();
-
 	~Observer();
+	char const* tutText;
 };
 
 class Listener {

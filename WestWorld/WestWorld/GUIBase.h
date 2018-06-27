@@ -249,6 +249,14 @@ private:
 
 };
 
+class Tutorial {
+public:
+	Tutorial(IVideoDriver* driver, IGUIEnvironment* gui);
+	void Draw(IVideoDriver* driver, char const* text);
+private:
+	IGUIFont * font;
+};
+
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver, IGUIEnvironment* gui);

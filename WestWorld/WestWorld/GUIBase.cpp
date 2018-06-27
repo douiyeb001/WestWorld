@@ -245,6 +245,20 @@ void NextWave::Draw(IVideoDriver* driver, int buildTimer)
 
 }
 
+Tutorial::Tutorial(IVideoDriver* driver, IGUIEnvironment* gui) 
+{
+	font = gui->getFont("media/bigfont.png");
+}
+
+void Tutorial::Draw(IVideoDriver* driver, char const* text) {
+	if (font)
+	{
+		font->draw((L"%d", (stringc)text),
+		           core::rect<s32>(50, 225, 270, 85),
+		           SColor(255, 255, 255, 255));
+	}
+}
+
 DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
 	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
