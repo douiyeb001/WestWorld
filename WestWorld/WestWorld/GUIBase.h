@@ -61,7 +61,7 @@ public:
 	/// <param name="bar">   	The bar. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlayerCore(IVideoDriver* driver, char const* bar);
+	PlayerCore(IVideoDriver* driver, IGUIEnvironment* gui, char const* bar);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Draws the given driver. </summary>
@@ -69,11 +69,12 @@ public:
 	/// <param name="driver">	[in,out] If non-null, the driver. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Draw(IVideoDriver* driver);
+	void Draw(IVideoDriver* driver, int coreHealth);
 
 private:
 	/// <summary>	The hp bar. </summary>
 	ITexture* hpBar;
+	IGUIFont* font;
 };
 
 class PlayerHealth {
@@ -163,21 +164,17 @@ private:
 
 class CurrencyUI {
 public:
-	CurrencyUI(IVideoDriver* driver, char const* pCurrencyUI);
-	/*void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
-	const wchar_t* pText;
-	const wchar_t* pScore;*/
-	void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
+	CurrencyUI(IVideoDriver* driver, IGUIEnvironment* gui, char const* pCurrencyUI);
+
+	void Draw(IGUIEnvironment* gui, IVideoDriver* driver, Currency* cManager);
 
 private:
 
-	/*IGUIStaticText * pStaticText;
-	IGUIStaticText* pScoreText;
-	Currency * cManager;*/
 	ITexture* pCurrencyTexture;
-	//ITexture* pInfinityTexture;
+	IGUIFont* font;
 
 };
+
 class WaveCounterUI
 {
 	public:
@@ -231,22 +228,42 @@ private:
 	
 };
 
+class PlaceControl {
+public:
+	PlaceControl(IVideoDriver* driver, char const* _pPlace);
+	void Draw(IVideoDriver* driver);
+
+
+private:
+	ITexture * pPlaceImage;
+};
+
+class NextWave {
+public:
+	NextWave(IVideoDriver* driver, IGUIEnvironment* gui, char const* pNextWaveText);
+	void Draw(IVideoDriver* driver, int timer);
+
+private:
+	IGUIFont* font;
+	ITexture* pNextWave;
+
+};
 
 class DrawUI {
 public:
-	DrawUI(IVideoDriver* driver);
-	void Draw(IVideoDriver* driver, IGUIEnvironment* gui);
+	DrawUI(IVideoDriver* driver, IGUIEnvironment* gui);
+	void Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager, int timer);
 
 	BuildPhaseUI* pBuildPhaseUI;
 	Sign* pSign;
 
 private:
-	PlayerCore * pPlayerHealthBar;
+	PlayerCore * pCoreHealth;
 	CurrencyUI* pCurrencyUI;
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
-
-
+	PlaceControl* pPlace;
+	NextWave* pNextWave;
 
 };
 

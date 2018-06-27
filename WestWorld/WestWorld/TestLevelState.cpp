@@ -2,10 +2,13 @@
 #include "MenuState.h"
 #include <memory>
 
+
+
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
 bool isDead = false;
 bool hasWon = false;
+int buildTimer;
 
 TestLevelState::TestLevelState(){
 
@@ -33,6 +36,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
 	isBuildPhase = true;
+	//pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+	//PoManager->isInBuildMode = true;
 	pPLayer = unique_ptr<Player>(new Player(pManager->getSceneManager(),pManager->getDriver(), pManager->GetAnim(), pManager->GetMeta()));
 
 	//healthbar = new PlayerCore(pManager->getDriver(), "media/UI/HealthBarDefinitelyNotStolen.png");
@@ -50,7 +55,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 		obstacles.push_back(false);
 	cManager = new Currency();
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/rsz_1dollar.png", "media/UI/rsz_1rsz_infinity.png");
-	pDrawUI = new DrawUI(pManager->getDriver());
+	pDrawUI = new DrawUI(pManager->getDriver(), pManager->getGUIEnvironment());
 	//currencyUI = new CurrencyUI(pManager->getDriver(), "media/UI/UI_Currency.png");
 
 	pGameOver = new GameOverScreen(pManager->getDriver(), "media/UI/gameover.jpg");
@@ -84,7 +89,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
-	(*enemyTimer).set(10000);
+	(*enemyTimer).set(35000);
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	//pTurretAI = new TurretAI(enemyManager);
@@ -96,6 +101,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
+	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -111,7 +117,7 @@ void TestLevelState::Clear(CGameManager* pManager) {
 	delete waveManager;
 
 	delete p_Timer;
-	delete healthbar;
+	delete pCore;
 	delete currencyUI;
 	delete playerReticle;
 	delete playerCore;
@@ -141,6 +147,8 @@ void TestLevelState::Update(CGameManager* pManager) {
 	//}
 	//enemy->Update();
 	if (isBuildPhase) {
+		
+ 		buildTimer = enemyManager->p_Timer->check() / 1000;
 
 		PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 		if (enemyManager->p_Timer->alarm()) {
@@ -148,8 +156,9 @@ void TestLevelState::Update(CGameManager* pManager) {
 			PoManager->isInBuildMode = false;
 			pDrawUI->pSign->ChangeImage(pManager->getDriver(), waveManager->waveCount);
 			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
+			PoManager->isInBuildMode = false;
 			PoManager->ResetPlacementIndicator();
-			waveManager->NewWave(5);
+			waveManager->NewWave();
 		}
 	} else {
 		/*float z = (*pPLayer).getCamera()->getPosition().Z;
@@ -164,19 +173,22 @@ void TestLevelState::Update(CGameManager* pManager) {
 			waveManager->Update();
 		}
 		if (enemyManager->GiveArray().empty() && waveManager->enemiesInWave == 0) {
-			enemyManager->p_Timer->set(10000);
+			enemyManager->p_Timer->set(17500);
 			(*waveManager).waveCount++;
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
+			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
+			PoManager->isInBuildMode = true;
 		}
 	}
 	
-	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment());
+	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager, buildTimer);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
 	playerReticle->Draw(pManager->getDriver());
 	pPlayerHealth->Draw(pManager->getDriver(), pPLayer->health);
+	pCore->Draw(pManager->getDriver(), playerCore->health);
 
 	pauseManager->Draw();
 	if (playerCore->health <= 0 || pPLayer->health <= 0) {
@@ -193,7 +205,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 	
 	//Set the amount of waves needed	
-	if((*waveManager).waveCount == 10)
+	if((*waveManager).waveCount == 6)
 		{
 			pVictory->Draw(pManager->getDriver());
 			if (!hasWon) {
@@ -224,22 +236,6 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 		return;
 	}
 
-	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
-	{
-		
-		//trigger Placement indicator
-		if (!PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = true;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = true;
-		}
-		else if(PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = false;
-			pDrawUI->pBuildPhaseUI->isBuildPhase = false;
-			PoManager->ResetPlacementIndicator();
-		}
-	}
 	if(pManager->GetKeyboard() == KEY_KEY_1)
 	{
 		PoManager->objectToPlace = 1;
@@ -252,7 +248,7 @@ void TestLevelState::KeyboardEvent(CGameManager* pManager) {
 	if (pManager->GetKeyboard() == KEY_KEY_2)
 	{
 		PoManager->objectToPlace = 2;
-		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"));
+		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/TurretMesh.obj"));
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));

@@ -13,8 +13,10 @@ public:
 	int waveCount;
 	std::vector<EnemySpawner*> spawnPoints;
 	void Update();
-	void NewWave(int enemies);
+	void NewWave();
 	int enemiesInWave;
+	int spawned;
 	Timer* p_Timer;
+	std::map<int, vector<int>> waveSpawns;
 };
 
