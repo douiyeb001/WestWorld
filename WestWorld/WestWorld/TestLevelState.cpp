@@ -168,11 +168,11 @@ void TestLevelState::Update(CGameManager* pManager) {
 		if (enemyManager->GiveArray().empty() && waveManager->enemiesInWave == 0) {
 			enemyManager->p_Timer->set(17500);
 			(*waveManager).waveCount++;
+			(*waveManager).ShowActiveSpawnsNextWave();
 			pDrawUI->pSign->pSignImage = pManager->getDriver()->getTexture("media/UI/BuildPhaseSign.png");
 			isBuildPhase = true;
 		}
 	}
-	
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());

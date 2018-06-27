@@ -54,3 +54,7 @@ int Timer::deltaTime() {
 	previousTime = now;
 	return deltaTime;
 }
+
+int Timer::GetTime() {
+	return irrTimer->getTime();
+}

@@ -19,6 +19,7 @@ public:
 	int check();
 	void reset();
 	int deltaTime();
+	int GetTime();
 private:
 	int beginTime;
 	int interval;

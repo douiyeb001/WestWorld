@@ -18,5 +18,6 @@ public:
 	int spawned;
 	Timer* p_Timer;
 	std::map<int, vector<int>> waveSpawns;
+	void ShowActiveSpawnsNextWave();
 };
 
