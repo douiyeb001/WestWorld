@@ -4,7 +4,6 @@
 
 #include "GameStates.h"
 #include "Sprite.h"
-#include <gtest/gtest.h>
 
 using namespace irr;
 using namespace video;
