@@ -3,15 +3,16 @@
 #include "TurretAI.h"
 
 //#include "MouseInput.h"
+ISoundEngine* iSoundEngine;
 
 
-
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
+	iSoundEngine = iSoundEngine;
 }
 
 bool hasSpawnedTurret;
@@ -67,7 +68,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				turretNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(position));
-				TurretAI* turret = new TurretAI(IEnemyManager, turretNode->getPosition(), smgr);
+				TurretAI* turret = new TurretAI(IEnemyManager, turretNode->getPosition(), smgr, iSoundEngine);
 				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
 				turretlist.push_back(turret);
 				turretNode->setTriangleSelector(selector);

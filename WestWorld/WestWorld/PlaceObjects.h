@@ -79,7 +79,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
+	PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
