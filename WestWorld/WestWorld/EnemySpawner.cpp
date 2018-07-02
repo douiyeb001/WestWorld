@@ -12,12 +12,14 @@
 #include "IFileSystem.h"
 #include "EnemySpawner.h"
 #include "Timer.h"
+
+
 namespace irr
 {
 	namespace scene
 	{
 		//! constructor
-		EnemySpawner::EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
+		EnemySpawner::EnemySpawner(irrklang::ISoundEngine* SoundEngine, IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 			const core::vector3df& position,
 			const core::vector3df& rotation,
 			const core::vector3df& scale,
@@ -31,7 +33,7 @@ namespace irr
 #ifdef _DEBUG
 			setDebugName("EnemySpawner");
 #endif
-
+			iSoundEngine = SoundEngine;
 			setMesh(mesh);
 			meta = imeta;
 		}
@@ -415,7 +417,7 @@ namespace irr
 			if (!newManager)
 				newManager = SceneManager;
 
-			EnemySpawner* nb = new EnemySpawner(Mesh, newParent,
+			EnemySpawner* nb = new EnemySpawner(iSoundEngine, Mesh, newParent,
 				newManager, 17, RelativeTranslation, RelativeRotation, RelativeScale, goalNode,grid, meta,_pEnemyManager,p_Timer);
 
 			nb->cloneMembers(this, newManager);
@@ -429,7 +431,7 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(smgr->getMesh("meshes/EnemyMesh.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), goalNode,_pEnemyManager);
+			Opponent* spawnPoint = new Opponent(iSoundEngine,smgr->getMesh("meshes/EnemyMesh.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), goalNode,_pEnemyManager);
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 		//	spawnPoint->setPosition(position);

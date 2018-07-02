@@ -8,7 +8,7 @@
 class WaveManager
 {
 public:
-	WaveManager(CGameManager* pManager, PlayerBase* playerCore, Grid* grid, EnemyManager* enemyManager, Timer* enemyTimer);
+	WaveManager(irrklang::ISoundEngine* SoundEngine, CGameManager* pManager, PlayerBase* playerCore, Grid* grid, EnemyManager* enemyManager, Timer* enemyTimer);
 	~WaveManager();
 	int waveCount;
 	std::vector<EnemySpawner*> spawnPoints;

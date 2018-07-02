@@ -4,6 +4,7 @@
 #include "AStar.h"
 #include "IMeshSceneNode.h"
 #include "IMesh.h"
+#include <irrKlang-64bit-1.6.0/include/ik_ISoundEngine.h>
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +18,8 @@ using namespace irr;
 
 class Opponent : public scene::IMeshSceneNode {
 public:
-	Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager);
+	irrklang::ISoundEngine* iSoundEngine;
+	Opponent(irrklang::ISoundEngine* SoundEngine, scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager);
 	~Opponent();
 
 	/// <summary>	The speed at which the enemy moves. </summary>
