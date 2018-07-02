@@ -151,7 +151,7 @@ private:
 	bool isPlacementValid(vector3df intersection, ICameraSceneNode* player);
 	///
 	
-
+	ISoundEngine* SoundEngine;
 	scene::IMesh* placementIndicatorMesh;
 };
 

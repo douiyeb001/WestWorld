@@ -8,7 +8,6 @@
 line3df ray;
 ICameraSceneNode* cam;
 Timer* timer;
-irrklang::ISoundEngine* iSoundEngine;
 
 TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr, irrklang::ISoundEngine* SoundEngine)
 {
@@ -56,7 +55,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		timer = new Timer(pDevice);
 
 	if(target == NULL || target != opponent) {
-		timer->set(500);
+		timer->set(1200);
 		target = opponent;
 		targeted = true;
 		return;
