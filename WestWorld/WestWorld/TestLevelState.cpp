@@ -282,8 +282,6 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
-		soundEngine->play2D("media/Sound/cashSpend.wav", false);
-
 	}
 	
 	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN && !isBuildPhase) {
