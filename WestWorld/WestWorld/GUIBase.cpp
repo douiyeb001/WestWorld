@@ -64,9 +64,18 @@ void Reticle::Draw(IVideoDriver* driver)
 	                    core::rect<int>(0, 0, reticleSprite->getSize().Width, reticleSprite->getSize().Height), nullptr,
 	                    SColor(255, 255, 255, 255), true); //Draw shooting reticle
 }
+HitMarker::HitMarker(IVideoDriver* driver, char const* hitMarker) {
+	hitMarkerSprite = driver->getTexture(hitMarker);
+}
+void HitMarker::Draw(IVideoDriver*driver) {
 
-GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo)
-{
+	driver->draw2DImage(hitMarkerSprite, core::position2d<int>((driver->getScreenSize().Width - hitMarkerSprite->getSize().Width) / 2,
+		(driver->getScreenSize().Height - hitMarkerSprite->getSize().Height) / 2), core::rect<int>(0, 0, hitMarkerSprite->getSize().Width, hitMarkerSprite->getSize().Height), 0, 
+		video::SColor(255, 255, 255, 255), true); //Draw shooting reticle
+
+}
+
+GameOverScreen::GameOverScreen(IVideoDriver* driver, char const* deadLogo){
 	GameOverSprite = driver->getTexture(deadLogo);
 }
 
@@ -263,10 +272,12 @@ DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
 	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
-	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
+	pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
 	pSign = new Sign(driver, "media/UI/BuildPhaseSign.png");
 	pPlace = new PlaceControl(driver, "media/UI/UI_RMB.png");
+	pHitMarker = new HitMarker(driver, "media/UI/HitMarker.png");
+
 	pNextWave = new NextWave(driver, gui, "media/UI/UI_NextWave.png");
 	
 }
@@ -282,8 +293,12 @@ void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager
 			pNextWave->Draw(driver, timer);
 		//}
 	}
+	
 	pCurrencyUI->Draw(gui, driver, cManager);
 	pReticle->Draw(driver);
-	//pWaveCounter->Draw(driver);
+	pWaveCounter->Draw(driver);
 	pSign->Draw(driver);
+
+
+
 }

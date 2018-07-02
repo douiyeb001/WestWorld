@@ -89,6 +89,7 @@ private:
 	//Timer *p_Timer;
 	bool isReadyToShoot = true;
 	bool isBuildPhase;
+	bool isHit;
 
 	/// <summary>	The camera node. </summary>
 	//ICameraSceneNode* cameraNode;
@@ -102,6 +103,7 @@ private:
 	PlaceObjects* PoManager;
 	VictoryScreen* pVictory;
 	ISoundEngine* soundEngine;
+	HitMarker* pHitMarker;
 	
 	/// <summary>	The player. </summary>
 	std::unique_ptr<Player> pPLayer;
