@@ -12,6 +12,7 @@ PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveMana
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
+	isInBuildMode = true;
 }
 
 bool hasSpawnedTurret;
@@ -58,17 +59,24 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	if (objectToPlace == 2) {
 		if (cManager->CheckCurrency())
 		{
-			scene::IMesh* turretMesh = smgr->getMesh("meshes/TurretMesh.obj");
-			scene::IMeshSceneNode* turretNode = 0;
-			turretNode = smgr->addMeshSceneNode(turretMesh, 0, IDFlag::spawnedTurret);
+			scene::IMesh* turretTopMesh = smgr->getMesh("meshes/TurretTopMesh.obj");
+			scene::IMeshSceneNode* turretNode = 0;			
+			scene::IMesh* turretBottomMesh = smgr->getMesh("meshes/TurretBottomMesh.obj");
+			scene::IMeshSceneNode* turretBottomNode = 0;
+			turretNode = smgr->addMeshSceneNode(turretTopMesh, 0, IDFlag::spawnedTurret);
+			turretBottomNode = smgr->addMeshSceneNode(turretBottomMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 				turretNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(position));
-				TurretAI* turret = new TurretAI(IEnemyManager, turretNode->getPosition(), smgr);
-				selector = smgr->createTriangleSelector(turretNode->getMesh(), turretNode);
+				turretBottomNode->setName("Turret");
+				turretBottomNode->setMaterialFlag(video::EMF_LIGHTING, false);
+				turretBottomNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
+				turretBottomNode->setPosition((*waveManager).spawnPoints[0]->path->GetCentre(position));
+				TurretAI* turret = new TurretAI(IEnemyManager, turretNode, smgr);
+				selector = smgr->createTriangleSelector(turretBottomNode->getMesh(), turretBottomNode);
 				turretlist.push_back(turret);
 				turretNode->setTriangleSelector(selector);
 				meta->addTriangleSelector(selector);
@@ -185,9 +193,6 @@ bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* pl
 	}
 	for (int i = 0; i < (*waveManager).spawnPoints.size(); i++)
 		if (!(*waveManager).spawnPoints[i]->path->RecalculatePath(intersection)) {
-			for (int j = i; i >= 0; i--) {
-				(*waveManager).spawnPoints[i]->path->SetObstacle(false, intersection);//(*grid).cellDictionary[(*grid).CoordinatesToID(spawnedPosition.X, spawnedPosition.Z)].obstacle = false;
-			}
 			return false;
 		}
 	return true;

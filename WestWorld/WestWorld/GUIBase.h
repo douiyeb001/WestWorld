@@ -165,19 +165,13 @@ private:
 class CurrencyUI {
 public:
 	CurrencyUI(IVideoDriver* driver, IGUIEnvironment* gui, char const* pCurrencyUI);
-	/*void Draw(IGUIEnvironment* gui, IVideoDriver* driver);
-	const wchar_t* pText;
-	const wchar_t* pScore;*/
+
 	void Draw(IGUIEnvironment* gui, IVideoDriver* driver, Currency* cManager);
 
 private:
 
-	/*IGUIStaticText * pStaticText;
-	IGUIStaticText* pScoreText;
-	Currency * cManager;*/
 	ITexture* pCurrencyTexture;
 	IGUIFont* font;
-	//ITexture* pInfinityTexture;
 
 };
 
@@ -244,11 +238,29 @@ private:
 	ITexture * pPlaceImage;
 };
 
+class NextWave {
+public:
+	NextWave(IVideoDriver* driver, IGUIEnvironment* gui, char const* pNextWaveText);
+	void Draw(IVideoDriver* driver, int timer);
+
+private:
+	IGUIFont* font;
+	ITexture* pNextWave;
+
+};
+
+class Tutorial {
+public:
+	Tutorial(IVideoDriver* driver, IGUIEnvironment* gui);
+	void Draw(IVideoDriver* driver, char const* text);
+private:
+	IGUIFont * font;
+};
 
 class DrawUI {
 public:
 	DrawUI(IVideoDriver* driver, IGUIEnvironment* gui);
-	void Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager);
+	void Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager, int timer);
 
 	BuildPhaseUI* pBuildPhaseUI;
 	Sign* pSign;
@@ -259,8 +271,7 @@ private:
 	Reticle* pReticle;
 	WaveCounter* pWaveCounter;
 	PlaceControl* pPlace;
-
-
+	NextWave* pNextWave;
 
 };
 

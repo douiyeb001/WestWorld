@@ -1,6 +1,8 @@
 #include "MenuState.h"
 #include  "TestLevelState.h"
+#include "TutorialState.h"
 #include <irrKlang-64bit-1.6.0/include/irrKlang.h>
+
 
 irrklang::ISoundEngine* engine;
 MenuState MenuState::m_MenuState;
@@ -9,12 +11,14 @@ MenuState::MenuState(){}
 
 MenuState::~MenuState(){}
 
+
 MenuState* MenuState::Instance() {
 	return (&m_MenuState);
 }
 
 void MenuState::Init(CGameManager* pManager) {
 	engine = pManager->GetSoundEngine();
+	currentMenuId = 0;
 	CGameState::Init(pManager);
 	//Menu screen image setup
 	float height = pManager->getDriver()->getScreenSize().Height;
@@ -42,7 +46,7 @@ void MenuState::Init(CGameManager* pManager) {
 		vector3df(0, 5, 0), 25.0f, 0.0002f);
 	m_pCamera->addAnimator(anim);*/
 	
-	CGameState::FadeInOut(pManager);
+	FadeInOut(pManager);
 	engine->setSoundVolume(0.2);
 	engine->play2D("media/Sound/Music/WesternInside.wav",true);
 }
@@ -89,7 +93,7 @@ void MenuState::KeyboardEvent(CGameManager* pManager) {
 	
 	if (pManager->GetKeyboard() == KEY_RETURN) switch (menuStateID(currentMenuId)) {
 	case START:
-			ChangeState(pManager, TestLevelState::Instance());
+			ChangeState(pManager, TutorialState::Instance());
 		
 		break;
 	case CONTROLS:

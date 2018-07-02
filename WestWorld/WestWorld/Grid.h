@@ -20,7 +20,7 @@ public:
 	/// <returns>	Returns the id of the cell on the chosen position. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	int CoordinatesToID(int x, int z);
+const	int CoordinatesToID(int x, int z);
 
 	std::vector<bool> obstacle;
 };

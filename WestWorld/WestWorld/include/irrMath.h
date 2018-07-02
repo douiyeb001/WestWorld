@@ -354,7 +354,7 @@ namespace core
 #endif
 
 	//! Absolute integer representation of a floating-point value
-	#define AIR(x)				(IR(x)&0x7fffffff)
+	#define AIR(x)				(IR(buildTimer)&0x7fffffff)
 
 	//! Floating-point representation of an integer value.
 #ifdef IRRLICHT_FAST_MATH

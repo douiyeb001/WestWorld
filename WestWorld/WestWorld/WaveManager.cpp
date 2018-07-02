@@ -36,6 +36,7 @@ WaveManager::WaveManager(CGameManager* pManager,PlayerBase* playerCore, Grid* gr
 		//= { (i % 1 == 1 ? 5 : 0),(i % 1 == 0 ? 5 : 0), (i > 2 && i % 1 == 0 ? 5 : 0) };
 		waveSpawns.insert(std::pair<int, vector<int>>(i, enemies));
 	}
+	ShowActiveSpawnsNextWave();
 }
 
 
@@ -66,4 +67,9 @@ void WaveManager::NewWave() {
 	enemiesInWave = std::accumulate(waveSpawns[waveCount].begin(), waveSpawns[waveCount].end(), 0);
 	spawned = 0;
 	p_Timer->set(1000);
+}
+
+void WaveManager::ShowActiveSpawnsNextWave() {
+	for (int i = 0; i < spawnPoints.size(); i++)
+		spawnPoints[i]->activeThisWave = (waveSpawns[waveCount][i] > 0);
 }

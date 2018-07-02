@@ -51,7 +51,7 @@ void CGameManager::Update(){
 //! the rendering engine
 void CGameManager::CreateDevice(){
 	//Device parameters -> renderer|screen size|colour depth|full window|shadows|vsync|input device
-	device = createDevice(EDT_DIRECT3D9, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
+	device = createDevice(EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, this);
 	driver = device->getVideoDriver();
 	sceneManager = device->getSceneManager();
 	guiEnvironment = device->getGUIEnvironment();

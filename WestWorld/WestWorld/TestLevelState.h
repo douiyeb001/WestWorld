@@ -18,7 +18,7 @@
 #include "WaveManager.h"
 #include <memory>
 
-class TestLevelState : public CGamePlayState {
+class TestLevelState : public CGameState {
 
 public:
 
@@ -87,7 +87,7 @@ protected:
 private:
 
 	//Timer *p_Timer;
-	bool readyToShoot = true;
+	bool isReadyToShoot = true;
 	bool isBuildPhase;
 
 	/// <summary>	The camera node. </summary>
@@ -124,5 +124,8 @@ private:
 	//std::vector<bool> obstacles;
 	Grid* grid;
 	vector<TurretAI*> turretList;
+
+	/// <summary> shooting delay in miliseconds </summary>
+	int delayBetweenShots = 500;
 };
 #endif

@@ -100,6 +100,7 @@ namespace irr
 			ISceneManager* smgr;
 			IMetaTriangleSelector* meta;
 			Grid* grid;
+			bool activeThisWave;
 		protected:
 
 			void copyMaterials();

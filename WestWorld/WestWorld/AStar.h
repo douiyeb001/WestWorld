@@ -85,7 +85,8 @@ public:
 	/// <summary>	The targeted cell. </summary>
 	GridCell* pTargetCell;
 	Grid* grid;
-
+	int cellsPassed;
+	int maxCells = 700;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Get the centre of a cell. </summary>
 	///

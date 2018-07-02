@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Gebruiker\source\repos\Sample-Test1\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include;..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
     <LibraryPath>lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -108,11 +108,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D:\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,6 +167,7 @@
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="IDamagable.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SearchGrid.h" />
@@ -180,6 +182,7 @@
     <ClInclude Include="TestLevelState.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TurretAI.h" />
+    <ClInclude Include="TutorialState.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WaveManager.h" />
   </ItemGroup>
@@ -196,6 +199,7 @@
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="GUIBase.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PauseManager.cpp" />
     <ClCompile Include="PlaceObjects.cpp" />
     <ClCompile Include="HealthBar.cpp" />
@@ -214,6 +218,7 @@
     <ClCompile Include="TestLevelState.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TurretAI.cpp" />
+    <ClCompile Include="TutorialState.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WestWorld.cpp" />
   </ItemGroup>

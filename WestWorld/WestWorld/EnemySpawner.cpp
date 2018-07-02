@@ -12,6 +12,7 @@
 #include "IFileSystem.h"
 #include "EnemySpawner.h"
 #include "Timer.h"
+
 namespace irr
 {
 	namespace scene
@@ -34,6 +35,7 @@ namespace irr
 
 			setMesh(mesh);
 			meta = imeta;
+			activeThisWave = false;
 		}
 
 
@@ -220,6 +222,20 @@ namespace irr
 					{
 						driver->drawMeshBuffer(Mesh->getMeshBuffer(g));
 					}
+				}
+			}
+			if (activeThisWave) { // Use buildphase bool here
+				SMaterial m;
+				m.Lighting = false;
+				m.Thickness = 10;
+				driver->setMaterial(m);
+				driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
+				//driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
+				for (int i = 0; i < path->currentPath.size() - 1; i++) {
+					int c = i * 5 + p_Timer->GetTime() / 10;//tan(p_Timer->GetTime() + i);
+					//driver->draw3DBox(aabbox3df(0.5 + path->currentPath[i]->x - getPosition().X,0.25, 0.5 + path->currentPath[i]->y - getPosition().Z, -0.5 + path->currentPath[i + 1]->x - getPosition().X,0.75, -0.5 + path->currentPath[i + 1]->y - getPosition().Z), SColor(255, 255, c, c));
+					//driver->draw2DRectangle(SColor(255, 255, c, c), core::rect<s32>(0.5+path->currentPath[i]->x - getPosition().X, 0.5 + path->currentPath[i]->y - getPosition().Z,-0.5 + path->currentPath[i + 1]->x - getPosition().X, -0.5 + path->currentPath[i + 1]->y - getPosition().Z));
+					driver->draw3DLine(vector3df(path->currentPath[i]->x - getPosition().X, 0.5, path->currentPath[i]->y - getPosition().Z), vector3df(path->currentPath[i + 1]->x - getPosition().X, 0.5, path->currentPath[i + 1]->y - getPosition().Z), SColor(255, 255, c, c));
 				}
 			}
 		}
