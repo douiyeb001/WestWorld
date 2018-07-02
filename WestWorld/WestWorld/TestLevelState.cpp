@@ -23,7 +23,7 @@ TestLevelState* TestLevelState::Instance(){
 void TestLevelState::Init(CGameManager* pManager) {
 	CGamePlayState::Init(pManager);
 	soundEngine = pManager->GetSoundEngine();
-	soundEngine->setSoundVolume(.2f);
+	soundEngine->setSoundVolume(1.0f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
 	readyToShoot = true;

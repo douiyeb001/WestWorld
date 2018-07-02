@@ -66,7 +66,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 
 	if (timer->alarm()) {
 		start =  pDevice->getTimer()->getTime();
-		iSoundEngine->play2D("media/Sound/Turret-Fire.wav", false);
+		iSoundEngine->play2D("media/Sound/CannonWav.wav", false);
 		targeted = false;
 		ISceneNode* node = 0;
 		node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10));
