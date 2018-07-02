@@ -9,10 +9,11 @@ line3df ray;
 ICameraSceneNode* cam;
 Timer* timer;
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr)
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneManager* smgr)
 {
 	pEnemyManager = _pEnemyManager;
-	turret = newTurretPos;
+	turret = newTurret->getPosition();
+	turretNode = newTurret;
 	cam = smgr->addCameraSceneNode(0, vector3df(0, 0, 0),vector3df(0,0,0),0,false);
 	vector3df turretRayPos = vector3df(turret.X, turret.Y + 40, turret.Z);
 	cam->setPosition(turretRayPos);
@@ -41,6 +42,8 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITr
 
 
 				if (enemySpotted) {
+					vector3df dir =  vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z)- turretNode->getPosition() ;
+					turretNode->setRotation(dir.getHorizontalAngle());
 				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
 					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition(), selector);

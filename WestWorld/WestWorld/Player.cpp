@@ -45,7 +45,7 @@ void Player::CreatePlayer(ISceneManager* smgr, IMetaTriangleSelector* meta) {
 	//! 
 	cameraNode = smgr->addCameraSceneNodeFPS(0, 80.0f, 0.2f, -1, pKeyMap, 8, true, .4);
 	cameraNode->setPosition(vector3df(20,20,450));
-	anim = smgr->createCollisionResponseAnimator(meta, cameraNode, vector3df(15, 15, 15), vector3df(0, -1, 0));
+	anim = smgr->createCollisionResponseAnimator(meta, cameraNode, vector3df(15,15,15), vector3df(0, -1, 0));
 	//meta->drop();
 	cameraNode->addAnimator(anim);
 	

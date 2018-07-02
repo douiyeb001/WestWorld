@@ -148,7 +148,9 @@ void TutorialState::Clear(CGameManager* pManager) {
 	delete gunNode;
 	pManager->GetMeta()->removeTriangleSelector(player->getCamera()->getTriangleSelector());
 	delete player;
-
+	waveManager->spawnPoints[0]->activeThisWave = false;
+	PoManager->isInBuildMode = false;
+	PoManager->ResetPlacementIndicator();
 	//pManager->getSceneManager()->clear();
 }
 
