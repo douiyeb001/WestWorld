@@ -49,18 +49,17 @@ void EnemyManager::UpdatePath(std::vector<GridCell*> newPath, GridCell* changedC
 	}
 }
 
+
 bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//imeta->addTriangleSelector(iselector);
 
 	for (int i = 0; i < opponentList.size(); i++) {
+		
 		if (hitObject == opponentList[i])
-			{
-
+		{
 				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 				opponentList[i]->target = NULL;
-				opponentList[i]->isExploding = true;
-				//opponentList[i]->remove();
-				//opponentList.erase(opponentList.begin() + i);
+				opponentList[i]->Damaged(1);
 				cManager->EnemyCurrency();
 				//isHit = false;
 				return true;
@@ -79,6 +78,7 @@ bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//	};
 	//}
 }
+
 void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 	for (int i = 0; i < opponentList.size(); i++) {
 		if (opponentList[i] == turretOpponent)

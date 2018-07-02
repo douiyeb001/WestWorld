@@ -15,7 +15,7 @@
 class EnemyManager;
 using namespace irr;
 
-class Opponent : public scene::IMeshSceneNode {
+class Opponent : public scene::IMeshSceneNode, public IDamagable {
 public:
 	Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager);
 	~Opponent();
@@ -27,8 +27,12 @@ public:
 	EnemyManager* enemyManager;
 	core::vector3df targetPos;
 
+	irr::core::vector3df GetPosition();
+
 	/// <summary>	Despawns the enemy from the scene. </summary>
 	void Despawn();
+
+	void Damaged(int damage);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Despawns the enemy from the scene. </summary>

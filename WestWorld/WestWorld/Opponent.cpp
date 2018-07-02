@@ -18,6 +18,7 @@ Opponent::Opponent(scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager*
 	setMesh(mesh);
 	setMaterialFlag(video::EMF_LIGHTING, false);
 	setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/Enemy_Diff.PNG"));
+	health = 2;
 }
 
 Opponent::~Opponent() {
@@ -26,14 +27,10 @@ Opponent::~Opponent() {
 //	delete Shadow;
 }
 
-/*bool Opponent::CollidesWith(scene::ISceneNode* ground)
+irr::core::vector3df Opponent::GetPosition()
 {
-	//temp
-	ground->updateAbsolutePosition();
-	updateAbsolutePosition();
-	return ground->getTransformedBoundingBox().intersectsWithBox(getTransformedBoundingBox());
+	return GetPosition();
 }
-*/
 
 void Opponent::Despawn() {
 	setVisible(false);
@@ -53,12 +50,7 @@ void Opponent::Update(int deltaTime) {
 			setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 			setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 			
-			//scene::ISceneNodeAnimator* anim = 0;
-
-			//addAnimator(anim);
-			//	anim->drop();
-			//anim = getSceneManager()->createDeleteAnimator(300);
-			//addAnimator(anim);
+			
 		}
 			else if (scale > 3) {
 
@@ -114,6 +106,16 @@ void Opponent::Update(int deltaTime) {
 		setPosition(pos + (speed * distance * deltaTime));
 		setRotation(distance.getHorizontalAngle());
 }
+
+void Opponent::Damaged(int damage)
+{
+	health -= damage;
+	if (health <= 0)
+	{
+		isExploding = true;
+	}
+}
+
 
 void Opponent::ChangePath(std::vector<GridCell*> newPath, GridCell* changedCell) {
 	bool passedChangedCell = false;
