@@ -6,7 +6,7 @@
 
 
 
-PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
@@ -206,3 +206,116 @@ vector<ISceneNode*> PlaceObjects::GiveTurretArray()
 {
 	return turretList;
 }
+
+void PlaceObjects::SpawnFireFX(core::vector3df position)
+{
+	scene::IParticleSystemSceneNode* ps =
+		smgr->addParticleSystemSceneNode(false);
+
+	scene::IParticleEmitter* em = ps->createBoxEmitter(
+		core::aabbox3d<f32>(-7, 0, -7, 7, 1, 7), // emitter size
+		core::vector3df(0.0f, 0.06f, 0.0f),   // initial direction
+		80, 100,                             // emit rate
+		video::SColor(0, 255, 255, 255),       // darkest color
+		video::SColor(0, 255, 255, 255),       // brightest color
+		800, 2000, 0,                         // min and max age, angle
+		core::dimension2df(1.f, 1.f),         // min size
+		core::dimension2df(50.f, 50.f));        // max size
+
+	ps->setEmitter(em); // this grabs the emitter
+	em->drop(); // so we can drop it here without deleting it
+
+	scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+
+	ps->addAffector(paf); // same goes for the affector
+	paf->drop();
+
+	ps->setPosition(position);
+	ps->setScale(core::vector3df(2, 2, 2));
+	ps->setMaterialFlag(video::EMF_LIGHTING, false);
+	ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	ps->setMaterialTexture(0, driver->getTexture("media/fire.bmp"));
+	ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+}
+
+void PlaceObjects::SpawnPortalFX(core::vector3df position)
+{
+	scene::IParticleSystemSceneNode* ps =
+		smgr->addParticleSystemSceneNode(false);
+
+	scene::IParticleEmitter* portalEmitter = ps->createRingEmitter(
+		core::vector3df(0.0f, 0.1f, 0.0f),   // ring centre
+		10,			//radius
+		1,          //ring thickness
+		core::vector3df(0.0f, 0.0f, 0.0f),	//direction
+		100, 100,			//min max particles per sec
+		video::SColor(0, 255, 255, 255),       // darkest color
+		video::SColor(0, 1, 1, 1),       // brightest color
+		800, 2000, 0,                         // min and max age, angle
+		core::dimension2df(1.f, 1.f),         // min size
+		core::dimension2df(50.f, 50.f));        // max size
+
+	ps->setEmitter(portalEmitter); // this grabs the emitter
+	portalEmitter->drop(); // so we can drop it here without deleting it
+
+	scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+
+	ps->addAffector(paf); // same goes for the affector
+	paf->drop();
+
+	ps->setPosition(position);
+	ps->setRotation(core::vector3df(90,0,0));
+	ps->setScale(core::vector3df(2, 2, 2));
+	ps->setMaterialFlag(video::EMF_LIGHTING, false);
+	ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	ps->setMaterialTexture(0, driver->getTexture("media/Particle_PortalTransp.png"));
+	ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+}
+
+void PlaceObjects::SpawnExplosion(core::vector3df position, int directionsAmount)
+{
+	for (int particleIterator = 1; particleIterator < directionsAmount+1; particleIterator++) {
+		int flipper = -1;
+		flipper*-1;
+		scene::IParticleSystemSceneNode* ps =
+			smgr->addParticleSystemSceneNode(false);
+
+		scene::IParticleEmitter* em = ps->createBoxEmitter(
+			core::aabbox3d<f32>(-7, 0, -7, 7, 1, 7),
+			core::vector3df(0, 0, 0),   // initial direction
+			2, 10,                             // emit rate
+			video::SColor(0, 255, 255, 255),       // darkest color
+			video::SColor(0, 255, 255, 255),       // brightest color
+			120, 200, 0,                         // min and max age, angle
+			core::dimension2df(1.f, 1.f),         // min size
+			core::dimension2df(50.f, 50.f));        // max size
+
+		ps->setEmitter(em); // this grabs the emitter
+		em->drop(); // so we can drop it here without deleting it
+
+		IParticleAffector* paf = ps->createFadeOutParticleAffector(SColor(255,255,255,255));
+	//	IParticleAffector* gravAf = ps->createGravityAffector(vector3df(0,0.05,0));
+//		IParticleAffector* scaleAf = ps->createScaleParticleAffector(dimension2df(0,0));
+		IParticleAffector* rotAf = ps->createRotationAffector(vector3df(particleIterator*10*flipper, particleIterator*10 * flipper, particleIterator*10 * flipper), position);
+		
+		ps->addAffector(paf); // same goes for the affector
+	//	ps->addAffector(gravAf);
+	//	ps->addAffector(scaleAf);
+		ps->addAffector(rotAf);
+		
+		paf->drop();
+	//	gravAf->drop();
+	//	scaleAf->drop();
+		rotAf->drop();
+
+		ps->setPosition(core::vector3df(position.X, position.Y+20, position.Z));
+		ps->setRotation(vector3df((rand() % 180), (rand() % 180), (rand() % 180)));
+		//ps->setScale(core::vector3df(0.1, 0.2, 0.2));
+		ps->setMaterialFlag(video::EMF_LIGHTING, false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		ps->setMaterialTexture(0, driver->getTexture("media/Particle_Explosion.png"));
+		ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+	}
+}
+
+PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
