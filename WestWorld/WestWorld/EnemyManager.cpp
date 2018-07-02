@@ -49,8 +49,9 @@ void EnemyManager::UpdatePath(std::vector<GridCell*> newPath, GridCell* changedC
 	}
 }
 
-bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
+void EnemyManager::CheckCollision(scene::ISceneNode *hitObject,bool isHit) {
 	//imeta->addTriangleSelector(iselector);
+	isHit = true;
 
 	for (int i = 0; i < opponentList.size(); i++) {
 		if (hitObject == opponentList[i])
@@ -63,12 +64,19 @@ bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 				//opponentList.erase(opponentList.begin() + i);
 				cManager->EnemyCurrency();
 				//isHit = false;
-				return true;
 			}
-		else return false;
 	}
 
-
+	//for (Opponent* item : opponentList) {
+	//	if (hitObject == item) {
+	//	
+	//		{
+	//			imeta->removeTriangleSelector(item->getTriangleSelector());
+	//			item->remove();
+	//			opponentList.remove(opponentList.);
+	//		}
+	//	};
+	//}
 }
 void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 	for (int i = 0; i < opponentList.size(); i++) {

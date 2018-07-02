@@ -215,11 +215,11 @@ DrawUI::DrawUI(IVideoDriver* driver, IGUIEnvironment* gui)
 {
 	pCurrencyUI = new CurrencyUI(driver, gui, "media/UI/UI_Currency.png");
 	pReticle = new Reticle(driver, "media/UI/rsz_reticle.png");
-	//pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
+	pWaveCounter = new WaveCounter(driver, "media/UI/waveCounter (Custom).png");
 	pBuildPhaseUI = new BuildPhaseUI(driver, "media/UI/UI_TurretSelected.png", "media/UI/UI_BarricadeSelected.png");
 	pSign = new Sign(driver, "media/UI/BuildPhaseSign.png");
 	pPlace = new PlaceControl(driver, "media/UI/UI_RMB.png");
-	//pHitMarker = new HitMarker(driver, "media/UI/HitMarker(Custom).png)";
+	pHitMarker = new HitMarker(driver, "media/UI/HitMarker.png");
 
 }
 
@@ -231,10 +231,9 @@ void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager
 		
 	}
 	
-	
 	pCurrencyUI->Draw(gui, driver, cManager);
 	pReticle->Draw(driver);
-	//pWaveCounter->Draw(driver);
+	pWaveCounter->Draw(driver);
 	pSign->Draw(driver);
 
 

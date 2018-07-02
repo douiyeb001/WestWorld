@@ -4,7 +4,6 @@
 
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
-Timer* hitTimer;
 bool isDead = false;
 bool hasWon = false;
 
@@ -32,7 +31,6 @@ void TestLevelState::Init(CGameManager* pManager) {
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
-	hitTimer = new Timer(pManager->getDevice());
 	pManager->getDevice()->getCursorControl()->setVisible(false);
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
@@ -98,7 +96,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//spawnPoint->drop();
 
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
-	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker2.png");
+	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
@@ -181,19 +179,12 @@ void TestLevelState::Update(CGameManager* pManager) {
 			isBuildPhase = true;
 		}
 	}
-	if (pHitMarker->isHit) {
-		pHitMarker->Draw(pManager->getDriver());
-		if (hitTimer->alarm()) {
-			pHitMarker->isHit = false;
-		}
-		
-	}
 	
 	pDrawUI->Draw(pManager->getDriver(), pManager->getGUIEnvironment(), cManager);
 	//currencyUI->Draw(pManager->getGUIEnvironment(), pManager->getDriver());
 	PoManager->Update(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim());
 
-	//playerReticle->Draw(pManager->getDriver());
+	playerReticle->Draw(pManager->getDriver());
 	pPlayerHealth->Draw(pManager->getDriver(), pPLayer->health);
 	pCore->Draw(pManager->getDriver(), playerCore->health);
 	
@@ -206,7 +197,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		}
 
 	}
-		if(p_Timer->alarm() && isDead)
+		if(p_Timer->alarm()&& isDead)
 		{
 			pManager->getDevice()->closeDevice();
 		}
@@ -299,12 +290,9 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 
 		if (readyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
-			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(), gunNode);
-			if (enemyManager->CheckCollision(node)) {
-				pHitMarker->isHit = true;
-				hitTimer->set(300);
+			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(),gunNode);
+			enemyManager->CheckCollision(node, isHit);
 
-			}
 
 		
 			readyToShoot = false;
