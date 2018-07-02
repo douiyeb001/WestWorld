@@ -447,7 +447,7 @@ namespace irr
 		}
 
 		void EnemySpawner::SpawnOpponent() {
-			Opponent* spawnPoint = new Opponent(iSoundEngine,smgr->getMesh("meshes/EnemyMesh.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), goalNode,_pEnemyManager);
+			Opponent* spawnPoint = new Opponent(iSoundEngine,smgr->getMesh("meshes/EnemyMesh.obj"), smgr->getRootSceneNode(), smgr,-2, smgr->getSceneNodeFromName("Ground"), path->currentPath, this->getAbsolutePosition(), core::vector3df(0, 0, 0), core::vector3df(1.5f, 1.5f, 1.5f), goalNode,_pEnemyManager);
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 		//	spawnPoint->setPosition(position);
