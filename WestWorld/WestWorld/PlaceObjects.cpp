@@ -6,7 +6,7 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
@@ -317,5 +317,3 @@ void PlaceObjects::SpawnExplosion(core::vector3df position, int directionsAmount
 		ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	}
 }
-
-PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
