@@ -2,7 +2,7 @@
 
 int sellValue;
 int enemyValue = 25;
-const int STARTCURRENCY = 25000;
+const int STARTCURRENCY = 750;
 const int TURRETCOST = 100;
 const int OBSTACLECOST = 50;
 
@@ -44,15 +44,15 @@ void Currency::BuildingCost(IMeshSceneNode* buildNode)
 	}
 }
 
-bool Currency::CheckCurrency()
+bool Currency::CheckCurrency(int building)
 {
-	if (playerCurrency >= OBSTACLECOST)//obstacle
+	if (building == 1 && playerCurrency >= OBSTACLECOST)//obstacle
 	{
 		return true;
 	}
-	if (playerCurrency >= TURRETCOST)//turret
+	else if (building == 2 && playerCurrency >= TURRETCOST)//turret
 	{
-		return false;
+		return true;
 	}
 	else
 	{

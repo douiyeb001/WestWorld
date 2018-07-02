@@ -68,7 +68,7 @@ public:
 	/// <returns>	True if the player has enough currency, false if the player doesn't have enough currency. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CheckCurrency();
+	bool CheckCurrency(int building);
 
 	/// <summary>	The player's currency. </summary>
 	short int playerCurrency;

@@ -31,7 +31,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	//Tim & Daniel spawning objects
 	//spawn a barricade
 	if (objectToPlace == 1) {
-		if (cManager->CheckCurrency())
+		if (cManager->CheckCurrency(objectToPlace))
 		{
 			scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 			scene::IMeshSceneNode* barrelNode = 0;
@@ -59,7 +59,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 
 	//spawn a turret
 	if (objectToPlace == 2) {
-		if (cManager->CheckCurrency())
+		if (cManager->CheckCurrency(objectToPlace))
 		{
 			scene::IMesh* turretTopMesh = smgr->getMesh("meshes/TurretTopMesh.obj");
 			scene::IMeshSceneNode* turretNode = 0;			
