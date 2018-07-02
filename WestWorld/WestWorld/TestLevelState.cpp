@@ -4,6 +4,7 @@
 
 TestLevelState TestLevelState::m_TestLevelState;
 Timer* p_Timer;
+Timer* hitTimer;
 bool isDead = false;
 bool hasWon = false;
 
@@ -31,6 +32,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	readyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
+	hitTimer = new Timer(pManager->getDevice());
 	pManager->getDevice()->getCursorControl()->setVisible(false);
 	pManager->getSceneManager()->loadScene("scene/TestScene.irr");
 	pManager->SetCollision();
@@ -96,7 +98,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//spawnPoint->drop();
 
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
-	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker.png");
+	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker2.png");
 	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
@@ -201,7 +203,12 @@ void TestLevelState::Update(CGameManager* pManager) {
 		{
 			pManager->getDevice()->closeDevice();
 		}
-	
+		if (pHitMarker->isHit) {
+			pHitMarker->Draw(pManager->getDriver());
+			if (hitTimer->alarm()){
+				pHitMarker->isHit = false;
+			}
+	}
 	//Set the amount of waves needed	
 	if((*waveManager).waveCount == 6)
 		{
@@ -289,7 +296,10 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		if (readyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(),gunNode);
-			enemyManager->CheckCollision(node, isHit);
+			if (enemyManager->CheckCollision(node)) {
+				pHitMarker->isHit = true;
+				hitTimer->set(300);
+			}
 
 
 		
