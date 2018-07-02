@@ -9,7 +9,7 @@ line3df ray;
 ICameraSceneNode* cam;
 Timer* timer;
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr, irrklang::ISoundEngine* SoundEngine)
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneManager* smgr, irrklang::ISoundEngine* SoundEngine)
 {
 	pEnemyManager = _pEnemyManager;
 	turret = newTurret->getPosition();

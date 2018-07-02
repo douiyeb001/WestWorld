@@ -82,11 +82,11 @@ void TutorialState::Init(CGameManager* pManager) {
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(), pManager->getDevice());
 	cManager = new Currency();
 	enemyManager = new EnemyManager(pManager->getSceneManager(), pManager->GetSelector(), pManager->GetMeta(), pManager->getDriver(), cManager, timer);
-	waveManager = new WaveManager(pManager, playerCore, grid, enemyManager, timer);
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
+	waveManager = new WaveManager(soundEngine, pManager, playerCore, grid, enemyManager, timer);
+	PoManager = new PlaceObjects(soundEngine, pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 
-	opponent = new Opponent(pManager->getSceneManager()->getMesh("meshes/EnemyMesh.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"), vector<GridCell*>(0), vector3df(0,0,0), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), player, enemyManager);
+	opponent = new Opponent(soundEngine, pManager->getSceneManager()->getMesh("meshes/EnemyMesh.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"), vector<GridCell*>(0), vector3df(0,0,0), core::vector3df(0, 0, 0), core::vector3df(1.0f, 1.0f, 1.0f), player, enemyManager);
 	opponent->setPosition(vector3df(0, 0, 99999));
 	scene::ITriangleSelector* selector = pManager->getSceneManager()->createTriangleSelector(opponent->getMesh(), opponent);
 	opponent->setTriangleSelector(selector);
