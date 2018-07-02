@@ -8,6 +8,7 @@
 #include "Currency.h"
 #include "Timer.h"
 #include "IDamagable.h"
+#include "GUIBase.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ public:
 	/// <param name="collidedObject">	[in,out] If non-null, the collided object. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CheckCollision(scene::ISceneNode* collidedObject, bool isHit);
+	bool CheckCollision(scene::ISceneNode* collidedObject);
 	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
 	void Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlayer);
