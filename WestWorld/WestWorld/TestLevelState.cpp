@@ -26,7 +26,7 @@ TestLevelState* TestLevelState::Instance(){
 void TestLevelState::Init(CGameManager* pManager) {
 	//CGamePlayState::Init(pManager);
 	soundEngine = pManager->GetSoundEngine();
-	soundEngine->setSoundVolume(.2f);
+	soundEngine->setSoundVolume(1.0f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
 	bool isHit = false;
@@ -92,11 +92,11 @@ void TestLevelState::Init(CGameManager* pManager) {
 	playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager(),pManager->getDevice());
 	//enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager);
 	Timer* enemyTimer = new Timer(pManager->getDevice());
-	(*enemyTimer).set(350);
+	(*enemyTimer).set(5000);
 	//playerCore = new PlayerBase(pManager->getSceneManager()->getSceneNodeFromName("house"), pManager->getSceneManager());
 	enemyManager = new EnemyManager(pManager->getSceneManager(),pManager->GetSelector(),pManager->GetMeta(),pManager->getDriver(), cManager,enemyTimer);
 	//pTurretAI = new TurretAI(enemyManager);
-	waveManager = new WaveManager(pManager,playerCore,grid, enemyManager,enemyTimer);
+	waveManager = new WaveManager(soundEngine, pManager,playerCore,grid, enemyManager,enemyTimer);
 	//spawnPoint = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(),pManager->getSceneManager(),-2,vector3df(0,0,-350), vector3df(0,0,0),vector3df(1.0f,1.0f,1.0f), playerCore,grid, pManager->GetMeta() ,enemyManager, enemyTimer);
 	//spawnPoint2 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
 	//spawnPoint3 = new EnemySpawner(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer);
@@ -104,7 +104,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker2.png");
-	PoManager = new PlaceObjects(pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
+	PoManager = new PlaceObjects(pManager->GetSoundEngine(), pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
@@ -148,6 +148,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 		turretList[i]->GetList(enemyManager->GiveArray());
 		turretList[i]->TurretShooting(pManager->getSceneManager(), pManager->getDevice(), pManager->GetMeta());
 	}
+		
 	//for ( TurretAI* p : turretList) {
 	//	p->GetList(enemyManager->GiveArray());
 	//	p->TurretShooting(pManager->getSceneManager(), pManager->getDevice());

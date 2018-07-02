@@ -6,13 +6,14 @@
 
 
 
-PlaceObjects::PlaceObjects(IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
 	cManager = _cManager;
 	IEnemyManager = enemyManager;
 	isInBuildMode = true;
+	SoundEngine = iSoundEngine;
 }
 
 bool hasSpawnedTurret;
@@ -37,6 +38,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
 			if (barrelNode)
 			{
+				SoundEngine->play2D("media/Sound/CashSound.wav", false);
 				barrelNode->setName("Barricade");
 				barrelNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				barrelNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
@@ -67,6 +69,8 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			turretBottomNode = smgr->addMeshSceneNode(turretBottomMesh, 0, IDFlag::spawnedTurret);
 			if (turretNode)
 			{
+				SoundEngine->play2D("media/Sound/CashSound.wav", false);
+
 				turretNode->setName("Turret");
 				turretNode->setMaterialFlag(video::EMF_LIGHTING, false);
 				turretNode->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));

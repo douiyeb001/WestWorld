@@ -5,6 +5,7 @@
 #include <vector>
 #include "EnemyManager.h" 
 #include "Opponent.h"
+#include <irrKlang-64bit-1.6.0/include/ik_ISoundEngine.h>
 
 using namespace std;
 using namespace irr;
@@ -20,7 +21,7 @@ public:
 	EnemyManager * pEnemyManager;
 	//ITimer* timer;
 	IMetaTriangleSelector* pMeta;
-	TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneManager* smgr);
+	TurretAI(EnemyManager* _pEnemyManager, vector3df newTurret, ISceneManager* smgr, irrklang::ISoundEngine* SoundEngine);
 	void GetList(vector <Opponent*> opArray);
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITriangleSelector* selector);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* meta);
@@ -35,6 +36,7 @@ private:
 	int start = 0;
 	bool targeted = false;
 	vector3df turret;
+	irrklang::ISoundEngine* iSoundEngine;
 };
 #endif
 

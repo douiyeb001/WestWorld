@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Gebruiker\source\repos\Sample-Test1\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include;..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
+    <IncludePath>..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
     <LibraryPath>lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>

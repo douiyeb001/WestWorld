@@ -12,6 +12,7 @@
 #include "EnemyManager.h"
 #include "Timer.h"
 
+
 namespace irr
 {
 	namespace scene
@@ -20,9 +21,9 @@ namespace irr
 		class EnemySpawner : public IMeshSceneNode
 		{
 		public:
-
+			irrklang::ISoundEngine* iSoundEngine;
 			//! constructor
-			EnemySpawner(IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
+			EnemySpawner(irrklang::ISoundEngine* SoundEngine, IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,

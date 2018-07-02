@@ -9,7 +9,7 @@ line3df ray;
 ICameraSceneNode* cam;
 Timer* timer;
 
-TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneManager* smgr)
+TurretAI::TurretAI(EnemyManager* _pEnemyManager, vector3df newTurretPos, ISceneManager* smgr, irrklang::ISoundEngine* SoundEngine)
 {
 	pEnemyManager = _pEnemyManager;
 	turret = newTurret->getPosition();
@@ -17,6 +17,7 @@ TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneMa
 	cam = smgr->addCameraSceneNode(0, vector3df(0, 0, 0),vector3df(0,0,0),0,false);
 	vector3df turretRayPos = vector3df(turret.X, turret.Y + 40, turret.Z);
 	cam->setPosition(turretRayPos);
+	iSoundEngine = SoundEngine;
 }
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITriangleSelector* selector) 
@@ -57,7 +58,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		timer = new Timer(pDevice);
 
 	if(target == NULL || target != opponent) {
-		timer->set(3000);
+		timer->set(1200);
 		target = opponent;
 		targeted = true;
 		return;
@@ -68,6 +69,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 
 	if (timer->alarm()) {
 		start =  pDevice->getTimer()->getTime();
+		iSoundEngine->play2D("media/Sound/CannonWav.wav", false);
 		targeted = false;
 		ISceneNode* node = 0;
 		node = smgr->addBillboardSceneNode(0, dimension2d<f32>(10, 10));
