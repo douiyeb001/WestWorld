@@ -237,7 +237,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 		if (isReadyToShoot) {
 			soundEngine->play2D("media/Sound/gunshot.wav", false);
 			//! returns the node the player will hit on shooting
-			ISceneNode* node = player->RayCreate(pManager->GetSelector(), pManager->GetMeta(), player->getCamera(), pManager->getSceneManager());
+			ISceneNode* node = player->RayCreate(pManager->GetSelector(), pManager->GetMeta(), player->getCamera(), pManager->getSceneManager(), gunNode);
 			//! passes the node into the enemyManager which holds all the enemies
 			if (node && node->getID() == 17) { // check if node is an enemy
 				pManager->GetMeta()->removeTriangleSelector(node->getTriangleSelector());

@@ -65,8 +65,8 @@ bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 				//isHit = false;
 				return true;
 			}
-		else return false;
 	}
+			 return false;
 
 	//for (Opponent* item : opponentList) {
 	//	if (hitObject == item) {

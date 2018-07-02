@@ -32,7 +32,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 	//int waveCount = 1;
 	bool isHit = false;
 
-	readyToShoot = true;
+	//readyToShoot = true;
 	isReadyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
 	p_Timer = new Timer(pManager->getDevice());
@@ -297,7 +297,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 
 
 		
-			readyToShoot = false;
+			isReadyToShoot = false;
 
 			p_Timer->set(500);
 		}
