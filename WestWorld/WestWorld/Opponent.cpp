@@ -43,7 +43,7 @@ void Opponent::Update(int deltaTime) {
 	irr::core::vector3df nextPos;
 	if (isExploding) {
 		setScale(core::vector3df(scale, scale, scale));
-		scale += 0.01;
+		scale += 0.01 * deltaTime;
 
 		if (scale > 2 && scale < 2.5) {
 			setMaterialFlag(video::EMF_LIGHTING, false);
@@ -110,8 +110,7 @@ void Opponent::Update(int deltaTime) {
 		setRotation(distance.getHorizontalAngle());
 }
 
-void Opponent::Damaged(int damage)
-{
+void Opponent::Damaged(int damage){
 	health -= damage;
 	if (health <= 0)
 	{

@@ -145,6 +145,24 @@ void TutorialState::Clear(CGameManager* pManager) {
 	//delete playerHealth;
 	//delete drawUI;
 	//soundEngine = nullptr;
+	while (pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)) {
+		scene::ISceneNodeAnimator* anim = 0;
+
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->addAnimator(anim);
+		//    anim->drop();
+		anim = pManager->getSceneManager()->createDeleteAnimator(0);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->addAnimator(anim);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->setID(-100);
+	}
+	while (pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)) {
+		scene::ISceneNodeAnimator* anim = 0;
+
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->addAnimator(anim);
+		//    anim->drop();
+		anim = pManager->getSceneManager()->createDeleteAnimator(0);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->addAnimator(anim);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->setID(-100);
+	}
 	delete gunNode;
 	pManager->GetMeta()->removeTriangleSelector(player->getCamera()->getTriangleSelector());
 	delete player;
