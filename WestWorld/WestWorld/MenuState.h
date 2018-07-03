@@ -3,6 +3,7 @@
 #define  MenuState_H
 
 #include "GameStates.h"
+#include  "SpriteAnimation.h"
 #include "Sprite.h"
 
 using namespace irr;
@@ -43,6 +44,7 @@ private:
 									// local game variables
 	void MouseClicked(CGameManager* pManager);
 	ISceneManager* ismgr;
+	SpriteAnimation* spriteAnim;
 };
 
 
