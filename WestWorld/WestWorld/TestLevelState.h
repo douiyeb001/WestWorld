@@ -17,6 +17,7 @@
 #include "PauseManager.h"
 #include "WaveManager.h"
 #include <memory>
+#include "SpriteAnimation.h"
 
 class TestLevelState : public CGameState {
 
@@ -118,6 +119,7 @@ private:
 	PauseManager* pauseManager;
 	EnemyManager* enemyManager;
 	GameOverScreen* pGameOver;
+	SpriteAnimation* spriteAnimation;
 	//Objective* pObjective;
 	DrawUI * pDrawUI;
 	WaveCounterUI* pWaveCounterUI;

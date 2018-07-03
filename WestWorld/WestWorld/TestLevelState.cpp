@@ -30,7 +30,8 @@ void TestLevelState::Init(CGameManager* pManager) {
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
 	bool isHit = false;
-
+	//coin animation
+	spriteAnimation = new SpriteAnimation(pManager->getDevice(), pManager->getDriver());
 	//readyToShoot = true;
 	isReadyToShoot = true;
 	pauseManager = new PauseManager(pManager->getDriver(), pManager->getGUIEnvironment());
@@ -107,11 +108,13 @@ void TestLevelState::Init(CGameManager* pManager) {
 	PoManager = new PlaceObjects(pManager->GetSoundEngine(), pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
+	spriteAnimation->DrawAnim(pManager->getDriver());
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
 	
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
+	PoManager->isInBuildMode = true;
 }
 
 void TestLevelState::Clear(CGameManager* pManager) {
@@ -283,6 +286,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
+		spriteAnimation->SetPlaying();
 	}
 
 	//! When the player is not in the building phase and pressed the left mouse button

@@ -1,29 +1,19 @@
 #include "MenuState.h"
-#include  "TestLevelState.h"
-<<<<<<< Updated upstream
+#include "TestLevelState.h"
 #include "TutorialState.h"
 #include <irrKlang-64bit-1.6.0/include/irrKlang.h>
-=======
-
->>>>>>> Stashed changes
-
 
 irrklang::ISoundEngine* engine;
 MenuState MenuState::m_MenuState;
 
-
-
 MenuState::MenuState(){}
-
 MenuState::~MenuState(){}
-
 
 MenuState* MenuState::Instance() {
 	return (&m_MenuState);
 }
 
 void MenuState::Init(CGameManager* pManager) {
-	spriteAnim = new SpriteAnimation(pManager->getDriver(), pManager->getDevice());
 	vector3df* startPos = new vector3df(150, 150, 0);
 	engine = pManager->GetSoundEngine();
 	currentMenuId = 0;
@@ -70,7 +60,6 @@ void MenuState::Update(CGameManager* pManager) {
 //	pBackgroundImage->Draw(pManager->getDriver());
 //	pMouseCursor->Draw(pManager->getDriver());
 	DisplayMouse(pManager);
-	spriteAnim->DrawAnim(pManager->getDriver());
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }
@@ -86,10 +75,6 @@ void MenuState::Clear(CGameManager* pManager) {
 }
 
 void MenuState::MouseEvent(CGameManager* pManager) {
-	if (pManager->GetMouse() == EMIE_LMOUSE_PRESSED_DOWN)
-	{
-		spriteAnim->PlayAnim();
-	}
 }
 
 void MenuState::KeyboardEvent(CGameManager* pManager) {

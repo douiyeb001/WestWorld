@@ -20,6 +20,7 @@ TutorialState* TutorialState::Instance() {
 }
 
 void TutorialState::Init(CGameManager* pManager) {
+	tutEndTimer = new Timer(pManager->getDevice());
 	isReadyToShoot = true;
 	isBuildPhase = true;
 	// sound
@@ -130,6 +131,10 @@ void TutorialState::Update(CGameManager* pManager) {
 			spawnObstacleListener->Notify(spawnObstacleListener, SPAWNTURRET);
 			spawnTurretListener->Attach(observer);
 		}
+	}
+
+	if (tutorialFinished && tutEndTimer->alarm()) {
+		pManager->ChangeState(TestLevelState::Instance());
 	}
 
 	pManager->getGUIEnvironment()->drawAll();
@@ -245,6 +250,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 			if (spawnTurretListener->obs && observer->now == SPAWNTURRET) {
 				spawnTurretListener->Notify(spawnTurretListener, ENDTUTORIAL);
 				tutorialFinished = true;
+				tutEndTimer->set(1000);
 				// set a timer, finish tut and change states
 			}
 		}

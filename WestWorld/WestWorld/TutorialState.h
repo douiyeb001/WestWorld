@@ -73,5 +73,7 @@ private:
 
 	bool walkingState = false;
 	bool tutorialFinished = false;
+
+	Timer * tutEndTimer;
 };
 #endif

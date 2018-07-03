@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Gebruiker\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;..\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\include;include;$(IncludePath)</IncludePath>
     <LibraryPath>lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D:\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\IrrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\Gebruiker\Documents\WestWorld\WestWorld\WestWorld\include\irrKlang-64bit-1.6.0\lib\Winx64-visualStudio\irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -177,6 +177,7 @@
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestLevelState.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
