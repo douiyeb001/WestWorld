@@ -43,7 +43,7 @@ void Opponent::Update(int deltaTime) {
 	irr::core::vector3df nextPos;
 	if (isExploding) {
 		setScale(core::vector3df(scale, scale, scale));
-		scale += 0.01 * deltaTime;
+		scale += 0.0025 * deltaTime;
 
 		if (scale > 2 && scale < 2.5) {
 			setMaterialFlag(video::EMF_LIGHTING, false);
