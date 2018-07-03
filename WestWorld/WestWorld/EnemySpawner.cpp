@@ -451,9 +451,9 @@ namespace irr
 		//	spawnPoint->setMaterialFlag(video::EMF_LIGHTING, false);
 		//	spawnPoint->setMaterialTexture(0, driver->getTexture("textures/editor_defaults/default_texture.png"));
 		//	spawnPoint->setPosition(position);
-			//scene::ITriangleSelector* selector = smgr->createTriangleSelector(spawnPoint->getMesh(), spawnPoint);
-			//spawnPoint->setTriangleSelector(selector);
-			//meta->addTriangleSelector(selector);
+			scene::ITriangleSelector* selector = smgr->createTriangleSelector(spawnPoint->getMesh(), spawnPoint);
+			spawnPoint->setTriangleSelector(selector);
+			meta->addTriangleSelector(selector);
 			
 			_pEnemyManager->FillList(spawnPoint);
 
