@@ -52,6 +52,8 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 					(*waveManager).spawnPoints[i]->_pEnemyManager->UpdatePath((*waveManager).spawnPoints[i]->path->currentPath, (*waveManager).spawnPoints[i]->path->GetCell(position));
 				CreateCollision(anim, camera, meta);
 				cManager->BuildingCost(barrelNode);
+
+				SpawnExplosion(position, 10);
 			}
 			barrelNode = 0;
 		}
@@ -313,7 +315,7 @@ void PlaceObjects::SpawnExplosion(core::vector3df position, int directionsAmount
 		//ps->setScale(core::vector3df(0.1, 0.2, 0.2));
 		ps->setMaterialFlag(video::EMF_LIGHTING, false);
 		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-		ps->setMaterialTexture(0, driver->getTexture("media/Particle_Explosion.png"));
+		ps->setMaterialTexture(0, driver->getTexture("media/Particle_GreenSplat.png"));
 		ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	}
 }
