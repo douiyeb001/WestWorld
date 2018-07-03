@@ -26,7 +26,7 @@ TestLevelState* TestLevelState::Instance(){
 void TestLevelState::Init(CGameManager* pManager) {
 	//CGamePlayState::Init(pManager);
 	soundEngine = pManager->GetSoundEngine();
-	soundEngine->setSoundVolume(1.0f);
+	soundEngine->setSoundVolume(.2f);
 	soundEngine->play2D("media/Sound/Music/WesternOutside.wav", true);
 	//int waveCount = 1;
 	bool isHit = false;
@@ -108,7 +108,6 @@ void TestLevelState::Init(CGameManager* pManager) {
 	PoManager = new PlaceObjects(pManager->GetSoundEngine(), pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
-	spriteAnimation->DrawAnim(pManager->getDriver());
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
 //	//enemy->drop();
 //	enemy = new Opponent(pManager->getSceneManager()->getSceneNodeFromId(1), pManager->getSceneManager()->getSceneNodeFromName("Ground"),playerCore, obstacles);
@@ -236,7 +235,7 @@ void TestLevelState::Update(CGameManager* pManager) {
 			pManager->getDevice()->closeDevice();
 		}
 	
-
+		spriteAnimation->DrawAnim(pManager->getDriver());
 	//if (p_Timer->alarm()) readyToShoot = true;
 	//pWaveCounterUI->Draw(pManager->getGUIEnvironment(),pManager->getDriver(),waveCount);
 	pManager->getGUIEnvironment()->drawAll();
@@ -286,7 +285,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
-		spriteAnimation->SetPlaying();
+		//spriteAnimation->SetPlaying();
 	}
 
 	//! When the player is not in the building phase and pressed the left mouse button

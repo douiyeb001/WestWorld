@@ -174,6 +174,7 @@ void TutorialState::Clear(CGameManager* pManager) {
 	waveManager->spawnPoints[0]->activeThisWave = false;
 	PoManager->isInBuildMode = false;
 	PoManager->ResetPlacementIndicator();
+	soundEngine->stopAllSounds();
 	//pManager->getSceneManager()->clear();
 }
 

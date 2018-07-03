@@ -27,7 +27,7 @@ void SpriteAnimation::DrawAnim(IVideoDriver* driver) {
 	if (!isPlaying) return;
 
 	driver->draw2DImage(coin[currentFrame], 
-		core::position2d<int>(150, 150 - (currentFrame*5)),
+		core::position2d<int>(200, 550 - (currentFrame*5)),
 		core::rect<int>(0, 0, coin[currentFrame]->getSize().Width, coin[currentFrame]->getSize().Height), 
 		nullptr,
 		SColor(255, 255, 255, 255), true); //Draw bar
