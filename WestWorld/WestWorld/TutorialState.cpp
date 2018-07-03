@@ -20,6 +20,7 @@ TutorialState* TutorialState::Instance() {
 }
 
 void TutorialState::Init(CGameManager* pManager) {
+	spriteAnim = new SpriteAnimation(pManager->getDevice(), pManager->getDriver());
 	tutEndTimer = new Timer(pManager->getDevice());
 	isReadyToShoot = true;
 	isBuildPhase = true;
@@ -84,7 +85,7 @@ void TutorialState::Init(CGameManager* pManager) {
 	cManager = new Currency();
 	enemyManager = new EnemyManager(pManager->getSceneManager(), pManager->GetSelector(), pManager->GetMeta(), pManager->getDriver(), cManager, timer);
 	waveManager = new WaveManager(soundEngine, pManager, playerCore, grid, enemyManager, timer);
-	PoManager = new PlaceObjects(soundEngine, pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
+	PoManager = new PlaceObjects(spriteAnim, soundEngine, pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 
 	opponent = new Opponent(soundEngine, pManager->getSceneManager()->getMesh("meshes/EnemyMesh.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"), vector<GridCell*>(0), vector3df(0,0,0), core::vector3df(0, 0, 0), core::vector3df(1.5f, 1.5f, 1.5f), player, enemyManager);
@@ -136,7 +137,7 @@ void TutorialState::Update(CGameManager* pManager) {
 	if (tutorialFinished && tutEndTimer->alarm()) {
 		pManager->ChangeState(TestLevelState::Instance());
 	}
-
+	spriteAnim->DrawAnim(pManager->getDriver());
 	pManager->getGUIEnvironment()->drawAll();
 	pManager->getDriver()->endScene();
 }

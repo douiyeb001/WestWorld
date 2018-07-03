@@ -105,7 +105,7 @@ void TestLevelState::Init(CGameManager* pManager) {
 
 	playerReticle = new Reticle(pManager->getDriver(), "media/UI/rsz_reticle.png");
 	pHitMarker = new HitMarker(pManager->getDriver(), "media/UI/HitMarker2.png");
-	PoManager = new PlaceObjects(pManager->GetSoundEngine(), pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
+	PoManager = new PlaceObjects(spriteAnimation, pManager->GetSoundEngine(), pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	pPlayerHealth = new PlayerHealth(pManager->getDriver(), "media/UI/UI_IsaacHeart.png");
 	pCore = new PlayerCore(pManager->getDriver(), pManager->getGUIEnvironment(), "media/UI/UI_Core.png");
 //	//IMeshSceneNode* enemy = new Opponent(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"),(*spawnPoint).path.finalpath, vector3df(0,0,0), vector3df(0, 0, 0), vector3df(0, 0, 0),);
@@ -285,7 +285,6 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 		//if (PoManager->collidedObject->getID() == IDFlag::spawnGround)
 		//{
 		PoManager->CreateRay(pPLayer->getCamera(), pManager->GetSelector(), pManager->GetMeta(), pManager->GetAnim(), turretList);
-		//spriteAnimation->SetPlaying();
 	}
 
 	//! When the player is not in the building phase and pressed the left mouse button

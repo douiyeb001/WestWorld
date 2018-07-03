@@ -12,6 +12,7 @@
 #include "GUIBase.h"
 #include <memory>
 #include "Observer.h"
+#include "spriteAnimation.h"
 
 class TutorialState : public CGameState
 {
@@ -73,7 +74,7 @@ private:
 
 	bool walkingState = false;
 	bool tutorialFinished = false;
-
+	SpriteAnimation* spriteAnim;
 	Timer * tutEndTimer;
 };
 #endif

@@ -2,11 +2,12 @@
 #include "GridCell.h"
 #include "TurretAI.h"
 
+
 //#include "MouseInput.h"
 
 
 
-PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
+PlaceObjects::PlaceObjects(SpriteAnimation * spriteAnimation, ISoundEngine* iSoundEngine, IVideoDriver* iDriver, ISceneManager* iSmgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager) : waveManager(_waveManager)
 {
 	driver = iDriver;
 	smgr = iSmgr;
@@ -14,6 +15,7 @@ PlaceObjects::PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* iDriver, IS
 	IEnemyManager = enemyManager;
 	isInBuildMode = true;
 	SoundEngine = iSoundEngine;
+	spriteAnim = spriteAnimation;
 }
 
 bool hasSpawnedTurret;
@@ -33,6 +35,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	if (objectToPlace == 1) {
 		if (cManager->CheckCurrency(objectToPlace))
 		{
+			if(spriteAnim)spriteAnim->SetPlaying();
 			scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 			scene::IMeshSceneNode* barrelNode = 0;
 			barrelNode = smgr->addMeshSceneNode(barrelMesh, 0, IDFlag::spawnedObstacle);
@@ -61,6 +64,7 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	if (objectToPlace == 2) {
 		if (cManager->CheckCurrency(objectToPlace))
 		{
+			if (spriteAnim)spriteAnim->SetPlaying();
 			scene::IMesh* turretTopMesh = smgr->getMesh("meshes/TurretTopMesh.obj");
 			scene::IMeshSceneNode* turretNode = 0;			
 			scene::IMesh* turretBottomMesh = smgr->getMesh("meshes/TurretBottomMesh.obj");

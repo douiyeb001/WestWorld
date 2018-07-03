@@ -13,6 +13,7 @@
 #include  "EnemyManager.h"
 #include "TurretAI.h"
 #include "WaveManager.h"
+#include "SpriteAnimation.h"
 //#include "MouseInput.h"
 
 
@@ -82,7 +83,7 @@ public:
 	/// <param name="anim">	   	[in,out] If non-null, the animation. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	PlaceObjects(ISoundEngine* iSoundEngine, IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
+	PlaceObjects(SpriteAnimation * spriteAnimation, ISoundEngine* iSoundEngine, IVideoDriver* driver, ISceneManager* smgr, WaveManager* _waveManager, Currency* _cManager, EnemyManager* enemyManager);
 	void CreateRay(scene::ICameraSceneNode *camera, scene::ITriangleSelector * selector, scene::IMetaTriangleSelector *meta, scene::ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +157,7 @@ private:
 
 	bool isPlacementValid(vector3df intersection, ICameraSceneNode* player);
 	///
-	
+	SpriteAnimation* spriteAnim;
 	ISoundEngine* SoundEngine;
 	scene::IMesh* placementIndicatorMesh;
 };
