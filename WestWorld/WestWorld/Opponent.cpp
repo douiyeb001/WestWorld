@@ -55,8 +55,11 @@ void Opponent::Update(int deltaTime) {
 		}
 			else if (scale > 3) {
 
-				if (target)
+				if (target) {
 					target->Damaged(1);
+					iSoundEngine->play2D("media/Sound/oof.wav", false);
+
+				}
 			scene::ISceneNodeAnimator* anim = 0;
 
 			addAnimator(anim);
