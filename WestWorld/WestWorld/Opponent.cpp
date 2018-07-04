@@ -46,17 +46,18 @@ void Opponent::Update(int deltaTime) {
 	irr::core::vector3df nextPos;
 	if (isExploding) {
 
-		if (explodingFX)
+		if (explodingFX && target)
 		{
 			vector3df targetRealPos;
-			if (target)
-				targetRealPos = vector3df(target->GetPosition().X, target->GetPosition().Y - 20, target->GetPosition().Z);
-			else
-				targetRealPos = getAbsolutePosition();
+			targetRealPos = vector3df(target->GetPosition().X, target->GetPosition().Y - 20, target->GetPosition().Z - 20);
+			if (!target->isPlayer)
+				targetRealPos += vector3df(0, 20, -10);
 			SpawnExplosionFX(targetRealPos, 10);
 			explodingFX = false;
 		}
-		setScale(core::vector3df(scale, scale, scale));
+		else if (!target) {
+			setScale(core::vector3df(scale, scale, scale));
+		}
 		scale += 0.0025 * deltaTime;
 
 		if (scale > 1.75 && scale < 2.25) {

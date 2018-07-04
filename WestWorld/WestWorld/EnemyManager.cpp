@@ -18,10 +18,10 @@ void EnemyManager::Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlaye
 		if (op->isExploding){
 			op->Update(deltaTime);
 		}
-		else if (std::find(PlayerRange.begin(), PlayerRange.end(), op->path[op->path.size() - op->pathProgress]) != PlayerRange.end()) { 
+		else if (std::find(PlayerRange.begin(), PlayerRange.end(), op->path[op->path.size() - op->pathProgress]) != PlayerRange.end()) {
+			op->target = pPlayer;
 			op->isExploding = true;
 			//op->targetPos = playerPos; 
-			op->target = pPlayer;
 		}
 		else {
 			op->Update(deltaTime);
