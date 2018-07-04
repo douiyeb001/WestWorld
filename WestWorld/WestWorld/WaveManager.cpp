@@ -9,9 +9,9 @@ irrklang::ISoundEngine* iSoundEngine;
 WaveManager::WaveManager(irrklang::ISoundEngine* SoundEngine, CGameManager* pManager,PlayerBase* playerCore, Grid* grid, EnemyManager* enemyManager, Timer* enemyTimer):waveCount(1), p_Timer(enemyTimer)
 {
 	iSoundEngine = SoundEngine;
-	spawnPoints.push_back(new EnemySpawner(iSoundEngine,pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(0, 0, -350), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
-	spawnPoints.push_back(new EnemySpawner(iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
-	spawnPoints.push_back(new EnemySpawner(iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
+	spawnPoints.push_back(new EnemySpawner(pManager->getDriver(), iSoundEngine,pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(0, 0, -350), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
+	spawnPoints.push_back(new EnemySpawner(pManager->getDriver(), iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
+	spawnPoints.push_back(new EnemySpawner(pManager->getDriver(), iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
 
 	for (int i = 1; i < 6; i++) {
 		vector<int> enemies; //1e waarde is midden, 2e waarde is links, 3e waarde is rechts

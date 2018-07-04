@@ -23,7 +23,7 @@ namespace irr
 		public:
 			irrklang::ISoundEngine* iSoundEngine;
 			//! constructor
-			EnemySpawner(irrklang::ISoundEngine* SoundEngine, IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
+			EnemySpawner(IVideoDriver* idriver, irrklang::ISoundEngine* SoundEngine, IMesh* mesh, ISceneNode* parent, ISceneManager* mgr, s32 id,
 				const core::vector3df& position,
 				const core::vector3df& rotation,
 				const core::vector3df& scale,
@@ -99,6 +99,7 @@ namespace irr
 			void SpawnOpponent();
 			//std::vector<Opponent*> enemies;  // remove this
 			ISceneManager* smgr;
+			IVideoDriver* driver;
 			IMetaTriangleSelector* meta;
 			Grid* grid;
 			bool activeThisWave;

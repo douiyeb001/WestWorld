@@ -11,7 +11,7 @@
 
 using namespace irr;
 
-Opponent::Opponent(irrklang::ISoundEngine* SoundEngine, scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager)
+Opponent::Opponent(IVideoDriver* idriver, irrklang::ISoundEngine* SoundEngine, scene::IMesh* mesh, ISceneNode* parent, scene::ISceneManager* mgr, s32 id, scene::ISceneNode* _ground, std::vector<GridCell*> _path, const core::vector3df& position, const core::vector3df& rotation, const core::vector3df& scale, IDamagable* _target, EnemyManager* _enemyManager)
 	: scene::IMeshSceneNode(parent, mgr, 17, position, rotation, scale), Mesh(0), PassCount(0), path(_path), speed(0.1), pathProgress(1), backTracePath(false), target(_target),isExploding(false),scale(1.5f), enemyManager(_enemyManager), targetPos(_target->GetPosition())
 {
 	setMesh(mesh);
@@ -20,6 +20,7 @@ Opponent::Opponent(irrklang::ISoundEngine* SoundEngine, scene::IMesh* mesh, ISce
 	health = 1;
 	iSoundEngine = SoundEngine;
 	smgr = mgr;
+	driver = idriver;
 }
 
 Opponent::~Opponent() {
