@@ -33,8 +33,6 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 	//Tim & Daniel spawning objects
 	//spawn a barricade
 	if (objectToPlace == 1) {
-		if (cManager->CheckCurrency(objectToPlace))
-		{
 			if(spriteAnim)spriteAnim->SetPlaying();
 			scene::IMesh* barrelMesh = smgr->getMesh("meshes/tempBarricade.obj");
 			scene::IMeshSceneNode* barrelNode = 0;
@@ -57,13 +55,10 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 				cManager->BuildingCost(barrelNode);
 			}
 			barrelNode = 0;
-		}
 	}
 
 	//spawn a turret
 	if (objectToPlace == 2) {
-		if (cManager->CheckCurrency(objectToPlace))
-		{
 			if (spriteAnim)spriteAnim->SetPlaying();
 			scene::IMesh* turretTopMesh = smgr->getMesh("meshes/TurretTopMesh.obj");
 			scene::IMeshSceneNode* turretNode = 0;			
@@ -101,7 +96,6 @@ void PlaceObjects::SpawnTurret(core::vector3df position, scene::ITriangleSelecto
 			}
 
 			turretNode = 0;
-		}
 	}
 
 
@@ -188,6 +182,8 @@ vector<TurretAI*> PlaceObjects::GiveList()
 }
 
 bool PlaceObjects::isPlacementValid(vector3df intersection, ICameraSceneNode* player) {
+	if (!cManager->CheckCurrency(objectToPlace))
+		return false;
 	// object can't be place on goalnode cell
 	GridCell* goalCell = (*waveManager).spawnPoints[0]->path->GetCell((*waveManager).spawnPoints[0]->goalNode->node->getPosition());
 	const float radius = 20;

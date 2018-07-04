@@ -13,7 +13,7 @@ WaveManager::WaveManager(irrklang::ISoundEngine* SoundEngine, CGameManager* pMan
 	spawnPoints.push_back(new EnemySpawner(iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
 	spawnPoints.push_back(new EnemySpawner(iSoundEngine, pManager->getSceneManager()->getMesh("meshes/Barrel.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, vector3df(-400, 0, -200), vector3df(0, 0, 0), vector3df(1.0f, 1.0f, 1.0f), playerCore, grid, pManager->GetMeta(), enemyManager, enemyTimer));
 
-	for (int i = 1; i < 6; i++) {
+	for (int i = 1; i <= 6; i++) {
 		vector<int> enemies; //1e waarde is midden, 2e waarde is links, 3e waarde is rechts
 		int x;
 		switch (i) {
@@ -68,9 +68,11 @@ void WaveManager::Update() {
 }
 
 void WaveManager::NewWave() {
-	enemiesInWave = std::accumulate(waveSpawns[waveCount].begin(), waveSpawns[waveCount].end(), 0);
-	spawned = 0;
-	p_Timer->set(1000);
+	if (waveCount < 6) {
+		enemiesInWave = std::accumulate(waveSpawns[waveCount].begin(), waveSpawns[waveCount].end(), 0);
+		spawned = 0;
+		p_Timer->set(1000);
+	}
 }
 
 void WaveManager::ShowActiveSpawnsNextWave() {

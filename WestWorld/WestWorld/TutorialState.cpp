@@ -157,6 +157,7 @@ void TutorialState::Clear(CGameManager* pManager) {
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->addAnimator(anim);
 		//    anim->drop();
 		anim = pManager->getSceneManager()->createDeleteAnimator(0);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->setPosition(vector3df(0, -100, 0));
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->addAnimator(anim);
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedTurret)->setID(-100);
 	}
@@ -166,6 +167,7 @@ void TutorialState::Clear(CGameManager* pManager) {
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->addAnimator(anim);
 		//    anim->drop();
 		anim = pManager->getSceneManager()->createDeleteAnimator(0);
+		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->setPosition(vector3df(0, -100, 0));
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->addAnimator(anim);
 		pManager->getSceneManager()->getSceneNodeFromId(IDFlag::spawnedObstacle)->setID(-100);
 	}
