@@ -18,6 +18,7 @@ TurretAI::TurretAI(EnemyManager* _pEnemyManager, ISceneNode* newTurret, ISceneMa
 	vector3df turretRayPos = vector3df(turret.X, turret.Y + 40, turret.Z);
 	cam->setPosition(turretRayPos);
 	iSoundEngine = SoundEngine;
+	shot = true;
 }
 
 void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITriangleSelector* selector) 
@@ -57,7 +58,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 	if (timer == nullptr)
 		timer = new Timer(pDevice);
 
-	if(target == NULL || target != opponent) {
+	if(shot && (target == NULL || target != opponent)) {
 		timer->set(1200);
 		target = opponent;
 		targeted = true;
