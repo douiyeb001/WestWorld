@@ -179,7 +179,8 @@ void TutorialState::Clear(CGameManager* pManager) {
 	PoManager->ResetPlacementIndicator();
 	soundEngine->stopAllSounds();
 	if (opponent) opponent->setPosition(vector3df(0, 0, 9999));
-	particleDing->setVisible(false);
+
+	if(particleDing)particleDing->setVisible(false);
 	//pManager->getSceneManager()->clear();
 }
 
