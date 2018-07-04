@@ -16,9 +16,9 @@ PlaceObjects::PlaceObjects(SpriteAnimation * spriteAnimation, ISoundEngine* iSou
 	isInBuildMode = true;
 	SoundEngine = iSoundEngine;
 	spriteAnim = spriteAnimation;
-	SpawnPortalFX(vector3df(0, 0, -350));
-	SpawnPortalFX(vector3df(400, 0, -200));
-	SpawnPortalFX(vector3df(-400, 0, -200));
+	ISceneNode* t1 =	SpawnPortalFX(vector3df(0, 0, -350), 0);
+ISceneNode* t2 =	SpawnPortalFX(vector3df(400, 0, -200), 0);
+ISceneNode* t3 =	SpawnPortalFX(vector3df(-400, 0, -200), 0);
 }
 
 bool hasSpawnedTurret;

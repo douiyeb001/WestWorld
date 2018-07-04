@@ -259,7 +259,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 					if (killEnemyListener->obs) {
 						killEnemyListener->Notify(killEnemyListener, SPAWNOBSTACLE);
 						spawnObstacleListener->Attach(observer);
-						delete particleDing;
+						particleDing->setVisible(false);
 					}		
 				}
 			}
