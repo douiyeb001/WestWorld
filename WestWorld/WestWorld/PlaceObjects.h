@@ -97,7 +97,8 @@ public:
 	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 	void SpawnFireFX(core::vector3df position);
 	void SpawnPortalFX(core::vector3df position);
-	void SpawnExplosion(core::vector3df position, int directionsAmount);
+	void SpawnBugBloodFX(core::vector3df position, int directionsAmount);
+	void SpawnExplosionFX(core::vector3df position, int directionsAmount);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Creates a collision. </summary>

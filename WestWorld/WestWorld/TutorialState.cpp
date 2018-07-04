@@ -88,7 +88,7 @@ void TutorialState::Init(CGameManager* pManager) {
 	PoManager = new PlaceObjects(spriteAnim, soundEngine, pManager->getDriver(), pManager->getSceneManager(), waveManager, cManager, enemyManager);
 	PoManager->SpawnPlacementIndicator(vector3df(0, -1000, 0));
 
-	opponent = new Opponent(soundEngine, pManager->getSceneManager()->getMesh("meshes/EnemyMesh.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"), vector<GridCell*>(0), vector3df(0,0,0), core::vector3df(0, 0, 0), core::vector3df(1.5f, 1.5f, 1.5f), player, enemyManager);
+	opponent = new Opponent(pManager->getDriver(), soundEngine, pManager->getSceneManager()->getMesh("meshes/EnemyMesh.obj"), pManager->getSceneManager()->getRootSceneNode(), pManager->getSceneManager(), -2, pManager->getSceneManager()->getSceneNodeFromName("Ground"), vector<GridCell*>(0), vector3df(0,0,0), core::vector3df(0, 0, 0), core::vector3df(1.5f, 1.5f, 1.5f), player, enemyManager);
 	opponent->setPosition(vector3df(0, 0, 99999));
 	scene::ITriangleSelector* selector = pManager->getSceneManager()->createTriangleSelector(opponent->getMesh(), opponent);
 	opponent->setTriangleSelector(selector);
