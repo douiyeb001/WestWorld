@@ -61,13 +61,14 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		timer->set(1200);
 		target = opponent;
 		targeted = true;
+		shot = false;
 		return;
 	}
 
 
 		
 
-	if (timer->alarm()) {
+	if (timer->alarm() && !shot) {
 		start =  pDevice->getTimer()->getTime();
 		iSoundEngine->play2D("media/Sound/CannonWav.wav", false);
 		targeted = false;
@@ -89,6 +90,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		opponent->target = NULL;
 		opponent->isExploding = true;
 		//pEnemyManager->RemoveFromArray(opponent);
+		shot = true;
 		}
 	}
 

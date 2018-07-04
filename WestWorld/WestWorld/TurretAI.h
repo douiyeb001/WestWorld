@@ -26,7 +26,7 @@ public:
 	void TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITriangleSelector* selector);
 	void ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneManager * smgr, vector3df turretPosition, vector3df targetPosition, ITriangleSelector* meta);
 	bool enemySpotted = false;
-
+	bool shot;
 	const float radius = 170;
 	~TurretAI();
 	std::vector <Opponent*> opList;
