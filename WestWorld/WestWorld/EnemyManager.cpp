@@ -60,7 +60,7 @@ bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 				imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 				opponentList[i]->target = NULL;
 				opponentList[i]->Damaged(1);
-				cManager->EnemyCurrency();
+				
 				//isHit = false;
 				return true;
 			}
@@ -86,7 +86,7 @@ void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 			opponentList[i]->remove();
 			opponentList.erase(opponentList.begin() + i);
-			//cManager->EnemyCurrency();
+			cManager->EnemyCurrency();
 			
 		}
 		
