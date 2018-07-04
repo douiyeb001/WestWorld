@@ -21,6 +21,7 @@ Opponent::Opponent(IVideoDriver* idriver, irrklang::ISoundEngine* SoundEngine, s
 	iSoundEngine = SoundEngine;
 	smgr = mgr;
 	driver = idriver;
+	explodingFX = true;
 }
 
 Opponent::~Opponent() {
@@ -44,10 +45,11 @@ void Opponent::Update(int deltaTime) {
 
 	irr::core::vector3df nextPos;
 	if (isExploding) {
-		explodingFX = true;
+
 		if (explodingFX)
 		{
-			SpawnExplosionFX(target->GetPosition(), 10);
+			vector3df targetRealPos = vector3df(target->GetPosition().X, target->GetPosition().Y - 20, target->GetPosition().Z);
+			SpawnExplosionFX(targetRealPos, 10);
 			explodingFX = false;
 		}
 		setScale(core::vector3df(scale, scale, scale));
