@@ -296,7 +296,7 @@ void DrawUI::Draw(IVideoDriver* driver, IGUIEnvironment* gui, Currency* cManager
 	
 	pCurrencyUI->Draw(gui, driver, cManager);
 	pReticle->Draw(driver);
-	pWaveCounter->Draw(driver);
+	//pWaveCounter->Draw(driver);
 	pSign->Draw(driver);
 
 

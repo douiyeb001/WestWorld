@@ -62,6 +62,8 @@ private:
 	Currency* cManager;
 	PlayerBase* playerCore;
 
+	ISceneNode* particleDing;
+
 	bool isReadyToShoot;
 	bool isBuildPhase;
 	int delayBetweenShots = 500;

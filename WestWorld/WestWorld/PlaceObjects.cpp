@@ -16,6 +16,9 @@ PlaceObjects::PlaceObjects(SpriteAnimation * spriteAnimation, ISoundEngine* iSou
 	isInBuildMode = true;
 	SoundEngine = iSoundEngine;
 	spriteAnim = spriteAnimation;
+	SpawnPortalFX(vector3df(0, 0, -350));
+	SpawnPortalFX(vector3df(400, 0, -200));
+	SpawnPortalFX(vector3df(-400, 0, -200));
 }
 
 bool hasSpawnedTurret;
@@ -237,10 +240,12 @@ void PlaceObjects::SpawnFireFX(core::vector3df position)
 	ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	ps->setMaterialTexture(0, driver->getTexture("media/fire.bmp"));
 	ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
 }
 
-void PlaceObjects::SpawnPortalFX(core::vector3df position)
+ISceneNode*  PlaceObjects::SpawnPortalFX(core::vector3df position, int ID)
 {
+
 	scene::IParticleSystemSceneNode* ps =
 		smgr->addParticleSystemSceneNode(false);
 
@@ -264,6 +269,7 @@ void PlaceObjects::SpawnPortalFX(core::vector3df position)
 	ps->addAffector(paf); // same goes for the affector
 	paf->drop();
 
+	ps->setID(ID);
 	ps->setPosition(position);
 	ps->setRotation(core::vector3df(90,0,0));
 	ps->setScale(core::vector3df(2, 2, 2));
@@ -271,6 +277,8 @@ void PlaceObjects::SpawnPortalFX(core::vector3df position)
 	ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	ps->setMaterialTexture(0, driver->getTexture("media/Particle_PortalTransp.png"));
 	ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+
+	return ps;
 }
 
 void PlaceObjects::SpawnBugBloodFX(core::vector3df position, int directionsAmount)

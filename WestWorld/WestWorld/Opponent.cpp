@@ -49,9 +49,9 @@ void Opponent::Update(int deltaTime) {
 		if (explodingFX && target)
 		{
 			vector3df targetRealPos;
-			targetRealPos = vector3df(target->GetPosition().X, target->GetPosition().Y - 20, target->GetPosition().Z - 20);
+			targetRealPos = getAbsolutePosition();
 			if (!target->isPlayer)
-				targetRealPos += vector3df(0, 20, -10);
+				targetRealPos = vector3df(target->GetPosition().X, target->GetPosition().Y - 20, target->GetPosition().Z - 20) +vector3df(0, 20, -10);
 			SpawnExplosionFX(targetRealPos, 10);
 			explodingFX = false;
 		}

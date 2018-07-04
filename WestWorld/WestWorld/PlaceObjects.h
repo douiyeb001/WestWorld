@@ -96,7 +96,7 @@ public:
 
 	void SpawnTurret(core::vector3df position, scene::ITriangleSelector *selector, scene::IMetaTriangleSelector *meta, ICameraSceneNode* camera, ISceneNodeAnimator* anim, vector<TurretAI*> &turretlist);
 	void SpawnFireFX(core::vector3df position);
-	void SpawnPortalFX(core::vector3df position);
+	ISceneNode* SpawnPortalFX(core::vector3df position, int ID);
 	void SpawnBugBloodFX(core::vector3df position, int directionsAmount);
 	void SpawnExplosionFX(core::vector3df position, int directionsAmount);
 

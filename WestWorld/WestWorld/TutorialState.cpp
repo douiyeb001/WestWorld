@@ -201,22 +201,7 @@ void TutorialState::KeyboardEvent(CGameManager* pManager) {
 	}
 
 	// on place obstacle notify observer
-	if (pManager->GetKeyboard() == KEY_KEY_E && isBuildPhase)
-	{
-
-		//trigger Placement indicator
-		if (!PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = true;
-			drawUI->pBuildPhaseUI->isBuildPhase = true;
-		}
-		else if (PoManager->isInBuildMode)
-		{
-			PoManager->isInBuildMode = false;
-			drawUI->pBuildPhaseUI->isBuildPhase = false;
-			PoManager->ResetPlacementIndicator();
-		}
-	}
+	
 	if (pManager->GetKeyboard() == KEY_KEY_1)
 	{
 		PoManager->objectToPlace = 1;
@@ -229,7 +214,7 @@ void TutorialState::KeyboardEvent(CGameManager* pManager) {
 	if (pManager->GetKeyboard() == KEY_KEY_2)
 	{
 		PoManager->objectToPlace = 2;
-		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/Barrel.obj"));
+		PoManager->placementIndicatorNode->setMesh(pManager->getSceneManager()->getMesh("meshes/TurretMesh.obj"));
 		PoManager->placementIndicatorNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		PoManager->placementIndicatorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 		PoManager->placementIndicatorNode->setMaterialTexture(0, pManager->getDriver()->getTexture("textures/editor_defaults/default_texture.png"));
@@ -254,7 +239,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 			if (spawnTurretListener->obs && observer->now == SPAWNTURRET) {
 				spawnTurretListener->Notify(spawnTurretListener, ENDTUTORIAL);
 				tutorialFinished = true;
-				tutEndTimer->set(1000);
+				tutEndTimer->set(2500);
 				// set a timer, finish tut and change states
 			}
 		}
@@ -274,6 +259,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 					if (killEnemyListener->obs) {
 						killEnemyListener->Notify(killEnemyListener, SPAWNOBSTACLE);
 						spawnObstacleListener->Attach(observer);
+						delete particleDing;
 					}		
 				}
 			}
@@ -281,6 +267,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 			if (shootListener->obs->now == SHOOT) {
 				shootListener->Notify(shootListener, KILLENEMY);
 				opponent->setPosition(vector3df(0, 0, 20));
+				particleDing = PoManager->SpawnPortalFX(vector3df(0,0,0), 99);
 				killEnemyListener->Attach(observer);
 			}
 			isReadyToShoot = false;

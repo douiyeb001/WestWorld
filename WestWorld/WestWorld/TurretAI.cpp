@@ -45,7 +45,7 @@ void TurretAI::TurretShooting(ISceneManager* pSmgr, IrrlichtDevice* pDevice, ITr
 				if (enemySpotted) {
 					vector3df dir =  vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z)- turretNode->getPosition() ;
 					turretNode->setRotation(dir.getHorizontalAngle());
-				pSmgr->getVideoDriver()->draw3DLine(turret, vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
+				pSmgr->getVideoDriver()->draw3DLine(vector3df(turret.X, turret.Y+17, turret.Z), vector3df(p->getPosition().X, p->getPosition().Y + 5, p->getPosition().Z), SColor(255));
 
 					ShootTimer(pDevice, p, pSmgr, turret, p->getPosition(), selector);
 				}
