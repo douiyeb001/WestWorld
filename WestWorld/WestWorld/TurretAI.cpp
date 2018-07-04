@@ -88,7 +88,7 @@ void TurretAI::ShootTimer(IrrlichtDevice* pDevice, Opponent* opponent, ISceneMan
 		anim->drop();
 		opponent->target = NULL;
 		opponent->isExploding = true;
-		pEnemyManager->RemoveFromArray(opponent);
+		//pEnemyManager->RemoveFromArray(opponent);
 		}
 	}
 

@@ -66,6 +66,7 @@ void Opponent::Update(int deltaTime) {
 
 			iSoundEngine->play2D("media/Sound/Enemy-Explosion.wav", false);
 			enemyManager->RemoveFromArray(this);
+
 			return;
 		}
 			if (target) {
