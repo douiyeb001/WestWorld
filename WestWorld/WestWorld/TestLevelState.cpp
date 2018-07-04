@@ -292,6 +292,7 @@ void TestLevelState::MouseEvent(CGameManager* pManager) {
 			ISceneNode* node = pPLayer->RayCreate(pManager->GetSelector(), pManager->GetMeta(), pPLayer->getCamera(), pManager->getSceneManager(),gunNode);
 			if (enemyManager->CheckCollision(node)) {
 				pHitMarker->isHit = true;
+				PoManager->SpawnBugBloodFX(node->getPosition(), 10);
 				hitTimer->set(300);
 			}
 

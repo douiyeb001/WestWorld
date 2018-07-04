@@ -57,6 +57,8 @@ public:
 	int pathProgress;
 	bool backTracePath;
 	int startOfNewPath;
+	bool explodingFX = false;
+
 	IDamagable* target;
 	/* The following are implementations needed for the mesh scene node interface.
 	   They are copied from the Irrlicht example named "CMeshSceneNode". */
@@ -76,6 +78,10 @@ public:
 	virtual bool isReadOnlyMaterials() const;
 	virtual bool removeChild(ISceneNode* child);
 	void DamageCore(PlayerBase* target);
+
+	IVideoDriver * driver;
+	scene::ISceneManager * smgr;
+	void SpawnExplosionFX(core::vector3df position, int directionsAmount);
 
 protected:	
 	/* The following are variables needed for the mesh scene node interface.

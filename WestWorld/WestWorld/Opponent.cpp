@@ -19,6 +19,7 @@ Opponent::Opponent(irrklang::ISoundEngine* SoundEngine, scene::IMesh* mesh, ISce
 	setMaterialTexture(0, getSceneManager()->getVideoDriver()->getTexture("textures/Enemy_Diff.PNG"));
 	health = 1;
 	iSoundEngine = SoundEngine;
+	smgr = mgr;
 }
 
 Opponent::~Opponent() {
@@ -42,6 +43,12 @@ void Opponent::Update(int deltaTime) {
 
 	irr::core::vector3df nextPos;
 	if (isExploding) {
+		explodingFX = true;
+		if (explodingFX)
+		{
+			SpawnExplosionFX(target->GetPosition(), 10);
+			explodingFX = false;
+		}
 		setScale(core::vector3df(scale, scale, scale));
 		scale += 0.01;
 
@@ -520,3 +527,53 @@ if (newParent)
 nb->drop();
 return nb;
 }*/
+
+void Opponent::SpawnExplosionFX(core::vector3df position, int directionsAmount)
+{
+	for (int particleIterator = 1; particleIterator < directionsAmount + 1; particleIterator++) {
+		int flipper = -1;
+		flipper*-1;
+		scene::IParticleSystemSceneNode* ps =
+			smgr->addParticleSystemSceneNode(false);
+
+		scene::IParticleEmitter* em = ps->createBoxEmitter(
+			core::aabbox3d<f32>(-7, 0, -7, 7, 1, 7),
+			core::vector3df(0, 0, 0),   // initial direction
+			2, 10,                             // emit rate
+			video::SColor(0, 255, 255, 255),       // darkest color
+			video::SColor(0, 255, 255, 255),       // brightest color
+			120, 200, 0,                         // min and max age, angle
+			core::dimension2df(1.f, 1.f),         // min size
+			core::dimension2df(30.f, 30.f));        // max size
+
+		ps->setEmitter(em); // this grabs the emitter
+		em->drop(); // so we can drop it here without deleting it
+
+		IParticleAffector* paf = ps->createFadeOutParticleAffector(SColor(255, 255, 255, 255));
+		//	IParticleAffector* gravAf = ps->createGravityAffector(vector3df(0,0.05,0));
+		//		IParticleAffector* scaleAf = ps->createScaleParticleAffector(dimension2df(0,0));
+		IParticleAffector* rotAf = ps->createRotationAffector(vector3df(particleIterator * 10 * flipper, particleIterator * 10 * flipper, particleIterator * 10 * flipper), position);
+
+		ps->addAffector(paf); // same goes for the affector
+							  //	ps->addAffector(gravAf);
+							  //	ps->addAffector(scaleAf);
+		ps->addAffector(rotAf);
+
+		paf->drop();
+		//	gravAf->drop();
+		//	scaleAf->drop();
+		rotAf->drop();
+
+		ps->setPosition(core::vector3df(position.X, position.Y + 20, position.Z));
+		ps->setRotation(vector3df((rand() % 180), (rand() % 180), (rand() % 180)));
+		//ps->setScale(core::vector3df(0.1, 0.2, 0.2));
+		ps->setMaterialFlag(video::EMF_LIGHTING, false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		ps->setMaterialTexture(0, driver->getTexture("media/Particle_Explosion.png"));
+		ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+
+		scene::ISceneNodeAnimator* anim = 0;
+		anim = smgr->createDeleteAnimator(1000);
+		ps->addAnimator(anim);
+	}
+}
