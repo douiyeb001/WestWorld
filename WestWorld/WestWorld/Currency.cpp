@@ -3,8 +3,8 @@
 int sellValue;
 int enemyValue = 25;
 const int STARTCURRENCY = 750;
-const int TURRETCOST = 100;
-const int OBSTACLECOST = 50;
+const int TURRETCOST = 200;
+const int OBSTACLECOST = 25;
 
 Currency::Currency()
 {
