@@ -270,7 +270,7 @@ void TutorialState::MouseEvent(CGameManager* pManager) {
 			if (shootListener->obs->now == SHOOT) {
 				shootListener->Notify(shootListener, KILLENEMY);
 				opponent->setPosition(vector3df(0, 0, 20));
-				particleDing = PoManager->SpawnPortalFX(vector3df(0,0,0), 99);
+				particleDing = PoManager->SpawnPortalFX(vector3df(0,0,10), 99);
 				killEnemyListener->Attach(observer);
 			}
 			isReadyToShoot = false;
