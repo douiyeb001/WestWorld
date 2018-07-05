@@ -251,15 +251,15 @@ ISceneNode*  PlaceObjects::SpawnPortalFX(core::vector3df position, int ID)
 
 	scene::IParticleEmitter* portalEmitter = ps->createRingEmitter(
 		core::vector3df(0.0f, 0.1f, 0.0f),   // ring centre
-		10,			//radius
+		5,			//radius
 		1,          //ring thickness
 		core::vector3df(0.0f, 0.0f, 0.0f),	//direction
 		100, 100,			//min max particles per sec
 		video::SColor(0, 255, 255, 255),       // darkest color
 		video::SColor(0, 1, 1, 1),       // brightest color
 		800, 2000, 0,                         // min and max age, angle
-		core::dimension2df(1.f, 1.f),         // min size
-		core::dimension2df(50.f, 50.f));        // max size
+		core::dimension2df(5.f, 5.f),         // min size
+		core::dimension2df(15.f, 15.f));        // max size
 
 	ps->setEmitter(portalEmitter); // this grabs the emitter
 	portalEmitter->drop(); // so we can drop it here without deleting it
@@ -270,7 +270,7 @@ ISceneNode*  PlaceObjects::SpawnPortalFX(core::vector3df position, int ID)
 	paf->drop();
 
 	ps->setID(ID);
-	ps->setPosition(position);
+	ps->setPosition(vector3df(position.X,position.Y+10,position.Z));
 	ps->setRotation(core::vector3df(90,0,0));
 	ps->setScale(core::vector3df(2, 2, 2));
 	ps->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -367,7 +367,7 @@ void PlaceObjects::SpawnExplosionFX(core::vector3df position, int directionsAmou
 		//	scaleAf->drop();
 		rotAf->drop();
 
-		ps->setPosition(core::vector3df(position.X, position.Y + 20, position.Z));
+		ps->setPosition(core::vector3df(position.X, position.Y + 30, position.Z));
 		ps->setRotation(vector3df((rand() % 180), (rand() % 180), (rand() % 180)));
 		//ps->setScale(core::vector3df(0.1, 0.2, 0.2));
 		ps->setMaterialFlag(video::EMF_LIGHTING, false);
