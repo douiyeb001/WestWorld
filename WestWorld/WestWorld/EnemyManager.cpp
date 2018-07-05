@@ -27,7 +27,7 @@ void EnemyManager::Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlaye
 			op->Update(deltaTime);
 		}
 	}
-
+	RemoveFromArray();
 	// give turret ai list of enemies ~ events / not in update next version
 	
 
@@ -79,9 +79,14 @@ bool EnemyManager::CheckCollision(scene::ISceneNode *hitObject) {
 	//}
 }
 
-void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
+void EnemyManager::ToRemoveAfterUpdate(scene::ISceneNode* turretOpponent) {
+	ToRemove.push_back(turretOpponent);
+}
+
+void EnemyManager::RemoveFromArray() {
+	for (ISceneNode* op : ToRemove)
 	for (int i = 0; i < opponentList.size(); i++) {
-		if (opponentList[i] == turretOpponent)
+		if (opponentList[i] == op)
 		{
 			imeta->removeTriangleSelector(opponentList[i]->getTriangleSelector());
 			opponentList[i]->remove();
@@ -91,6 +96,7 @@ void EnemyManager::RemoveFromArray(scene::ISceneNode* turretOpponent) {
 		}
 		
 	}
+	ToRemove.clear();
 }
 EnemyManager::~EnemyManager()
 {

@@ -40,9 +40,9 @@ public:
 	scene::IMetaTriangleSelector* imeta;
 	video::IVideoDriver* idriver;
 	Currency* cManager;
-
+	void ToRemoveAfterUpdate(scene::ISceneNode* turretOpponent);
 	EnemyManager(scene::ISceneManager* smgr, scene::ITriangleSelector* selector, scene::IMetaTriangleSelector* meta, video::IVideoDriver* driver, Currency* cManager, Timer * pTimer);
-
+	vector<scene::ISceneNode*> ToRemove;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Default constructor. </summary>
 	///
@@ -61,7 +61,7 @@ public:
 	vector<Opponent*> GiveArray();
 	void FillList(Opponent* enemy);
 	void Update(std::vector<GridCell*> PlayerRange, IDamagable* pPlayer);
-	void RemoveFromArray(scene::ISceneNode* turrentOpponent);
+	void RemoveFromArray();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Fill list. </summary>

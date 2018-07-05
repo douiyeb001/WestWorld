@@ -80,11 +80,11 @@ void Opponent::Update(int deltaTime) {
 
 			addAnimator(anim);
 			//	anim->drop();
-			anim = getSceneManager()->createDeleteAnimator(300);
+			anim = getSceneManager()->createDeleteAnimator(0);
 			addAnimator(anim);
 
 			iSoundEngine->play2D("media/Sound/Enemy-Explosion.wav", false);
-			enemyManager->RemoveFromArray(this);
+			enemyManager->ToRemoveAfterUpdate(this);
 
 			return;
 		}
